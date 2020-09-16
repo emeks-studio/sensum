@@ -18,21 +18,62 @@ What is sensum?
 
 ## Development
 
-// TODO
+### Prerequisites
+
+- Install Android SDK 
+  - Via the offical IDE: [Android Studio](https://developer.android.com/studio)
+  - Using the command line: [sdkmanager](https://developer.android.com/studio/command-line/sdkmanager)
+- Install NodeJs
+  - Via [Node Version Manager](https://github.com/nvm-sh/nvm#node-version-manager---)
+  - An Android device or emulator
+
+### Setup
+
+```bash
+# Setup NodeJS supported version
+nvm use 
+# Install project dependencies
+npm install
+```
+
+### Run
+
+#### Android
+
+Follow the official guide: [Running On Device](https://reactnative.dev/docs/running-on-device). Tl;dr
+
+```bash (console 1)
+# Bundle the application
+npx react-native start
+```
+
+Then, having your phone connected to the PC via USB:
+
+```bash (console 2)
+# Installation on your device
+npx react-native run-android
+```
 
 ### Deploy
 
 #### Android
 
 1- Generate .apk
+
+1.1- Before generating the APK, first download the `my-release-key.keystore` from the emacs drive, and leave it `./android/app/`
 	
-	1.1- Before generating the APK, first download the my-release-key.keystore from the emacs drive, and leave it sensum-app/SensumApp/android/app
+1.2- Execute command
 	
-	1.2- Execute command: `$ cd android && ./gradlew bundleRelease && cd ..` (APK file: `.android/app/build/outputs/bundle/release/app.aab`)
+```bash
+cd android && ./gradlew bundleRelease && cd ..
+# generated output (APK file): `.android/app/build/outputs/bundle/release/app.aab`
+``` 
 
 2- Optional, gets apk signature (Credentials are in `./android/keystores/release.keystore.properties`)
 
-Execute command: `$ keytool -exportcert -alias sensum -keystore ./android/app/my-release-key.keystore | openssl sha1 -binary | openssl base64`
+```bash
+keytool -exportcert -alias sensum -keystore ./android/app/my-release-key.keystore | openssl sha1 -binary | openssl base64
+```
 
 ### Troubleshooting
 

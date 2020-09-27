@@ -9,8 +9,7 @@ import {
   Icon,
 } from 'native-base';
 import { ColorPalette } from '../../assets/styles/SensumTheme';
-
-import Sensations from '../model/Sensations';
+import { withModel } from '../model-components';
 import SensationItem from './SensationItem';
 import { TopBarTitle } from './ui';
 
@@ -39,8 +38,8 @@ class SensationsScreen extends React.Component {
 
   refresh = () => {
     console.debug('[SensationsScreen::refresh]');
-    Sensations.reset();
-    Sensations.getMoreSensations()
+    this.props.model.Sensations.reset();
+    this.props.model.Sensations.getMoreSensations()
   }
 
   render () {
@@ -78,4 +77,4 @@ SensationsScreen.navigationOptions = {
   header: null
 };
 
-export default SensationsScreen;
+export default withModel(SensationsScreen);

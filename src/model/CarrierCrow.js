@@ -1,14 +1,13 @@
 import OneSignal from 'react-native-onesignal';
 import { navigate } from '../util/navigator';
 import { showToast } from '../components/ui';
-import Oracle from '../model/Oracle';
 import User from '../model/User';
 import {
   MSG_CHOOSE_THE_ONE,
   MSG_NEW_SENSATION
 } from '../constants/messages';
 
-const CarrierCrow = () => {  
+const CarrierCrow = Oracle => {  
   const handleNotification = (result) => {
     console.debug('[CarrierCrow::handleNotification]', result);
     const payload = result.notification ? result.notification.payload : result.payload;
@@ -61,4 +60,8 @@ const CarrierCrow = () => {
   };
 }
 
-export default CarrierCrow();
+const configCarrierCrow = ({Oracle}) => CarrierCrow(Oracle);
+
+export {
+  configCarrierCrow
+}

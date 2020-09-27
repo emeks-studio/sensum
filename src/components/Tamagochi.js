@@ -1,12 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { StyleSheet, Text, TouchableHighlight } from 'react-native';
-import { Button } from 'native-base';
+import { withModel } from '../model-components';
 import { showToast } from './ui';
 import { ColorPalette } from '../../assets/styles/SensumTheme';
-import Oracle from '../model/Oracle';
 
-const Tamagochi = observer(() => {
+const TamagochiComponent = ({ model: { Oracle } }) => {
 
   const onPress = () => {
     Oracle.advanceLine();
@@ -21,7 +20,7 @@ const Tamagochi = observer(() => {
       <Text style={styles.text}>{Oracle.getFace}</Text>
     </TouchableHighlight>
   );
-});
+};
 
 const styles = StyleSheet.create({
    buttonContainer: {
@@ -41,6 +40,8 @@ const styles = StyleSheet.create({
     color: ColorPalette.light,
   }
 });
+
+const Tamagochi = withModel(observer(TamagochiComponent));
 
 export {
   Tamagochi

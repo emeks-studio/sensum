@@ -8,15 +8,14 @@ import {
   Icon
 } from 'native-base';
 import { showToast, TopBarTitle } from './ui';
-
 import NewSensationForm from './NewSensationForm';
-import Oracle from '../model/Oracle';
-
 import { ColorPalette } from '../../assets/styles/SensumTheme';
+import { observer } from 'mobx-react';
+import { withModel } from '../model-components';
 
 const NewSensationScreen = props => {
   const onNewSensation = ({author, message}) => {
-    Oracle.newSensation({author, message}).then(() => {
+    props.Oracle.newSensation({author, message}).then(() => {
       console.debug('[NewSensationScreen.newSensation] Successfully sent');
       props.navigation.popToTop();
       showToast({text: 'Tu sensación se está transmitiendo a través de la corriente'});
@@ -63,4 +62,4 @@ NewSensationScreen.navigationOptions = {
   header: null
 };
 
-export default NewSensationScreen;
+export default withModel(observer(NewSensationScreen));

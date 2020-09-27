@@ -18,10 +18,10 @@ import {
 
 import { AnimatedSensation } from './AnimatedSensation';
 import { showToast } from './ui';
-import Sensations from '../model/Sensations';
 import { calculateMessageText } from '../util/styleHelpers';
+import { withModel } from '../model-components';
 
-const SensationItem = observer(() => {
+const SensationItem = observer(({ model: { Sensations } }) => {
   const vote = function (item, vote) {
     Sensations.vote(item, vote)
       .then(success => {
@@ -312,4 +312,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SensationItem;
+export default withModel(SensationItem);

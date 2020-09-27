@@ -5,15 +5,18 @@ import { Provider } from 'react-redux';
 import { Root } from 'native-base';
 import { AppRouter } from './AppRouter';
 import ReduxStore from '../state/ReduxStore';
-import Oracle from '../model/Oracle';
-import CarrierCrow from '../model/CarrierCrow';
+import { configCarrierCrow } from '../model/CarrierCrow';
+import { useModel, ModelContext } from '../model-components';
 import { handleBackButton } from '../util/navigator';
 
 function App() {
   const [state, setState ] = useState({
     appState: AppState.currentState,
-  })
-  
+  });
+
+  const { Oracle } = useModel();
+  const CarrierCrow = configCarrierCrow({ Oracle });
+
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return () => {
@@ -52,7 +55,7 @@ function App() {
       <Root>
         <AppRouter />
       </Root>  
-    </Provider>
+    </Provider>   
   );
 }
 

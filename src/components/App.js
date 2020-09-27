@@ -6,7 +6,8 @@ import { Root } from 'native-base';
 import { AppRouter } from './AppRouter';
 import ReduxStore from '../state/ReduxStore';
 import { configCarrierCrow } from '../model/CarrierCrow';
-import { useModel, ModelContext } from '../model-components';
+import { useModel } from '../model-components';
+import { showToast } from './ui';
 import { handleBackButton } from '../util/navigator';
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
   })
   
   useEffect(()=> {
-    Oracle.praiseTheSun();
+    Oracle.praiseTheSun().then(message => {
+      showToast({ text: message });
+    });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {
       AppState.removeEventListener('change', handleAppStateChange);
@@ -45,7 +48,9 @@ function App() {
   const handleAppStateChange = (nextAppState) => {
     if (state.appState.match(/inactive|background/) && nextAppState === 'active') {
       console.debug('[App::handleAppStateChange] FROM foreground')
-      Oracle.praiseTheSun();
+      Oracle.praiseTheSun().then(message => {
+        showToast({ text: message });
+      });
     }
     setState({appState: nextAppState});
   }

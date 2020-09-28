@@ -5,15 +5,19 @@ import { Provider } from 'react-redux';
 import { Root } from 'native-base';
 import { AppRouter } from './AppRouter';
 import ReduxStore from '../state/ReduxStore';
-import Oracle from '../model/Oracle';
-import CarrierCrow from '../model/CarrierCrow';
+import { configCarrierCrow } from '../model/CarrierCrow';
+import { useModel } from '../model-components';
+import { showToast } from './ui';
 import { handleBackButton } from '../util/navigator';
 
 function App() {
   const [state, setState ] = useState({
     appState: AppState.currentState,
-  })
-  
+  });
+
+  const { Oracle } = useModel();
+  const CarrierCrow = configCarrierCrow({ Oracle });
+
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     return () => {
@@ -22,7 +26,9 @@ function App() {
   })
   
   useEffect(()=> {
-    Oracle.praiseTheSun();
+    Oracle.praiseTheSun().then(message => {
+      showToast({ text: message });
+    });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {
       AppState.removeEventListener('change', handleAppStateChange);
@@ -42,7 +48,9 @@ function App() {
   const handleAppStateChange = (nextAppState) => {
     if (state.appState.match(/inactive|background/) && nextAppState === 'active') {
       console.debug('[App::handleAppStateChange] FROM foreground')
-      Oracle.praiseTheSun();
+      Oracle.praiseTheSun().then(message => {
+        showToast({ text: message });
+      });
     }
     setState({appState: nextAppState});
   }
@@ -52,7 +60,7 @@ function App() {
       <Root>
         <AppRouter />
       </Root>  
-    </Provider>
+    </Provider>   
   );
 }
 

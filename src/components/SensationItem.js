@@ -1,86 +1,93 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import { View, StyleSheet } from 'react-native';
-import {
-  Button,
-  Icon,
-  Text,
-  Container,
-  Content,
-  Spinner,
-} from 'native-base';
-import GestureRecognizer from 'react-native-swipe-gestures';
+import React from "react";
+import { observer } from "mobx-react";
+import { View, StyleSheet } from "react-native";
+import { Button, Icon, Text, Container, Content, Spinner } from "native-base";
+import GestureRecognizer from "react-native-swipe-gestures";
 
-import {
-  ColorPalette,
-  Typography
-} from '../../assets/styles/SensumTheme';
+import { ColorPalette, Typography } from "../../assets/styles/SensumTheme";
 
-import { AnimatedSensation } from './AnimatedSensation';
-import { showToast } from './ui';
-import Sensations from '../model/Sensations';
-import { calculateMessageText } from '../util/styleHelpers';
+import { AnimatedSensation } from "./AnimatedSensation";
+import { showToast } from "./ui";
+import { calculateMessageText } from "../util/styleHelpers";
+import { withModel } from "../model-components";
 
-const SensationItem = observer(() => {
-  const vote = function (item, vote) {
+const SensationItemComponent = ({ model: { Sensations } }) => {
+  const vote = function(item, vote) {
     Sensations.vote(item, vote)
       .then(success => {
         let text;
-        if (success) text = (vote ? 'Ionizando [+++]' : 'Ionizando [---]');
-        else text = '¡Sobrecargas en el núcleo!';
-        showToast({text});
+        if (success) text = vote ? "Ionizando [+++]" : "Ionizando [---]";
+        else text = "¡Sobrecargas en el núcleo!";
+        showToast({ text });
         // Sensations.next();
       })
-      .catch((err)=>{
+      .catch(err => {
         console.debug(`[SensationItem::vote] Error: ${err}`);
-        showToast({text: 'El Oráculo está ocupado balanceando el núcleo'});
+        showToast({ text: "El Oráculo está ocupado balanceando el núcleo" });
       });
   };
-  
+
   const renderLoading = () => {
     return (
-      <GestureRecognizer
-        style={styles.rootContainer}
-        >
-        <Container style={styles.container} >
+      <GestureRecognizer style={styles.rootContainer}>
+        <Container style={styles.container}>
           <Content bordered style={styles.sensationContent}>
             <View style={styles.singleView}>
               <Spinner style={styles.spinner} color={ColorPalette.light} />
             </View>
           </Content>
           <Container style={styles.authorContainer}>
-            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.author}> ??? </Text>
+            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.author}>
+              {" "}
+              ???{" "}
+            </Text>
           </Container>
           <Container style={styles.footerContainer}>
             <Container style={styles.voteLeftContainer}>
               <Button block transparent>
-                <Icon type='FontAwesome' name="minus" style={styles.customIcon(ColorPalette.secondary)}/>
+                <Icon
+                  type="FontAwesome"
+                  name="minus"
+                  style={styles.customIcon(ColorPalette.secondary)}
+                />
                 <Text style={styles.voteCount(ColorPalette.secondary)}>0</Text>
               </Button>
             </Container>
             <Container style={styles.voteRightContainer}>
               <Button block transparent>
-                <Icon type='FontAwesome' name="plus" style={styles.customIcon()}/>
+                <Icon
+                  type="FontAwesome"
+                  name="plus"
+                  style={styles.customIcon()}
+                />
                 <Text style={styles.voteCount()}>0</Text>
               </Button>
             </Container>
             <Container style={styles.buttonsSeparatorContainer}></Container>
             <Container style={styles.backButtonContainer}>
               <Button block transparent>
-                <Icon type='FontAwesome' name="chevron-left" style={styles.customIcon()}/>
+                <Icon
+                  type="FontAwesome"
+                  name="chevron-left"
+                  style={styles.customIcon()}
+                />
               </Button>
             </Container>
             <Container style={styles.nextButtonContainer}>
               <Button block transparent>
-                <Icon type='FontAwesome' name="chevron-right" style={styles.customIcon()}/>
+                <Icon
+                  type="FontAwesome"
+                  name="chevron-right"
+                  style={styles.customIcon()}
+                />
               </Button>
             </Container>
           </Container>
         </Container>
       </GestureRecognizer>
-    )
+    );
   };
-  
+
   const renderEmpty = () => {
     return (
       <GestureRecognizer
@@ -91,55 +98,89 @@ const SensationItem = observer(() => {
           directionalOffsetThreshold: 50
         }}
         style={styles.rootContainer}
-        >
-        <Container style={styles.container} >
+      >
+        <Container style={styles.container}>
           <Content bordered style={styles.sensationContent}>
             <View style={styles.singleView}>
-              <Text multiline 
-                    textBreakStrategy="balanced"
-                    allowFontScaling
-                    includeFontPadding={false}
-                    maxFontSizeMultiplier={2}
-                    adjustsFontSizeToFit 
-                    style={styles.message(3)}> జ్ఞ‌ా
+              <Text
+                multiline
+                textBreakStrategy="balanced"
+                allowFontScaling
+                includeFontPadding={false}
+                maxFontSizeMultiplier={2}
+                adjustsFontSizeToFit
+                style={styles.message(3)}
+              >
+                {" "}
+                జ్ఞ‌ా
               </Text>
             </View>
           </Content>
           <Container style={styles.authorContainer}>
-            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.author}> ??? </Text>
+            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.author}>
+              {" "}
+              ???{" "}
+            </Text>
           </Container>
           <Container style={styles.footerContainer}>
             <Container style={styles.voteLeftContainer}>
               <Button block transparent>
-                <Icon type='FontAwesome' name="minus" style={styles.customIcon(ColorPalette.secondary)}/>
+                <Icon
+                  type="FontAwesome"
+                  name="minus"
+                  style={styles.customIcon(ColorPalette.secondary)}
+                />
                 <Text style={styles.voteCount(ColorPalette.secondary)}>0</Text>
               </Button>
             </Container>
             <Container style={styles.voteRightContainer}>
               <Button block transparent>
-                <Icon type='FontAwesome' name="plus" style={styles.customIcon()}/>
+                <Icon
+                  type="FontAwesome"
+                  name="plus"
+                  style={styles.customIcon()}
+                />
                 <Text style={styles.voteCount()}>0</Text>
               </Button>
             </Container>
             <Container style={styles.buttonsSeparatorContainer}></Container>
             <Container style={styles.backButtonContainer}>
-              <Button block transparent onPress={() => Sensations.getMoreSensations()}>
-                <Icon type='FontAwesome' name="chevron-left" style={styles.customIcon()}/>
+              <Button
+                block
+                transparent
+                onPress={() => Sensations.getMoreSensations()}
+              >
+                <Icon
+                  type="FontAwesome"
+                  name="chevron-left"
+                  style={styles.customIcon()}
+                />
               </Button>
             </Container>
             <Container style={styles.nextButtonContainer}>
-              <Button block transparent onPress={() => Sensations.getMoreSensations()}>
-                <Icon type='FontAwesome' name="chevron-right" style={styles.customIcon()}/>
+              <Button
+                block
+                transparent
+                onPress={() => Sensations.getMoreSensations()}
+              >
+                <Icon
+                  type="FontAwesome"
+                  name="chevron-right"
+                  style={styles.customIcon()}
+                />
               </Button>
             </Container>
-           </Container>
+          </Container>
         </Container>
       </GestureRecognizer>
-    )
-  }
-  
+    );
+  };
+
   const renderSensationItem = () => {
-    console.debug(Sensations.current.message, Sensations.current.message.length);
+    console.debug(
+      Sensations.current.message,
+      Sensations.current.message.length
+    );
     console.debug(Sensations.current.author, Sensations.current.author.length);
     return (
       <GestureRecognizer
@@ -150,74 +191,109 @@ const SensationItem = observer(() => {
           directionalOffsetThreshold: 50
         }}
         style={styles.rootContainer}
-        >
-        <Container style={styles.container} >
+      >
+        <Container style={styles.container}>
           <Content bordered style={styles.sensationContent}>
             <View style={styles.sensationView}>
               {isTrending(Sensations.current) && <AnimatedSensation />}
-              {!isTrending(Sensations.current) && 
-                <Text multiline 
-                    textBreakStrategy="balanced"
-                    allowFontScaling
-                    includeFontPadding={false}
-                    maxFontSizeMultiplier={2}
-                    adjustsFontSizeToFit
-                    style={styles.message(
-                      Sensations.current.message.length,
-                      shouldBeDenied(Sensations.current),
-                      isTrending(Sensations.current)
-                    )}> {Sensations.current.message}
+              {!isTrending(Sensations.current) && (
+                <Text
+                  multiline
+                  textBreakStrategy="balanced"
+                  allowFontScaling
+                  includeFontPadding={false}
+                  maxFontSizeMultiplier={2}
+                  adjustsFontSizeToFit
+                  style={styles.message(
+                    Sensations.current.message.length,
+                    shouldBeDenied(Sensations.current),
+                    isTrending(Sensations.current)
+                  )}
+                >
+                  {" "}
+                  {Sensations.current.message}
                 </Text>
-              }
+              )}
             </View>
           </Content>
           <Container style={styles.authorContainer}>
-            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.author}> ~ { Sensations.current.author} </Text>
+            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.author}>
+              {" "}
+              ~ {Sensations.current.author}{" "}
+            </Text>
           </Container>
           <Container style={styles.footerContainer}>
             <Container style={styles.voteLeftContainer}>
-              <Button block transparent onPress={() => vote(Sensations.current, false)}>
-                <Icon type='FontAwesome' name="minus" style={styles.customIcon(ColorPalette.secondary)}/>
-                <Text style={styles.voteCount(ColorPalette.secondary)}>{Sensations.current.dislikes}</Text>
+              <Button
+                block
+                transparent
+                onPress={() => vote(Sensations.current, false)}
+              >
+                <Icon
+                  type="FontAwesome"
+                  name="minus"
+                  style={styles.customIcon(ColorPalette.secondary)}
+                />
+                <Text style={styles.voteCount(ColorPalette.secondary)}>
+                  {Sensations.current.dislikes}
+                </Text>
               </Button>
             </Container>
             <Container style={styles.voteRightContainer}>
-              <Button block transparent onPress={() => vote(Sensations.current, true)}>
-                <Icon type='FontAwesome' name="plus" style={styles.customIcon(ColorPalette.light)}/>
-                <Text style={styles.voteCount(ColorPalette.light)}>{Sensations.current.likes}</Text>
+              <Button
+                block
+                transparent
+                onPress={() => vote(Sensations.current, true)}
+              >
+                <Icon
+                  type="FontAwesome"
+                  name="plus"
+                  style={styles.customIcon(ColorPalette.light)}
+                />
+                <Text style={styles.voteCount(ColorPalette.light)}>
+                  {Sensations.current.likes}
+                </Text>
               </Button>
             </Container>
             <Container style={styles.buttonsSeparatorContainer}></Container>
             <Container style={styles.backButtonContainer}>
               <Button block transparent onPress={() => Sensations.back()}>
-                <Icon type='FontAwesome' name="chevron-left" style={styles.customIcon()}/>
+                <Icon
+                  type="FontAwesome"
+                  name="chevron-left"
+                  style={styles.customIcon()}
+                />
               </Button>
             </Container>
             <Container style={styles.nextButtonContainer}>
               <Button block transparent onPress={() => Sensations.next()}>
-                <Icon type='FontAwesome' name="chevron-right" style={styles.customIcon()}/>
+                <Icon
+                  type="FontAwesome"
+                  name="chevron-right"
+                  style={styles.customIcon()}
+                />
               </Button>
             </Container>
           </Container>
         </Container>
       </GestureRecognizer>
-    );       
-  }
-  
+    );
+  };
+
   if (Sensations.loading) {
     return renderLoading();
   } else {
     if (Sensations.error || Sensations.length === 0) {
-    showToast({text: '😴  El Oráculo duerme un sueño imposible'});
+      showToast({ text: "😴  El Oráculo duerme un sueño imposible" });
       return renderEmpty();
     }
     return renderSensationItem();
-  } 
-});
+  }
+};
 
 function isTrending(sensation) {
-  const dislikes = (sensation.dislikes === 0) ? 1 : sensation.dislikes;
-  return sensation.likes >= (dislikes * 5);
+  const dislikes = sensation.dislikes === 0 ? 1 : sensation.dislikes;
+  return sensation.likes >= dislikes * 5;
 }
 
 function shouldBeDenied(sensation) {
@@ -226,10 +302,10 @@ function shouldBeDenied(sensation) {
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1  
+    flex: 1
   },
   container: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: ColorPalette.dark
   },
   sensationContent: {
     marginTop: "15%",
@@ -252,34 +328,34 @@ const styles = StyleSheet.create({
     fontFamily: Typography.fontFamilyLight,
     color: denied ? ColorPalette.secondary : ColorPalette.light,
     flexGrow: 1,
-    textDecorationLine: denied ? 'line-through' : 'none'
+    textDecorationLine: denied ? "line-through" : "none"
   }),
   authorContainer: {
     flexGrow: 1,
     margin: "5%",
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: ColorPalette.dark
   },
   author: {
     fontFamily: Typography.fontFamilyLight,
     fontSize: 18,
     color: ColorPalette.light,
     flexGrow: 1,
-    textAlign: 'right',
+    textAlign: "right"
   },
   footerContainer: {
     flexGrow: 1,
     alignSelf: "flex-start",
     backgroundColor: ColorPalette.dark,
     flexWrap: "nowrap",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   voteLeftContainer: {
     backgroundColor: ColorPalette.dark,
     flexGrow: 1
   },
   voteRightContainer: {
-     backgroundColor: ColorPalette.dark,
-     flexGrow: 1
+    backgroundColor: ColorPalette.dark,
+    flexGrow: 1
   },
   buttonsSeparatorContainer: {
     backgroundColor: ColorPalette.dark,
@@ -295,21 +371,23 @@ const styles = StyleSheet.create({
   },
   customIcon: (color = ColorPalette.light, size = 18) => ({
     fontSize: size,
-    color,
+    color
   }),
   voteCount: (color = ColorPalette.light, size = 18) => ({
     fontSize: size,
     fontFamily: Typography.fontFamilyBold,
     color,
-    paddingRight: '2%',
-    paddingLeft: '1%'
+    paddingRight: "2%",
+    paddingLeft: "1%"
   }),
   singleView: {
-    margin: "15%",
+    margin: "15%"
   },
   spinner: {
     margin: "15%"
   }
 });
 
-export default SensationItem;
+const SensationItem = withModel(observer(SensationItemComponent));
+
+export { SensationItem };

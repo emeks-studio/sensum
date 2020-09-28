@@ -150,4 +150,4 @@ class Oracle {
   }
 }
 
-export default new Oracle();
+export default Oracle;

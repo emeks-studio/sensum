@@ -1,80 +1,63 @@
-import React, { Component } from 'react';
-import { observer } from 'mobx-react';
-import { StyleSheet } from 'react-native';
-import {
-  Container,
-  Header,
-  Right,
-  Button,
-  Left,
-} from 'native-base'
-import { showToast, TopBarTitle, AnimatedFadeingIcon } from './ui';
-import { Tamagochi } from './Tamagochi';
-import SensumLogo from '../../assets/img/sensum_logo.svg';
-import { 
-  ColorPalette,
-  Typography
-} from '../../assets/styles/SensumTheme';
-import Oracle from '../model/Oracle';
-import User from '../model/User';
+import React, { useEffect } from "react";
+import { observer } from "mobx-react";
+import { StyleSheet } from "react-native";
+import { Container, Header, Right, Button, Left } from "native-base";
+import { showToast, TopBarTitle, AnimatedFadeingIcon } from "./ui";
+import { Tamagochi } from "./Tamagochi";
+import SensumLogo from "../../assets/img/sensum_logo.svg";
+import { ColorPalette, Typography } from "../../assets/styles/SensumTheme";
+import User from "../model/User";
+import { withModel } from "../model-components";
 
-@observer
-class HomeScreen extends Component {
-  static navigationOptions = {
-    header: null
-  }
-  
-  constructor(props) {
-    super(props);
+const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
+  useEffect(() => {
     Oracle.init();
-  }
+  }, [Oracle]);
 
-  goToPulse = () => {
-    this.props.navigation.push('Sensations');
-  }
-  
-  goToTransmisionRoom = () => {
-    this.props.navigation.push('NewSensation');
-  }
-  
-  showNetwork = () => {
+  const goToPulse = () => {
+    navigation.push("Sensations");
+  };
+
+  const goToTransmisionRoom = () => {
+    navigation.push("NewSensation");
+  };
+
+  const showNetwork = () => {
     User.tryGatherAcolytes().then(n => {
-      if (n) 
-        showToast({text: `${n} electrones en órbita`})
-      else 
-        showToast({text: `sin conexión`})
-    })
-  }
-  
-  render() {
-    return (
-      <Container>
-        <Header 
-          style={styles.header}
-          androidStatusBarColor={styles.header.backgroundColor}>
-            <Left />
-            <TopBarTitle  onPress={this.showNetwork} />
-            <Right>
-              <Button transparent onPress={this.goToPulse}>
-                <AnimatedFadeingIcon name="pulse" />     
-              </Button>
-            </Right>
-        </Header>
-        <Container style={styles.container}>
-         <Tamagochi />
-         {Oracle.userIsTheChosenOne &&
-           <Button
-             style={styles.transmissionButton}
-             rounded
-             bordered
-             onPress={this.goToTransmisionRoom}>
-             <SensumLogo />
-           </Button>
-          }
-        </Container>
+      if (n) showToast({ text: `${n} electrones en órbita` });
+      else showToast({ text: `sin conexión` });
+    });
+  };
+
+  return (
+    <Container>
+      <Header
+        style={styles.header}
+        androidStatusBarColor={styles.header.backgroundColor}
+      >
+        <Left />
+        <TopBarTitle onPress={showNetwork} />
+        <Right>
+          <Button transparent onPress={goToPulse}>
+            <AnimatedFadeingIcon name="pulse" />
+          </Button>
+        </Right>
+      </Header>
+      <Container style={styles.container}>
+        <Tamagochi />
+        {Oracle.userIsTheChosenOne && (
+          <Button
+            style={styles.transmissionButton}
+            rounded
+            bordered
+            onPress={goToTransmisionRoom}
+          >
+            <SensumLogo />
+          </Button>
+        )}
       </Container>
-    );
-  }
+    </Container>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -82,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: ColorPalette.dark,
     shadowOpacity: 0,
     shadowOffset: {
-      height: 0,
+      height: 0
     },
     shadowRadius: 0,
     elevation: 0
@@ -90,30 +73,36 @@ const styles = StyleSheet.create({
   headerText: {
     color: ColorPalette.light,
     fontFamily: Typography.fontFamilyLight,
-    alignSelf: 'flex-end'    
+    alignSelf: "flex-end"
   },
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: ColorPalette.dark
   },
   transmissionButton: {
-    position: 'relative',
-    height: 45  ,
+    position: "relative",
+    height: 45,
     width: 45,
     marginTop: 20,
     backgroundColor: ColorPalette.dark,
-    borderColor: 'transparent',
-    alignSelf: 'center',
-    left: '15%',
+    borderColor: "transparent",
+    alignSelf: "center",
+    left: "15%",
     shadowOpacity: 0.8,
     elevation: 3
   },
   icon: {
-    color: ColorPalette.light,
+    color: ColorPalette.light
   }
 });
 
-export default HomeScreen;
+const HomeScreen = withModel(observer(HomeScreenComponent));
+
+HomeScreen.navigationOptions = {
+  header: null
+};
+
+export { HomeScreen };

@@ -107,4 +107,4 @@ class Sensations {
   }
 }
 
-export default new Sensations();
+export default Sensations;

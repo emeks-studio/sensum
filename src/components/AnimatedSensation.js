@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
 import { Text } from 'native-base';
 import { observer } from 'mobx-react';
-import Sensations from '../model/Sensations';
+import { withModel } from '../model-components';
 import {
   ColorPalette,
   Typography
@@ -11,7 +11,7 @@ import { calculateMessageText } from '../util/styleHelpers';
 
 // min opacity
 // duration is in miliseconds
-export const AnimatedSensation = observer(() => {
+export const AnimatedSensationComponent = ({ model: { Sensations } }) => {
   // animationValue will be used as the value for opacity. Initial Value: 0
   const durationInMiliseconds = 2500;
   const animationValue = useRef(new Animated.Value(0.05)).current;
@@ -51,7 +51,7 @@ export const AnimatedSensation = observer(() => {
       </Text>
     </Animated.View>
   );
-});
+};
 
 function isTrending(sensation) {
   const dislikes = (sensation.dislikes === 0) ? 1 : sensation.dislikes;
@@ -74,3 +74,9 @@ const styles = StyleSheet.create({
     textDecorationLine: denied ? 'line-through' : 'none'
   }),
 });
+
+const AnimatedSensation = withModel(observer(AnimatedSensationComponent));
+
+export {
+  AnimatedSensation
+};

@@ -144,4 +144,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NewSensationForm;
+export {
+  NewSensationForm
+};

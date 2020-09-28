@@ -7,6 +7,7 @@ import {
   MSG_NEW_SENSATION
 } from '../constants/messages';
 
+// TODO: A refactor is needed; CarrierCrow is not purely `model` given is using UI stuff.
 const CarrierCrow = Oracle => {  
   const handleNotification = (result) => {
     console.debug('[CarrierCrow::handleNotification]', result);

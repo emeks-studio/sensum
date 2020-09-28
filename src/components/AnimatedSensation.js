@@ -11,7 +11,7 @@ import { calculateMessageText } from '../util/styleHelpers';
 
 // min opacity
 // duration is in miliseconds
-export const AnimatedSensationComponent = observer(({ model: { Sensations } }) => {
+export const AnimatedSensationComponent = ({ model: { Sensations } }) => {
   // animationValue will be used as the value for opacity. Initial Value: 0
   const durationInMiliseconds = 2500;
   const animationValue = useRef(new Animated.Value(0.05)).current;
@@ -51,7 +51,7 @@ export const AnimatedSensationComponent = observer(({ model: { Sensations } }) =
       </Text>
     </Animated.View>
   );
-});
+};
 
 function isTrending(sensation) {
   const dislikes = (sensation.dislikes === 0) ? 1 : sensation.dislikes;
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   }),
 });
 
-const AnimatedSensation = withModel(AnimatedSensationComponent);
+const AnimatedSensation = withModel(observer(AnimatedSensationComponent));
 
 export {
   AnimatedSensation

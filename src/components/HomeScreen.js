@@ -9,7 +9,7 @@ import { ColorPalette, Typography } from "../../assets/styles/SensumTheme";
 import User from "../model/User";
 import { withModel } from "../model-components";
 
-const HomeScreen = ({ model: { Oracle }, navigation }) => {
+const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
   useEffect(() => {
     Oracle.init();
   }, [Oracle]);
@@ -97,11 +97,12 @@ const styles = StyleSheet.create({
   icon: {
     color: ColorPalette.light
   }
-  
 });
+
+const HomeScreen = withModel(observer(HomeScreenComponent));
 
 HomeScreen.navigationOptions = {
   header: null
 };
 
-export default withModel(observer(HomeScreen));
+export { HomeScreen };

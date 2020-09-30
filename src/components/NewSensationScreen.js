@@ -7,12 +7,12 @@ import { ColorPalette } from "../../assets/styles/SensumTheme";
 import { observer } from "mobx-react";
 import { withModel } from "../model-components";
 
-const NewSensationScreenComponent = props => {
+const NewSensationScreenComponent = ({ model: { Oracle }, navigation }) => {
   const onNewSensation = ({ author, message }) => {
-    props.Oracle.newSensation({ author, message })
+    Oracle.newSensation({ author, message })
       .then(() => {
         console.debug("[NewSensationScreen.newSensation] Successfully sent");
-        props.navigation.popToTop();
+        navigation.popToTop();
         showToast({
           text: "Tu sensación se está transmitiendo a través de la corriente"
         });
@@ -26,7 +26,7 @@ const NewSensationScreenComponent = props => {
   };
 
   const goBack = () => {
-    props.navigation.pop();
+    navigation.pop();
   };
 
   return (

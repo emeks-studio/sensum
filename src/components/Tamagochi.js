@@ -1,11 +1,13 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { Text, TouchableHighlight } from 'react-native';
 import { withModel } from '../model-components';
 import { showToast } from './ui';
-import { ColorPalette } from '../../assets/styles/SensumTheme';
+import { ThemeSheet } from '../../assets/styles/ThemeSheet';
 
 const TamagochiComponent = ({ model: { Oracle } }) => {
+  const { theme } = useTheme();
+  const styles = stylesByTheme[theme.id];
 
   const onPress = () => {
     Oracle.advanceLine();
@@ -22,14 +24,14 @@ const TamagochiComponent = ({ model: { Oracle } }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const stylesByTheme = ThemeSheet.create(theme => ({
    buttonContainer: {
     position: 'relative',
     height: 150,
     width: 150,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     borderColor: 'transparent',
     borderRadius: 16,
     shadowOpacity: 0.8,
@@ -37,9 +39,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 45,
-    color: ColorPalette.light,
+    color: theme.colorPalette.light,
   }
-});
+}));
 
 const Tamagochi = withModel(observer(TamagochiComponent));
 

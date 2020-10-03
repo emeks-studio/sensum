@@ -1,13 +1,16 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { Header, Left, Right, Button, Icon } from "native-base";
 import { showToast, TopBarTitle } from "./ui";
 import { NewSensationForm } from "./NewSensationForm";
-import { ColorPalette } from "../../assets/styles/SensumTheme";
+import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { observer } from "mobx-react";
 import { withModel } from "../model-components";
 
 const NewSensationScreenComponent = ({ model: { Oracle }, navigation }) => {
+  const { theme } = useTheme();
+  const styles = stylesByTheme[theme.id];
+  
   const onNewSensation = ({ author, message }) => {
     Oracle.newSensation({ author, message })
       .then(() => {
@@ -48,16 +51,16 @@ const NewSensationScreenComponent = ({ model: { Oracle }, navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const stylesByTheme = ThemeSheet.create(theme => ({
   container: {
     flex: 1,
-    backgroundColor: ColorPalette.dark
+    backgroundColor: theme.colorPalette.dark
   },
   header: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     elevation: 0
   }
-});
+}));
 
 const NewSensationScreen = withModel(observer(NewSensationScreenComponent));
 

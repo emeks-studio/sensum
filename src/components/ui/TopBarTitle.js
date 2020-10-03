@@ -1,29 +1,29 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import {
-  Body,
-  Button,
-  Title
-} from 'native-base';
-import {
-  ColorPalette,
-  Typography
-} from '../../../assets/styles/SensumTheme';
+import React from "react";
+import { Body, Button, Title } from "native-base";
+import { ThemeSheet } from "../../../assets/styles/ThemeSheet";
 
-export const TopBarTitle = ({onPress}) => (
-  <Body>
-    <Button style={styles.headerButton} transparent onPress={() => onPress && onPress()}>
-      <Title style={styles.headerText}> sensum </Title>
-    </Button>
-  </Body>
-);
+export const TopBarTitle = ({ onPress }) => {
+  const { theme } = useTheme();
+  const styles = stylesByTheme[theme.id];
+  return (
+    <Body>
+      <Button
+        style={styles.headerButton}
+        transparent
+        onPress={() => onPress && onPress()}
+      >
+        <Title style={styles.headerText}> sensum </Title>
+      </Button>
+    </Body>
+  );
+};
 
-const styles = StyleSheet.create({
-  'headerButton': {
-    alignSelf: 'flex-end'    
+const stylesByTheme = ThemeSheet.create(theme => ({
+  headerButton: {
+    alignSelf: "flex-end"
   },
-  'headerText': {
-    color: ColorPalette.light,
-    fontFamily: Typography.fontFamilyLight,  
+  headerText: {
+    color: theme.colorPalette.light,
+    fontFamily: theme.typography.fontFamilyLight
   }
-});
+}));

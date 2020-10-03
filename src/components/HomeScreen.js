@@ -5,11 +5,14 @@ import { Container, Header, Right, Button, Left } from "native-base";
 import { showToast, TopBarTitle, AnimatedFadeingIcon } from "./ui";
 import { Tamagochi } from "./Tamagochi";
 import SensumLogo from "../../assets/img/sensum_logo.svg";
-import { ColorPalette, Typography } from "../../assets/styles/SensumTheme";
+import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import User from "../model/User";
 import { withModel } from "../model-components";
 
 const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
+  const { theme } = useTheme();
+  const styles = stylesByTheme[theme.id];
+
   useEffect(() => {
     Oracle.init();
   }, [Oracle]);
@@ -60,9 +63,9 @@ const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const stylesByTheme = ThemeSheet.create(theme => ({
   header: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     shadowOpacity: 0,
     shadowOffset: {
       height: 0
@@ -71,8 +74,8 @@ const styles = StyleSheet.create({
     elevation: 0
   },
   headerText: {
-    color: ColorPalette.light,
-    fontFamily: Typography.fontFamilyLight,
+    color: theme.colorPalette.light,
+    fontFamily: theme.typography.fontFamilyLight,
     alignSelf: "flex-end"
   },
   container: {
@@ -80,14 +83,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: ColorPalette.dark
+    backgroundColor: theme.colorPalette.dark
   },
   transmissionButton: {
     position: "relative",
     height: 45,
     width: 45,
     marginTop: 20,
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     borderColor: "transparent",
     alignSelf: "center",
     left: "15%",
@@ -95,9 +98,9 @@ const styles = StyleSheet.create({
     elevation: 3
   },
   icon: {
-    color: ColorPalette.light
+    color: theme.colorPalette.light
   }
-});
+}));
 
 const HomeScreen = withModel(observer(HomeScreenComponent));
 

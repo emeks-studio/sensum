@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { View, Linking, StyleSheet } from "react-native";
+import { View, Linking } from "react-native";
 import { Header, Left, Right, Button, Icon } from "native-base";
-import { ColorPalette } from "../../assets/styles/SensumTheme";
+import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
 import { SensationItem } from "./SensationItem";
 import { TopBarTitle } from "./ui";
 
 const SensationsScreenComponent = ({ model: { Sensations }, navigation }) => {
+  const { theme } = useTheme();
+  const styles = stylesByTheme[theme.id];
+
   useEffect(() => {
     console.debug("[SensationsScreen::refresh]");
     Sensations.reset();
@@ -46,16 +49,16 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const stylesByTheme = ThemeSheet.create(theme => ({
   container: {
     flex: 1,
-    backgroundColor: ColorPalette.dark
+    backgroundColor: theme.colorPalette.dark
   },
   header: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     elevation: 0
   }
-});
+}));
 
 const SensationsScreen = withModel(observer(SensationsScreenComponent));
 

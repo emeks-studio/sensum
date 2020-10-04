@@ -17,7 +17,7 @@ class Theming {
   @observable theme = happyTheme;
   
   @action
-  updateTheme(mood) {
+  setThemeBy(mood) {
     this.theme = this.themeByMood(mood);
   }
   

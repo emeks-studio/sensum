@@ -95,9 +95,6 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     left: "15%",
     shadowOpacity: 0.8,
     elevation: 3
-  },
-  icon: {
-    color: theme.colorPalette.light
   }
 }));
 

@@ -2,10 +2,10 @@ const noConnectionTheme = {
   id: 'noConnectionTheme',
   colorPalette: {
     dark: "#F9F6FF",
-    principal: "black",
-    secondary: "black",
-    info: "black",
-    light: "black"
+    principal: "#CBAAFF",
+    secondary: "#9773D1",
+    info: "#4B3968",
+    light: "#271F34"
   },
   typography: {
     fontFamilyLight: "TitilliumWeb-Light",
@@ -32,9 +32,9 @@ const happyTheme = {
 const neutralTheme = {
   id: 'neutralTheme',
   colorPalette: {
-    dark: "blue",
+    dark: "#9773D1",
     principal: "#4B3968",
-    secondary: "#9773D1",
+    secondary: "#271F34",
     info: "#CBAAFF",
     light: "#F9F6FF"
   },
@@ -44,14 +44,13 @@ const neutralTheme = {
   }
 }
 
-// TODO: Change me!
 const angryTheme = {
   id: 'angryTheme',
   colorPalette: {
-    dark: "red",
+    dark: "#A106F4",
     principal: "#4B3968",
-    secondary: "#9773D1",
-    info: "#CBAAFF",
+    secondary: "#C407F7",
+    info: "#D607F9",
     light: "#F9F6FF"
   },
   typography: {

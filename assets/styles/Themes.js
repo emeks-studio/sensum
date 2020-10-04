@@ -1,3 +1,18 @@
+const noConnectionTheme = {
+  id: 'noConnectionTheme',
+  colorPalette: {
+    dark: "#F9F6FF",
+    principal: "black",
+    secondary: "black",
+    info: "black",
+    light: "black"
+  },
+  typography: {
+    fontFamilyLight: "TitilliumWeb-Light",
+    fontFamilyBold: "TitilliumWeb-Bold"
+  }
+}
+
 const happyTheme = {
   id: 'happyTheme',
   colorPalette: {
@@ -46,6 +61,7 @@ const angryTheme = {
 }
 
 export {
+  noConnectionTheme,
   happyTheme,
   neutralTheme,
   angryTheme,

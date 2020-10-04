@@ -28,9 +28,14 @@ function AppComponent() {
   })
   
   useEffect(()=> {
-    Oracle.praiseTheSun().then(result => {
+    Oracle.praiseTheSun()
+    .then(result => {
       theming.setThemeBy(result.mood);
       showToast({ text: result.line}, theming);
+    })
+    .catch(_ => {
+      // FIXME: Change message text!
+      showToast({ text: `sin conexión` }, theming)
     });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {

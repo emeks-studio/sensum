@@ -3,6 +3,7 @@ import React from "react";
 import { observable, action } from "mobx";
 
 import {
+  noConnectionTheme,
   happyTheme,
   neutralTheme,
   angryTheme
@@ -14,7 +15,7 @@ const ANGRY_MOOD = "ಠ_ಠ";
 const NEUTRAL_MOOD = "⚆_⚆";
 
 class Theming {
-  @observable theme = happyTheme;
+  @observable theme = noConnectionTheme;
   
   @action
   setThemeBy(mood) {
@@ -30,7 +31,7 @@ class Theming {
       case NEUTRAL_MOOD:
         return neutralTheme;
       default:
-        return happyTheme;
+        return noConnectionTheme;
     }
   }
 }

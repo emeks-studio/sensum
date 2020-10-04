@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { StyleSheet } from 'react-native';
-import { happyTheme, neutralTheme, angryTheme } from './Themes';
+import { noConnectionTheme, happyTheme, neutralTheme, angryTheme } from './Themes';
 
 const build = themes => styleByThemeFn => {
   return _.fromPairs(
@@ -13,7 +13,7 @@ const build = themes => styleByThemeFn => {
 const ThemeSheet = {};
 
 // TODO: If we want to create a lib-style for this utility, we should receive themes from the outside.
-const availableThemes = [happyTheme, neutralTheme, angryTheme]
+const availableThemes = [noConnectionTheme, happyTheme, neutralTheme, angryTheme]
 
 // As for StyleSheet.create; Always keep style sheet code outside render method to provide better performance.
 ThemeSheet.create = build(availableThemes);

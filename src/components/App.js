@@ -30,7 +30,7 @@ function AppComponent() {
   useEffect(()=> {
     Oracle.praiseTheSun().then(result => {
       theming.setThemeBy(result.mood);
-      showToast({ text: result.line});
+      showToast({ text: result.line}, theming);
     });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {

@@ -21,12 +21,12 @@ const SensationItemComponent = ({ model: { Sensations }, theming }) => {
         let text;
         if (success) text = vote ? "Ionizando [+++]" : "Ionizando [---]";
         else text = "¡Sobrecargas en el núcleo!";
-        showToast({ text });
+        showToast({ text }, theming);
         // Sensations.next();
       })
       .catch(err => {
         console.debug(`[SensationItem::vote] Error: ${err}`);
-        showToast({ text: "El Oráculo está ocupado balanceando el núcleo" });
+        showToast({ text: "El Oráculo está ocupado balanceando el núcleo" }, theming);
       });
   };
 
@@ -287,7 +287,7 @@ const SensationItemComponent = ({ model: { Sensations }, theming }) => {
     return renderLoading();
   } else {
     if (Sensations.error || Sensations.length === 0) {
-      showToast({ text: "😴  El Oráculo duerme un sueño imposible" });
+      showToast({ text: "😴  El Oráculo duerme un sueño imposible" }, theming);
       return renderEmpty();
     }
     return renderSensationItem();

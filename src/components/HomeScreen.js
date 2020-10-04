@@ -26,8 +26,8 @@ const HomeScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
 
   const showNetwork = () => {
     User.tryGatherAcolytes().then(n => {
-      if (n) showToast({ text: `${n} electrones en órbita` });
-      else showToast({ text: `sin conexión` });
+      if (n) showToast({ text: `${n} electrones en órbita` }, theming);
+      else showToast({ text: `sin conexión` }, theming);
     });
   };
 

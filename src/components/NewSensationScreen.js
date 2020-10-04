@@ -18,13 +18,13 @@ const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming })
         navigation.popToTop();
         showToast({
           text: "Tu sensación se está transmitiendo a través de la corriente"
-        });
+        }, theming);
       })
       .catch(error => {
         console.debug("[NewSensationScreen.newSensation] Error", error);
         showToast({
           text: "Tu mensaje aún no es digno de ser enviado, modifícalo"
-        });
+        }, theming);
       });
   };
 

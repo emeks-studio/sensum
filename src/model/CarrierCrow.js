@@ -1,6 +1,5 @@
 import OneSignal from 'react-native-onesignal';
 import { navigate } from '../util/navigator';
-import { showToast } from '../components/ui';
 import User from '../model/User';
 import {
   MSG_CHOOSE_THE_ONE,
@@ -21,11 +20,7 @@ const CarrierCrow = Oracle => {
         break;
       case MSG_CHOOSE_THE_ONE:
         const totem = additionalData.totem;
-        Oracle.setTotem(totem)
-        .catch(() => {
-          // FIXME: Mejorar mensaje
-          showToast({text: 'El Oráculo te ha denegado el derecho ha tramsitir tu sentir'});
-        });
+        Oracle.setTotem(totem);
         break;
       default:
         break;

@@ -13,7 +13,7 @@ const TamagochiComponent = ({ model: { Oracle }, theming }) => {
     Oracle.advanceLine();
     const newLine = Oracle.getLine;
     if (newLine) {
-      showToast({text: newLine});
+      showToast({text: newLine}, theming);
     }
   };
   

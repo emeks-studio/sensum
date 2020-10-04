@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { observer } from "mobx-react";
 import _ from 'lodash';
 import { AppState, BackHandler } from 'react-native';
 import { Provider } from 'react-redux';
@@ -9,12 +10,13 @@ import { configCarrierCrow } from '../model/CarrierCrow';
 import { useModel } from '../model-components';
 import { showToast } from './ui';
 import { handleBackButton } from '../util/navigator';
+import { useTheming } from '../util/theming';
 
-function App() {
+function AppComponent() {
   const [state, setState ] = useState({
     appState: AppState.currentState,
   });
-
+  const { theming } = useTheming();
   const { Oracle } = useModel();
   const CarrierCrow = configCarrierCrow({ Oracle });
 
@@ -26,8 +28,9 @@ function App() {
   })
   
   useEffect(()=> {
-    Oracle.praiseTheSun().then(message => {
-      showToast({ text: message });
+    Oracle.praiseTheSun().then(result => {
+      theming.updateTheme(result.mood);
+      showToast({ text: result.line});
     });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {
@@ -47,10 +50,7 @@ function App() {
 
   const handleAppStateChange = (nextAppState) => {
     if (state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      console.debug('[App::handleAppStateChange] FROM foreground')
-      Oracle.praiseTheSun().then(message => {
-        showToast({ text: message });
-      });
+      console.debug('[App::handleAppStateChange] FROM foreground');
     }
     setState({appState: nextAppState});
   }
@@ -63,6 +63,8 @@ function App() {
     </Provider>   
   );
 }
+
+const App = observer(AppComponent);
 
 export {
   App

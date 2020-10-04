@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { StyleSheet } from "react-native";
 import { Container, Header, Right, Button, Left } from "native-base";
 import { showToast, TopBarTitle, AnimatedFadeingIcon } from "./ui";
 import { Tamagochi } from "./Tamagochi";
@@ -8,10 +7,10 @@ import SensumLogo from "../../assets/img/sensum_logo.svg";
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import User from "../model/User";
 import { withModel } from "../model-components";
+import { withTheming } from "../util/theming";
 
-const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+const HomeScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
 
   useEffect(() => {
     Oracle.init();
@@ -102,7 +101,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const HomeScreen = withModel(observer(HomeScreenComponent));
+const HomeScreen = withTheming(withModel(observer(HomeScreenComponent)));
 
 HomeScreen.navigationOptions = {
   header: null

@@ -5,15 +5,15 @@ import { observer } from 'mobx-react';
 import { withModel } from '../model-components';
 import { ThemeSheet } from '../../assets/styles/ThemeSheet';
 import { calculateMessageText } from '../util/styleHelpers';
+import { withTheming } from "../util/theming";
 
 // min opacity
 // duration is in miliseconds
-export const AnimatedSensationComponent = ({ model: { Sensations } }) => {
+export const AnimatedSensationComponent = ({ model: { Sensations }, theming }) => {
   // animationValue will be used as the value for opacity. Initial Value: 0
   const animationValue = useRef(new Animated.Value(0.05)).current;
   const [max, setMax] = useState(1);
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+  const styles = stylesByTheme[theming.theme.id];
   const durationInMiliseconds = 2500;
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }),
 }));
 
-const AnimatedSensation = withModel(observer(AnimatedSensationComponent));
+const AnimatedSensation = withTheming(withModel(observer(AnimatedSensationComponent)));
 
 export {
   AnimatedSensation

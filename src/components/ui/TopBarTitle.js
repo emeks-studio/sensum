@@ -1,10 +1,11 @@
 import React from "react";
+import { observer } from 'mobx-react';
 import { Body, Button, Title } from "native-base";
 import { ThemeSheet } from "../../../assets/styles/ThemeSheet";
+import { withTheming } from "../../util/theming";
 
-export const TopBarTitle = ({ onPress }) => {
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+const TopBarTitleComponent = ({ onPress, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
   return (
     <Body>
       <Button
@@ -27,3 +28,9 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     fontFamily: theme.typography.fontFamilyLight
   }
 }));
+
+const TopBarTitle = withTheming(observer(TopBarTitleComponent));
+
+export {
+  TopBarTitle
+};

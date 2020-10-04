@@ -4,10 +4,10 @@ import { Text, TouchableHighlight } from 'react-native';
 import { withModel } from '../model-components';
 import { showToast } from './ui';
 import { ThemeSheet } from '../../assets/styles/ThemeSheet';
+import { withTheming } from "../util/theming";
 
-const TamagochiComponent = ({ model: { Oracle } }) => {
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+const TamagochiComponent = ({ model: { Oracle }, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
 
   const onPress = () => {
     Oracle.advanceLine();
@@ -43,7 +43,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const Tamagochi = withModel(observer(TamagochiComponent));
+const Tamagochi = withTheming(withModel(observer(TamagochiComponent)));
 
 export {
   Tamagochi

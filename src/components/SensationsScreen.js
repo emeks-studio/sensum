@@ -4,12 +4,13 @@ import { View, Linking } from "react-native";
 import { Header, Left, Right, Button, Icon } from "native-base";
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
+import { withTheming } from "../util/theming";
+
 import { SensationItem } from "./SensationItem";
 import { TopBarTitle } from "./ui";
 
-const SensationsScreenComponent = ({ model: { Sensations }, navigation }) => {
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
 
   useEffect(() => {
     console.debug("[SensationsScreen::refresh]");
@@ -60,7 +61,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const SensationsScreen = withModel(observer(SensationsScreenComponent));
+const SensationsScreen = withTheming(withModel(observer(SensationsScreenComponent)));
 
 SensationsScreen.navigationOptions = {
   header: null

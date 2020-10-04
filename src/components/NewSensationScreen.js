@@ -6,10 +6,10 @@ import { NewSensationForm } from "./NewSensationForm";
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { observer } from "mobx-react";
 import { withModel } from "../model-components";
+import { withTheming } from "../util/theming";
 
-const NewSensationScreenComponent = ({ model: { Oracle }, navigation }) => {
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
   
   const onNewSensation = ({ author, message }) => {
     Oracle.newSensation({ author, message })
@@ -62,7 +62,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const NewSensationScreen = withModel(observer(NewSensationScreenComponent));
+const NewSensationScreen = withTheming(withModel(observer(NewSensationScreenComponent)));
 
 NewSensationScreen.navigationOptions = {
   header: null

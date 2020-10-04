@@ -10,10 +10,10 @@ import { AnimatedSensation } from "./AnimatedSensation";
 import { showToast } from "./ui";
 import { calculateMessageText } from "../util/styleHelpers";
 import { withModel } from "../model-components";
+import { withTheming } from "../util/theming";
 
-const SensationItemComponent = ({ model: { Sensations } }) => {
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+const SensationItemComponent = ({ model: { Sensations }, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
 
   const vote = function(item, vote) {
     Sensations.vote(item, vote)
@@ -36,7 +36,7 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
         <Container style={styles.container}>
           <Content bordered style={styles.sensationContent}>
             <View style={styles.singleView}>
-              <Spinner style={styles.spinner} color={theme.colorPalette.light} />
+              <Spinner style={styles.spinner} color={theming.theme.colorPalette.light} />
             </View>
           </Content>
           <Container style={styles.authorContainer}>
@@ -51,9 +51,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="minus"
-                  style={styles.customIcon(theme.colorPalette.secondary)}
+                  style={styles.customIcon(theming.theme.colorPalette.secondary)}
                 />
-                <Text style={styles.voteCount(theme.colorPalette.secondary)}>0</Text>
+                <Text style={styles.voteCount(theming.theme.colorPalette.secondary)}>0</Text>
               </Button>
             </Container>
             <Container style={styles.voteRightContainer}>
@@ -131,9 +131,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="minus"
-                  style={styles.customIcon(theme.colorPalette.secondary)}
+                  style={styles.customIcon(theming.theme.colorPalette.secondary)}
                 />
-                <Text style={styles.voteCount(theme.colorPalette.secondary)}>0</Text>
+                <Text style={styles.voteCount(theming.theme.colorPalette.secondary)}>0</Text>
               </Button>
             </Container>
             <Container style={styles.voteRightContainer}>
@@ -235,9 +235,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="minus"
-                  style={styles.customIcon(theme.colorPalette.secondary)}
+                  style={styles.customIcon(theming.theme.colorPalette.secondary)}
                 />
-                <Text style={styles.voteCount(theme.colorPalette.secondary)}>
+                <Text style={styles.voteCount(theming.theme.colorPalette.secondary)}>
                   {Sensations.current.dislikes}
                 </Text>
               </Button>
@@ -251,9 +251,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="plus"
-                  style={styles.customIcon(theme.colorPalette.light)}
+                  style={styles.customIcon(theming.theme.colorPalette.light)}
                 />
-                <Text style={styles.voteCount(theme.colorPalette.light)}>
+                <Text style={styles.voteCount(theming.theme.colorPalette.light)}>
                   {Sensations.current.likes}
                 </Text>
               </Button>
@@ -391,6 +391,6 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const SensationItem = withModel(observer(SensationItemComponent));
+const SensationItem = withTheming(withModel(observer(SensationItemComponent)));
 
 export { SensationItem };

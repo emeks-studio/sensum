@@ -1,53 +1,53 @@
 import React from "react";
+import { observer } from 'mobx-react';
 import { View } from "react-native";
 import { Form, Field } from "react-final-form";
 import { Container, Content, Input, Button, Text } from "native-base";
 
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
-
-const renderTextAreaInput = theme => ({ input, placeholder }) => {
-  return (
-    <Input
-      multiline
-      textBreakStrategy="balanced"
-      allowFontScaling
-      includeFontPadding={false}
-      maxFontSizeMultiplier={2}
-      adjustsFontSizeToFit
-      style={styles.message}
-      selectionColor={theme.colorPalette.light}
-      placeholder={placeholder}
-      placeholderTextColor={theme.ColorPalette.principal}
-      maxLength={250}
-      {...input}
-    />
-  );
-};
-
-const renderTextInput = theme => ({ input, placeholder }) => {
-  return (
-    <Input
-      multiline
-      adjustsFontSizeToFit
-      numberOfLines={2}
-      style={styles.author}
-      selectionColor={theme.colorPalette.light}
-      placeholder={placeholder}
-      placeholderTextColor={theme.colorPalette.principal}
-      maxLength={50}
-      {...input}
-    />
-  );
-};
+import { withTheming } from "../util/theming";
 
 const messagePlaceholder =
   "¡Eres el elegido! Utiliza este cuadro de texto para transmitir tu sensación y así comience su viaje a través de la corriente.";
 const authorPlaceholder = "~ Anonymous";
 
-const NewSensationForm = ({ onNewSensation }) => {
-  // FIXME: Create the hook for manage current theme!
-  const { theme } = useTheme();
-  const styles = stylesByTheme[theme.id];
+const NewSensationFormComponent = ({ onNewSensation, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
+
+   const renderTextAreaInput = ({ input, placeholder }) => {
+     return (
+       <Input
+         multiline
+         textBreakStrategy="balanced"
+         allowFontScaling
+         includeFontPadding={false}
+         maxFontSizeMultiplier={2}
+         adjustsFontSizeToFit
+         style={styles.message}
+         selectionColor={theming.theme.colorPalette.light}
+         placeholder={placeholder}
+         placeholderTextColor={theming.theme.colorPalette.principal}
+         maxLength={250}
+         {...input}
+       />
+     );
+   };
+
+  const renderTextInput = ({ input, placeholder }) => {
+    return (
+      <Input
+        multiline
+        adjustsFontSizeToFit
+        numberOfLines={2}
+        style={styles.author}
+        selectionColor={theming.theme.colorPalette.light}
+        placeholder={placeholder}
+        placeholderTextColor={theming.theme.colorPalette.principal}
+        maxLength={50}
+        {...input}
+      />
+    );
+  };
 
   return (
     <Form
@@ -57,7 +57,7 @@ const NewSensationForm = ({ onNewSensation }) => {
           <Content bordered style={styles.sensationContent}>
             <View style={styles.sensationView}>
               <Field
-                component={renderTextAreaInput(theme)}
+                component={renderTextAreaInput}
                 name="message"
                 placeholder={messagePlaceholder}
               />
@@ -65,7 +65,7 @@ const NewSensationForm = ({ onNewSensation }) => {
           </Content>
           <Container style={styles.authorContainer}>
             <Field
-              component={renderTextInput(theme)}
+              component={renderTextInput}
               name="author"
               placeholder={authorPlaceholder}
             />
@@ -159,5 +159,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     };
   }
 }));
+
+const NewSensationForm = withTheming(observer(NewSensationFormComponent));
 
 export { NewSensationForm };

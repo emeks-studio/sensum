@@ -7,7 +7,7 @@ const happyTheme = {
     info: "#CBAAFF",
     light: "#F9F6FF"
   },
-  typography = {
+  typography: {
     fontFamilyLight: "TitilliumWeb-Light",
     fontFamilyBold: "TitilliumWeb-Bold"
   }
@@ -17,13 +17,13 @@ const happyTheme = {
 const neutralTheme = {
   id: 'neutralTheme',
   colorPalette: {
-    dark: "#271F34",
+    dark: "blue",
     principal: "#4B3968",
     secondary: "#9773D1",
     info: "#CBAAFF",
     light: "#F9F6FF"
   },
-  typography = {
+  typography: {
     fontFamilyLight: "TitilliumWeb-Light",
     fontFamilyBold: "TitilliumWeb-Bold"
   }
@@ -33,13 +33,13 @@ const neutralTheme = {
 const angryTheme = {
   id: 'angryTheme',
   colorPalette: {
-    dark: "#271F34",
+    dark: "red",
     principal: "#4B3968",
     secondary: "#9773D1",
     info: "#CBAAFF",
     light: "#F9F6FF"
   },
-  typography = {
+  typography: {
     fontFamilyLight: "TitilliumWeb-Light",
     fontFamilyBold: "TitilliumWeb-Bold"
   }

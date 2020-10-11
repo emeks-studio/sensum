@@ -1,9 +1,8 @@
 import React from "react";
-import { observer } from 'mobx-react';
-import { View } from "react-native";
+import { observer } from "mobx-react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 import { Form, Field } from "react-final-form";
-import { Container, Content, Input, Button, Text } from "native-base";
-
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { withTheming } from "../util/theming";
 
@@ -13,32 +12,25 @@ const authorPlaceholder = "~ Anonymous";
 
 const NewSensationFormComponent = ({ onNewSensation, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
-
-   const renderTextAreaInput = ({ input, placeholder }) => {
-     return (
-       <Input
-         multiline
-         textBreakStrategy="balanced"
-         allowFontScaling
-         includeFontPadding={false}
-         maxFontSizeMultiplier={2}
-         adjustsFontSizeToFit
-         style={styles.message}
-         selectionColor={theming.theme.colorPalette.light}
-         placeholder={placeholder}
-         placeholderTextColor={theming.theme.colorPalette.principal}
-         maxLength={250}
-         {...input}
-       />
-     );
-   };
-
-  const renderTextInput = ({ input, placeholder }) => {
+  const renderSensation = ({ input, placeholder }) => {
     return (
-      <Input
+      <TextInput
         multiline
-        adjustsFontSizeToFit
-        numberOfLines={2}
+        allowFontScaling
+        textBreakStrategy="balanced"
+        maxLength={250}
+        selectionColor={theming.theme.colorPalette.light}
+        maxFontSizeMultiplier={2}
+        placeholder={placeholder}
+        placeholderTextColor={theming.theme.colorPalette.principal}
+        style={styles.sensation}
+        {...input}
+      />
+    );
+  };
+  const renderAuthor = ({ input, placeholder }) => {
+    return (
+      <TextInput
         style={styles.author}
         selectionColor={theming.theme.colorPalette.light}
         placeholder={placeholder}
@@ -48,116 +40,111 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
       />
     );
   };
-
   return (
     <Form
       onSubmit={onNewSensation}
       render={({ handleSubmit, submitting }) => (
-        <Container style={styles.container}>
-          <Content bordered style={styles.sensationContent}>
-            <View style={styles.sensationView}>
+        <View style={styles.rootContainer}>
+          <View style={styles.messageContainer}>
+            <View style={styles.sensationContainer}>
               <Field
-                component={renderTextAreaInput}
+                component={renderSensation}
                 name="message"
                 placeholder={messagePlaceholder}
               />
             </View>
-          </Content>
-          <Container style={styles.authorContainer}>
-            <Field
-              component={renderTextInput}
-              name="author"
-              placeholder={authorPlaceholder}
-            />
-          </Container>
-          <Container style={styles.footerContainer}>
-            <Container style={styles.sendContainer}>
-              <Button
-                full
-                onPress={handleSubmit}
-                disabled={submitting}
-                style={styles.button(submitting)}
-              >
-                <Text style={styles.buttonText(submitting)}>
-                  {" "}
-                  {submitting ? "Transmitiendo" : "Transmitir"}{" "}
-                </Text>
-              </Button>
-            </Container>
-          </Container>
-        </Container>
+            <View style={styles.authorContainer}>
+              <Field
+                component={renderAuthor}
+                name="author"
+                placeholder={authorPlaceholder}
+              />
+            </View>
+          </View>
+          <TouchableOpacity
+            onPress={handleSubmit}
+            disabled={submitting}
+            style={[
+              styles.buttonStyle,
+              styles.buttonConditionalStyle(submitting),
+            ]}
+          >
+            <Text style={styles.buttonText(submitting)}>
+              {submitting ? "Transmitiendo" : "Transmitir"}
+            </Text>
+          </TouchableOpacity>
+        </View>
       )}
     />
   );
 };
-
-const stylesByTheme = ThemeSheet.create(theme => ({
+const stylesByTheme = ThemeSheet.create((theme) => ({
   rootContainer: {
-    flex: 1
-  },
-  container: {
-    backgroundColor: theme.colorPalette.dark
-  },
-  sensationContent: {
-    marginTop: "15%",
-    flexGrow: 3,
+    flex: 1,
     flexDirection: "column",
-    backgroundColor: theme.colorPalette.dark,
-    borderTopColor: theme.colorPalette.info,
-    borderTopWidth: 1,
-    borderBottomColor: theme.colorPalette.info,
-    borderBottomWidth: 1
+    justifyContent: "space-around",
+    marginTop: 25,
+    marginBottom: 25,
   },
-  sensationView: {
-    margin: "5%"
+  messageContainer: {
+    justifyContent: "center",
+    flexGrow: 1,
+    marginRight: 20,
+    marginLeft: 20
   },
-  message: {
-    // FIXME: Use same margin as in Sensation item!
-    marginTop: "5%",
-    textAlign: "center",
-    textAlignVertical: "center",
-    fontSize: 23,
+  sensationContainer: {
+    flex: 3,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: theme.colorPalette.darker,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colorPalette.dark,
+  },
+  sensation: {
+    flexGrow: 1,
     fontFamily: theme.typography.fontFamilyLight,
     color: theme.colorPalette.light,
-    flexGrow: 1
+    fontSize: 23,
+    textAlign: "center",
   },
   authorContainer: {
-    flexGrow: 1,
-    margin: "5%",
-    backgroundColor: theme.colorPalette.dark
+    flex: 1,
   },
   author: {
     fontFamily: theme.typography.fontFamilyLight,
-    fontSize: 18,
     color: theme.colorPalette.light,
-    flexGrow: 1,
-    textAlign: "right"
+    backgroundColor: theme.colorPalette.darker,
+    fontSize: 18,
+    paddingRight: 20,
+    textAlign: "right",
   },
-  footerContainer: {
-    flexGrow: 1,
-    alignSelf: "flex-start",
-    backgroundColor: theme.colorPalette.dark,
-    flexWrap: "nowrap",
-    flexDirection: "row"
+  buttonStyle: {
+    padding: 15,
+    margin: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4.5,
+    elevation: 5,
   },
-  sendContainer: {
-    backgroundColor: theme.colorPalette.dark,
-    flexGrow: 1
+  buttonConditionalStyle(submitting) {
+    return {
+      backgroundColor: submitting
+        ? theme.colorPalette.light
+        : theme.colorPalette.principal,
+    };
   },
   buttonText(submitting) {
     return {
       fontFamily: theme.typography.fontFamilyLight,
       fontSize: 18,
-      color: submitting ? theme.colorPalette.dark : theme.colorPalette.light
+      textAlign: "center",
+      color: submitting ? theme.colorPalette.dark : theme.colorPalette.light,
     };
   },
-  button(submitting) {
-    return {
-      backgroundColor: submitting
-        ? theme.colorPalette.light
-        : theme.colorPalette.principal
-    };
-  }
 }));
 
 const NewSensationForm = withTheming(observer(NewSensationFormComponent));

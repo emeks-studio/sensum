@@ -1,6 +1,5 @@
 import React from "react";
-import { View } from "react-native";
-import { Header, Left, Right, Button, Icon } from "native-base";
+import { View, StyleSheet, StatusBar, Text, TouchableOpacity } from "react-native";
 import { showToast, TopBarTitle } from "./ui";
 import { NewSensationForm } from "./NewSensationForm";
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
@@ -34,18 +33,12 @@ const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming })
 
   return (
     <View style={styles.container}>
-      <Header
-        style={styles.header}
-        androidStatusBarColor={styles.header.backgroundColor}
-      >
-        <Left />
-        <TopBarTitle />
-        <Right>
-          <Button transparent onPress={goBack}>
-            <Icon type="FontAwesome" name="times" />
-          </Button>
-        </Right>
-      </Header>
+      <StatusBar color={styles.header.backgroundColor}/>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.buttonView} onPress={goBack}>
+          <Text style={styles.closeButton}>X</Text>
+        </TouchableOpacity>
+      </View>
       <NewSensationForm onNewSensation={onNewSensation} />
     </View>
   );
@@ -58,7 +51,17 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   },
   header: {
     backgroundColor: theme.colorPalette.dark,
+    flexDirection: 'row',
+    justifyContent: "flex-end",
     elevation: 0
+  },
+  buttonView: {
+    width: 32
+  },
+  closeButton: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold"
   }
 }));
 

@@ -29,6 +29,7 @@ const CarrierCrow = Oracle => {
   
   const suscribe = () => {
     console.debug('[CarrierCrow::suscribe]');
+    // OneSignal.setLogLevel(6, 0);
     OneSignal.init("f7a74ce7-d611-4732-b235-53209b389d69");
     
     // Android: Set Display option of the notifications. displayOption is of type OSInFocusDisplayOption

@@ -1,29 +1,36 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import {
-  Body,
-  Button,
-  Title
-} from 'native-base';
-import {
-  ColorPalette,
-  Typography
-} from '../../../assets/styles/SensumTheme';
+import React from "react";
+import { observer } from 'mobx-react';
+import { Body, Button, Title } from "native-base";
+import { ThemeSheet } from "../../../assets/styles/ThemeSheet";
+import { withTheming } from "../../util/theming";
 
-export const TopBarTitle = ({onPress}) => (
-  <Body>
-    <Button style={styles.headerButton} transparent onPress={() => onPress && onPress()}>
-      <Title style={styles.headerText}> sensum </Title>
-    </Button>
-  </Body>
-);
+const TopBarTitleComponent = ({ onPress, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
+  return (
+    <Body>
+      <Button
+        style={styles.headerButton}
+        transparent
+        onPress={() => onPress && onPress()}
+      >
+        <Title style={styles.headerText}> sensum </Title>
+      </Button>
+    </Body>
+  );
+};
 
-const styles = StyleSheet.create({
-  'headerButton': {
-    alignSelf: 'flex-end'    
+const stylesByTheme = ThemeSheet.create(theme => ({
+  headerButton: {
+    alignSelf: "flex-end"
   },
-  'headerText': {
-    color: ColorPalette.light,
-    fontFamily: Typography.fontFamilyLight,  
+  headerText: {
+    color: theme.colorPalette.light,
+    fontFamily: theme.typography.fontFamilyLight
   }
-});
+}));
+
+const TopBarTitle = withTheming(observer(TopBarTitleComponent));
+
+export {
+  TopBarTitle
+};

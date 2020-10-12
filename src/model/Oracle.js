@@ -47,7 +47,7 @@ class Oracle {
       runInAction(() => {
         this.networkFace = result.mood;
       });
-      return result.line;
+      return result;
     });
   }
 

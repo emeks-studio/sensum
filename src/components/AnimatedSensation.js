@@ -1,22 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Animated, Easing, StyleSheet } from "react-native";
+import { Animated, Easing } from "react-native";
 import { Text } from 'native-base';
 import { observer } from 'mobx-react';
 import { withModel } from '../model-components';
-import {
-  ColorPalette,
-  Typography
-} from '../../assets/styles/SensumTheme';
+import { ThemeSheet } from '../../assets/styles/ThemeSheet';
 import { calculateMessageText } from '../util/styleHelpers';
+import { withTheming } from "../util/theming";
 
 // min opacity
 // duration is in miliseconds
-export const AnimatedSensationComponent = ({ model: { Sensations } }) => {
+export const AnimatedSensationComponent = ({ model: { Sensations }, theming }) => {
   // animationValue will be used as the value for opacity. Initial Value: 0
-  const durationInMiliseconds = 2500;
   const animationValue = useRef(new Animated.Value(0.05)).current;
   const [max, setMax] = useState(1);
-  
+  const styles = stylesByTheme[theming.theme.id];
+  const durationInMiliseconds = 2500;
+
   useEffect(() => {
     fadeingAnimation()
   }, [max])
@@ -62,20 +61,20 @@ function shouldBeDenied(sensation) {
   return sensation.dislikes > sensation.likes;
 }
 
-const styles = StyleSheet.create({
+const stylesByTheme = ThemeSheet.create(theme => ({
   message: (length, denied = false, trending = false) => ({
     marginTop: calculateMessageText(length),
     textAlign: "center",
     textAlignVertical: "center",
     fontSize: 23,
-    fontFamily: Typography.fontFamilyLight,
-    color: denied ? ColorPalette.secondary : ColorPalette.light,
+    fontFamily: theme.typography.fontFamilyLight,
+    color: denied ? theme.colorPalette.secondary : theme.colorPalette.light,
     flexGrow: 1,
     textDecorationLine: denied ? 'line-through' : 'none'
   }),
-});
+}));
 
-const AnimatedSensation = withModel(observer(AnimatedSensationComponent));
+const AnimatedSensation = withTheming(withModel(observer(AnimatedSensationComponent)));
 
 export {
   AnimatedSensation

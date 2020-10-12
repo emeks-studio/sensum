@@ -1,29 +1,32 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { Button, Icon, Text, Container, Content, Spinner } from "native-base";
 import GestureRecognizer from "react-native-swipe-gestures";
 
-import { ColorPalette, Typography } from "../../assets/styles/SensumTheme";
+import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 
 import { AnimatedSensation } from "./AnimatedSensation";
 import { showToast } from "./ui";
 import { calculateMessageText } from "../util/styleHelpers";
 import { withModel } from "../model-components";
+import { withTheming } from "../util/theming";
 
-const SensationItemComponent = ({ model: { Sensations } }) => {
+const SensationItemComponent = ({ model: { Sensations }, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
+
   const vote = function(item, vote) {
     Sensations.vote(item, vote)
       .then(success => {
         let text;
         if (success) text = vote ? "Ionizando [+++]" : "Ionizando [---]";
         else text = "¡Sobrecargas en el núcleo!";
-        showToast({ text });
+        showToast({ text }, theming);
         // Sensations.next();
       })
       .catch(err => {
         console.debug(`[SensationItem::vote] Error: ${err}`);
-        showToast({ text: "El Oráculo está ocupado balanceando el núcleo" });
+        showToast({ text: "El Oráculo está ocupado balanceando el núcleo" }, theming);
       });
   };
 
@@ -33,7 +36,7 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
         <Container style={styles.container}>
           <Content bordered style={styles.sensationContent}>
             <View style={styles.singleView}>
-              <Spinner style={styles.spinner} color={ColorPalette.light} />
+              <Spinner style={styles.spinner} color={theming.theme.colorPalette.light} />
             </View>
           </Content>
           <Container style={styles.authorContainer}>
@@ -48,9 +51,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="minus"
-                  style={styles.customIcon(ColorPalette.secondary)}
+                  style={styles.customIcon(theming.theme.colorPalette.secondary)}
                 />
-                <Text style={styles.voteCount(ColorPalette.secondary)}>0</Text>
+                <Text style={styles.voteCount(theming.theme.colorPalette.secondary)}>0</Text>
               </Button>
             </Container>
             <Container style={styles.voteRightContainer}>
@@ -128,9 +131,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="minus"
-                  style={styles.customIcon(ColorPalette.secondary)}
+                  style={styles.customIcon(theming.theme.colorPalette.secondary)}
                 />
-                <Text style={styles.voteCount(ColorPalette.secondary)}>0</Text>
+                <Text style={styles.voteCount(theming.theme.colorPalette.secondary)}>0</Text>
               </Button>
             </Container>
             <Container style={styles.voteRightContainer}>
@@ -232,9 +235,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="minus"
-                  style={styles.customIcon(ColorPalette.secondary)}
+                  style={styles.customIcon(theming.theme.colorPalette.secondary)}
                 />
-                <Text style={styles.voteCount(ColorPalette.secondary)}>
+                <Text style={styles.voteCount(theming.theme.colorPalette.secondary)}>
                   {Sensations.current.dislikes}
                 </Text>
               </Button>
@@ -248,9 +251,9 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
                 <Icon
                   type="FontAwesome"
                   name="plus"
-                  style={styles.customIcon(ColorPalette.light)}
+                  style={styles.customIcon(theming.theme.colorPalette.light)}
                 />
-                <Text style={styles.voteCount(ColorPalette.light)}>
+                <Text style={styles.voteCount(theming.theme.colorPalette.light)}>
                   {Sensations.current.likes}
                 </Text>
               </Button>
@@ -284,7 +287,7 @@ const SensationItemComponent = ({ model: { Sensations } }) => {
     return renderLoading();
   } else {
     if (Sensations.error || Sensations.length === 0) {
-      showToast({ text: "😴  El Oráculo duerme un sueño imposible" });
+      showToast({ text: "😴  El Oráculo duerme un sueño imposible" }, theming);
       return renderEmpty();
     }
     return renderSensationItem();
@@ -300,21 +303,21 @@ function shouldBeDenied(sensation) {
   return sensation.dislikes > sensation.likes;
 }
 
-const styles = StyleSheet.create({
+const stylesByTheme = ThemeSheet.create(theme => ({
   rootContainer: {
     flex: 1
   },
   container: {
-    backgroundColor: ColorPalette.dark
+    backgroundColor: theme.colorPalette.dark
   },
   sensationContent: {
     marginTop: "15%",
     flexGrow: 3,
     flexDirection: "column",
-    backgroundColor: ColorPalette.dark,
-    borderTopColor: ColorPalette.info,
+    backgroundColor: theme.colorPalette.dark,
+    borderTopColor: theme.colorPalette.info,
     borderTopWidth: 1,
-    borderBottomColor: ColorPalette.info,
+    borderBottomColor: theme.colorPalette.info,
     borderBottomWidth: 1
   },
   sensationView: {
@@ -325,57 +328,57 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
     fontSize: 23,
-    fontFamily: Typography.fontFamilyLight,
-    color: denied ? ColorPalette.secondary : ColorPalette.light,
+    fontFamily: theme.typography.fontFamilyLight,
+    color: denied ? theme.colorPalette.secondary : theme.colorPalette.light,
     flexGrow: 1,
     textDecorationLine: denied ? "line-through" : "none"
   }),
   authorContainer: {
     flexGrow: 1,
     margin: "5%",
-    backgroundColor: ColorPalette.dark
+    backgroundColor: theme.colorPalette.dark
   },
   author: {
-    fontFamily: Typography.fontFamilyLight,
+    fontFamily: theme.typography.fontFamilyLight,
     fontSize: 18,
-    color: ColorPalette.light,
+    color: theme.colorPalette.light,
     flexGrow: 1,
     textAlign: "right"
   },
   footerContainer: {
     flexGrow: 1,
     alignSelf: "flex-start",
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     flexWrap: "nowrap",
     flexDirection: "row"
   },
   voteLeftContainer: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     flexGrow: 1
   },
   voteRightContainer: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     flexGrow: 1
   },
   buttonsSeparatorContainer: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     flexGrow: 2
   },
   nextButtonContainer: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     flexGrow: 1
   },
   backButtonContainer: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     flexGrow: 1
   },
-  customIcon: (color = ColorPalette.light, size = 18) => ({
+  customIcon: (color = theme.colorPalette.light, size = 18) => ({
     fontSize: size,
     color
   }),
-  voteCount: (color = ColorPalette.light, size = 18) => ({
+  voteCount: (color = theme.colorPalette.light, size = 18) => ({
     fontSize: size,
-    fontFamily: Typography.fontFamilyBold,
+    fontFamily: theme.typography.fontFamilyBold,
     color,
     paddingRight: "2%",
     paddingLeft: "1%"
@@ -386,8 +389,8 @@ const styles = StyleSheet.create({
   spinner: {
     margin: "15%"
   }
-});
+}));
 
-const SensationItem = withModel(observer(SensationItemComponent));
+const SensationItem = withTheming(withModel(observer(SensationItemComponent)));
 
 export { SensationItem };

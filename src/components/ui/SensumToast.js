@@ -1,27 +1,23 @@
-import {
-  Toast
-} from 'native-base';
-import {
-  ColorPalette,
-  Typography
-} from '../../../assets/styles/SensumTheme';
+import { Toast } from "native-base";
+import { ThemeSheet } from "../../../assets/styles/ThemeSheet";
 
 // params must provide property text
-export function showToast(params) {
+export function showToast(params, theming) {
+  const styles = stylesByTheme[theming.theme.id];
   const config = {
-    position: 'bottom',
+    position: "bottom",
     duration: 2500,
-    style: style.notification,
-    textStyle: style.text
+    style: styles.notification,
+    textStyle: styles.text
   };
   Toast.show(Object.assign(config, params));
 }
 
-const style = {
-  'notification': {
-    backgroundColor: ColorPalette.info
+const stylesByTheme = ThemeSheet.create(theme => ({
+  notification: {
+    backgroundColor: theme.colorPalette.info
   },
-  'text': {
-    fontFamily: Typography.fontFamilyLight
+  text: {
+    fontFamily: theme.typography.fontFamilyLight
   }
-};
+}));

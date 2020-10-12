@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { StyleSheet } from "react-native";
 import { Container, Header, Right, Button, Left } from "native-base";
 import { showToast, TopBarTitle, AnimatedFadeingIcon } from "./ui";
 import { Tamagochi } from "./Tamagochi";
 import SensumLogo from "../../assets/img/sensum_logo.svg";
-import { ColorPalette, Typography } from "../../assets/styles/SensumTheme";
+import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import User from "../model/User";
 import { withModel } from "../model-components";
+import { withTheming } from "../util/theming";
 
-const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
+const HomeScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
+  const styles = stylesByTheme[theming.theme.id];
+
   useEffect(() => {
     Oracle.init();
   }, [Oracle]);
@@ -24,8 +26,8 @@ const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
 
   const showNetwork = () => {
     User.tryGatherAcolytes().then(n => {
-      if (n) showToast({ text: `${n} electrones en órbita` });
-      else showToast({ text: `sin conexión` });
+      if (n) showToast({ text: `${n} electrones en órbita` }, theming);
+      else showToast({ text: `sin conexión` }, theming);
     });
   };
 
@@ -60,9 +62,9 @@ const HomeScreenComponent = ({ model: { Oracle }, navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const stylesByTheme = ThemeSheet.create(theme => ({
   header: {
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     shadowOpacity: 0,
     shadowOffset: {
       height: 0
@@ -71,8 +73,8 @@ const styles = StyleSheet.create({
     elevation: 0
   },
   headerText: {
-    color: ColorPalette.light,
-    fontFamily: Typography.fontFamilyLight,
+    color: theme.colorPalette.light,
+    fontFamily: theme.typography.fontFamilyLight,
     alignSelf: "flex-end"
   },
   container: {
@@ -80,26 +82,23 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: ColorPalette.dark
+    backgroundColor: theme.colorPalette.dark
   },
   transmissionButton: {
     position: "relative",
     height: 45,
     width: 45,
     marginTop: 20,
-    backgroundColor: ColorPalette.dark,
+    backgroundColor: theme.colorPalette.dark,
     borderColor: "transparent",
     alignSelf: "center",
     left: "15%",
     shadowOpacity: 0.8,
     elevation: 3
-  },
-  icon: {
-    color: ColorPalette.light
   }
-});
+}));
 
-const HomeScreen = withModel(observer(HomeScreenComponent));
+const HomeScreen = withTheming(withModel(observer(HomeScreenComponent)));
 
 HomeScreen.navigationOptions = {
   header: null

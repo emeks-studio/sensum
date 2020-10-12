@@ -12,8 +12,8 @@ const ModelContext = React.createContext({
 const useModel = () => React.useContext(ModelContext)
 
 // Wrapper version
-const withModel = (ComponentToWrap) => (props) => {
-  const model = useModel()
+const withModel = ComponentToWrap => props => {
+  const model = useModel();
   return <ComponentToWrap model={model} {...props} />;
 };
 

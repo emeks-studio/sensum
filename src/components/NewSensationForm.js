@@ -1,11 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { View, Text } from "react-native";
+import { TextInput, TouchableNativeFeedback } from "react-native-gesture-handler";
 import { Form, Field } from "react-final-form";
-import { ThemeSheet } from "../../assets/styles/ThemeSheet";
+import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withTheming } from "../util/theming";
-import SensumLogo from "../components/ui/svgs/Logo";
+import SensumLogo from "../assets/svgs/Logo";
 
 const messagePlaceholder =
   "¡Eres el elegido! Utiliza este cuadro de texto para transmitir tu sensación y así comience su viaje a través de la corriente.";
@@ -49,7 +49,7 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
           <View style={styles.messageContainer}>
             <View style={styles.sensationContainer}>
               <SensumLogo
-                slice={true}
+                slice
                 circleOpacity={0}
                 style={styles.logoBackground}
               />
@@ -67,7 +67,7 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
               />
             </View>
           </View>
-          <TouchableOpacity
+          <TouchableNativeFeedback
             onPress={handleSubmit}
             disabled={submitting}
             style={[
@@ -78,7 +78,7 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
             <Text style={styles.buttonText(submitting)}>
               {submitting ? "Transmitiendo" : "Transmitir"}
             </Text>
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </View>
       )}
     />
@@ -87,8 +87,7 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
 const stylesByTheme = ThemeSheet.create((theme) => ({
   rootContainer: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "space-around"
   },
   messageContainer: {
     justifyContent: "center",
@@ -96,6 +95,7 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   },
   sensationContainer: {
     flex: 3,
+    overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: theme.colorPalette.darker,
@@ -129,7 +129,6 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   },
   buttonStyle: {
     padding: 15,
-    margin: 15,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

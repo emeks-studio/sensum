@@ -2,11 +2,11 @@ import React from "react";
 import { View, StatusBar, TouchableOpacity } from "react-native";
 import { showToast } from "./ui";
 import { NewSensationForm } from "./NewSensationForm";
-import { ThemeSheet } from "../../assets/styles/ThemeSheet";
+import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { observer } from "mobx-react";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
-import Close from "../components/ui/svgs/closeAlt.svg";
+import Close from "../assets/svgs/closeAlt.svg";
 
 const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
@@ -34,10 +34,10 @@ const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming })
 
   return (
     <View style={styles.container}>
-      <StatusBar color={styles.header.backgroundColor}/>
+      <StatusBar color={styles.container.backgroundColor}/>
       <View style={styles.header}>
         <TouchableOpacity onPress={goBack}>
-          <Close style={styles.closeButton}/>
+          <Close style={styles.closeButton} fill={styles.closeButton.color} />
         </TouchableOpacity>
       </View>
       <NewSensationForm onNewSensation={onNewSensation} />
@@ -54,9 +54,10 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   header: {
     flexDirection: 'row',
     justifyContent: "flex-end",
-    marginBottom: 20
+    marginBottom: 15
   },
   closeButton: {
+    color: theme.colorPalette.light,
     height: 32,
     width: 32
   }

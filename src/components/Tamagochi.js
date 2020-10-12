@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Text, TouchableHighlight } from 'react-native';
 import { withModel } from '../model-components';
 import { showToast } from './ui';
-import { ThemeSheet } from '../../assets/styles/ThemeSheet';
+import { ThemeSheet } from '../assets/styles/ThemeSheet';
 import { withTheming } from "../util/theming";
 
 const TamagochiComponent = ({ model: { Oracle }, theming }) => {

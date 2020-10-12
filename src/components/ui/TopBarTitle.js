@@ -1,27 +1,27 @@
 import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import { observer } from 'mobx-react';
 import { Body, Button, Title } from "native-base";
-import { ThemeSheet } from "../../../assets/styles/ThemeSheet";
+import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { withTheming } from "../../util/theming";
 
 const TopBarTitleComponent = ({ onPress, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
   return (
-    <Body>
-      <Button
+    <View>
+      <TouchableOpacity
         style={styles.headerButton}
-        transparent
         onPress={() => onPress && onPress()}
       >
-        <Title style={styles.headerText}> sensum </Title>
-      </Button>
-    </Body>
+        <Text style={styles.headerText}> sensum </Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const stylesByTheme = ThemeSheet.create(theme => ({
   headerButton: {
-    alignSelf: "flex-end"
+    alignSelf: "center"
   },
   headerText: {
     color: theme.colorPalette.light,

@@ -31,6 +31,7 @@ const SensumLogo = ({
       />
       <Circle
         strokeMiterlimit={10}
+        strokeWidth={2}
         stroke={fillColor}
         strokeOpacity={circleOpacity}
         cx={124.5}

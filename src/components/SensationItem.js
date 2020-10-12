@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { Button, Icon, Text, Container, Content, Spinner } from "native-base";
 import GestureRecognizer from "react-native-swipe-gestures";
 
-import { ThemeSheet } from "../../assets/styles/ThemeSheet";
+import { ThemeSheet } from "../assets/styles/ThemeSheet";
 
 import { AnimatedSensation } from "./AnimatedSensation";
 import { showToast } from "./ui";

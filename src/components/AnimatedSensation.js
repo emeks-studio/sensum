@@ -3,7 +3,7 @@ import { Animated, Easing } from "react-native";
 import { Text } from 'native-base';
 import { observer } from 'mobx-react';
 import { withModel } from '../model-components';
-import { ThemeSheet } from '../../assets/styles/ThemeSheet';
+import { ThemeSheet } from '../assets/styles/ThemeSheet';
 import { calculateMessageText } from '../util/styleHelpers';
 import { withTheming } from "../util/theming";
 

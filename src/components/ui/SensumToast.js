@@ -1,5 +1,5 @@
 import { Toast } from "native-base";
-import { ThemeSheet } from "../../../assets/styles/ThemeSheet";
+import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 
 // params must provide property text
 export function showToast(params, theming) {

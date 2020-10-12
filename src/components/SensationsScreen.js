@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { View, Linking } from "react-native";
 import { Header, Left, Right, Button, Icon } from "native-base";
-import { ThemeSheet } from "../../assets/styles/ThemeSheet";
+import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 

@@ -5,6 +5,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { Form, Field } from "react-final-form";
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { withTheming } from "../util/theming";
+import SensumLogo from "../components/ui/svgs/Logo";
 
 const messagePlaceholder =
   "¡Eres el elegido! Utiliza este cuadro de texto para transmitir tu sensación y así comience su viaje a través de la corriente.";
@@ -47,6 +48,11 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
         <View style={styles.rootContainer}>
           <View style={styles.messageContainer}>
             <View style={styles.sensationContainer}>
+              <SensumLogo
+                slice={true}
+                circleOpacity={0}
+                style={styles.logoBackground}
+              />
               <Field
                 component={renderSensation}
                 name="message"
@@ -83,14 +89,10 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-around",
-    marginTop: 25,
-    marginBottom: 25,
   },
   messageContainer: {
     justifyContent: "center",
-    flexGrow: 1,
-    marginRight: 20,
-    marginLeft: 20
+    flexGrow: 1
   },
   sensationContainer: {
     flex: 3,
@@ -98,17 +100,24 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
     alignItems: "center",
     backgroundColor: theme.colorPalette.darker,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colorPalette.dark,
+    borderBottomColor: theme.colorPalette.dark
+  },
+  logoBackground: {
+    position: 'absolute',
+    width: '120%',
+    height: 200,
+    color: theme.colorPalette.dark
   },
   sensation: {
     flexGrow: 1,
+    padding: 10,
     fontFamily: theme.typography.fontFamilyLight,
     color: theme.colorPalette.light,
     fontSize: 23,
     textAlign: "center",
   },
   authorContainer: {
-    flex: 1,
+    flex: 1
   },
   author: {
     fontFamily: theme.typography.fontFamilyLight,

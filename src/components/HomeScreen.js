@@ -25,12 +25,6 @@ const HomeScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
     navigation.push("NewSensation");
   };
 
-  // const showNetwork = () => {
-  //   User.tryGatherAcolytes().then(n => {
-  //     if (n) showToast({ text: `${n} electrones en órbita` }, theming);
-  //     else showToast({ text: `sin conexión` }, theming);
-  //   });
-  // };
 
   return (
     <View style={styles.rootContainer}>

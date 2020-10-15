@@ -29,7 +29,11 @@ const CarrierCrow = Oracle => {
   
   const suscribe = () => {
     console.debug('[CarrierCrow::suscribe]');
-    // OneSignal.setLogLevel(6, 0);
+
+    // Onesignal's logcat/xcode error verbosity level
+    // 0 = NONE, 1 = FATAL, 2 = ERROR, 3 = WARN, 4 = INFO, 5 = DEBUG, 6 = VERBOSE
+    OneSignal.setLogLevel(0, 0);
+
     OneSignal.init("f7a74ce7-d611-4732-b235-53209b389d69");
     
     // Android: Set Display option of the notifications. displayOption is of type OSInFocusDisplayOption

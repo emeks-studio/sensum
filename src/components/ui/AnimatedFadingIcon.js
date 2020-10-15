@@ -3,7 +3,7 @@ import { Animated, Easing } from "react-native";
 
 // min opacity
 // duration is in miliseconds
-export const AnimatedFadingIcon = ({Icon}) => {
+export const AnimatedFadingIcon = ({icon: Icon}) => {
   // animationValue will be used as the value for opacity. Initial Value: 0
   const durationInMiliseconds = 1500;
   const animationValue = useRef(new Animated.Value(0)).current;

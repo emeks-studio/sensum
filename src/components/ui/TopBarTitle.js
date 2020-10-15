@@ -20,8 +20,7 @@ const TopBarTitleComponent = ({ onPress, theming, style }) => {
 const stylesByTheme = ThemeSheet.create(theme => ({
   titleBar: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: "center"
   },
   headerText: {
     color: theme.colorPalette.light,

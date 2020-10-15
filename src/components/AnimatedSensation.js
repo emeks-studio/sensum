@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Animated, Easing } from "react-native";
-import { Text } from 'native-base';
+import { Animated, Easing, Text } from "react-native";
 import { observer } from 'mobx-react';
 import { withModel } from '../model-components';
 import { ThemeSheet } from '../assets/styles/ThemeSheet';
@@ -36,18 +35,18 @@ export const AnimatedSensationComponent = ({ model: { Sensations }, theming }) =
 
   return (
     <Animated.View style={{ opacity: animationValue }}>
-      <Text multiline 
-            textBreakStrategy="balanced"
-            allowFontScaling
-            includeFontPadding={false}
-            maxFontSizeMultiplier={2}
-            adjustsFontSizeToFit
-            style={styles.message(
-              Sensations.current.message.length,
-              shouldBeDenied(Sensations.current),
-              isTrending(Sensations.current)
-            )}> {Sensations.current.message}
-      </Text>
+      <Text
+        textBreakStrategy="balanced"
+        allowFontScaling
+        maxFontSizeMultiplier={2}
+        adjustsFontSizeToFit
+        style={styles.message(
+          Sensations.current.message.length,
+          shouldBeDenied(Sensations.current),
+          isTrending(Sensations.current)
+        )}>
+          {Sensations.current.message}
+        </Text>
     </Animated.View>
   );
 };

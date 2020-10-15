@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { View, Text } from "react-native";
-import { TextInput, TouchableNativeFeedback } from "react-native-gesture-handler";
+import { View, Text, TouchableOpacity } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 import { Form, Field } from "react-final-form";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withTheming } from "../util/theming";
@@ -67,7 +67,7 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
               />
             </View>
           </View>
-          <TouchableNativeFeedback
+          <TouchableOpacity
             onPress={handleSubmit}
             disabled={submitting}
             style={[
@@ -78,7 +78,7 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
             <Text style={styles.buttonText(submitting)}>
               {submitting ? "Transmitiendo" : "Transmitir"}
             </Text>
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
         </View>
       )}
     />
@@ -104,7 +104,7 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   },
   logoBackground: {
     position: 'absolute',
-    width: '120%',
+    width: '110%',
     height: 200,
     color: theme.colorPalette.dark
   },

@@ -2,7 +2,6 @@ import React from "react";
 import Svg, { Path, Circle } from "react-native-svg";
 const SensumLogo = ({
   style = null,
-  // scale = 1,
   opacity = 1,
   circleOpacity = 1,
   rotate = 0,
@@ -12,8 +11,6 @@ const SensumLogo = ({
   return(
     <Svg
       viewBox="0 0 249 249"
-      // width={249 * scale}
-      // height={249 * scale}
       style={style}
       preserveAspectRatio={`xMidYMid ${slice ? 'slice' : 'meet'}`}
     >

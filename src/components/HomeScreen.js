@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { View, StatusBar, TouchableOpacity, Text } from "react-native";
+import { View, StatusBar, TouchableOpacity } from "react-native";
 import { AnimatedFadingIcon } from "./ui";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
@@ -32,13 +32,13 @@ const HomeScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
       <SensumLogo
         style={styles.logoBackground}
         slice
-        opacity={0.5}
+        opacity={1}
         circleOpacity={0.3}
         rotate={-45}
       />
       <View style={styles.header}>
         <TouchableOpacity onPress={goToPulse}>
-          <AnimatedFadingIcon Icon={ () => PulseIcon({
+          <AnimatedFadingIcon icon={ () => PulseIcon({
             style: styles.sensationsButton,
             fill: styles.sensationsButton.color
           })}/>

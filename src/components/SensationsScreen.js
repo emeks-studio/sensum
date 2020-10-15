@@ -42,10 +42,12 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
     <View style={styles.container}>
       <StatusBar color={styles.container.backgroundColor}/>
       <View style={styles.header}>
-        <View style={styles.closeButton}/>
         <TopBarTitle style={styles.headerTitle} onPress={showNetwork} />
         <TouchableOpacity onPress={goToHome}>
-          <CloseIcon style={styles.closeButton} fill={styles.closeButton.color} />
+          <CloseIcon
+            style={styles.closeButton}
+            fill={styles.closeButton.color}
+          />
         </TouchableOpacity>
       </View>
       <SensationItem />
@@ -56,13 +58,14 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
 const stylesByTheme = ThemeSheet.create(theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colorPalette.dark,
-    padding: 20
+    backgroundColor: theme.colorPalette.dark
   },
   header: {
     flexDirection: 'row',
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-end",
+    padding: 20,
+    paddingBottom: 0,
     marginBottom: 15
   },
   closeButton: {

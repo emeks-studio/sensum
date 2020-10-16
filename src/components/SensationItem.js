@@ -105,7 +105,7 @@ const SensationItemComponent = ({ model: { Sensations }, theming }) => {
     isTrending(sensation) && fadingAnimation();
     return (
       <>
-        <Animated.View style={[styles.messageView, { opacity: animationValue }]}>
+        <Animated.View style={[styles.messageContainer, { opacity: animationValue }]}>
           <ScrollView contentContainerStyle={styles.messageScrollContent}>
             <Text
               textBreakStrategy="balanced"
@@ -207,7 +207,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     height: 200,
     color: theme.colorPalette.darker
   },
-  messageView: {
+  messageContainer: {
     width: "100%",
     flex: 1
   },
@@ -215,8 +215,8 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "stretch",
-    paddingHorizontal: 20,
-    paddingTop: 20
+    paddingHorizontal: 30,
+    paddingVertical: 10
   },
   messageText: (denied = false) => ({
     textAlign: "center",
@@ -231,17 +231,13 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     width: "100%",
     justifyContent: "center",
     alignItems: "flex-end",
-    paddingHorizontal: 20
+    paddingHorizontal: 30
   },
   authorText: {
     fontFamily: theme.typography.fontFamilyLight,
     color: theme.colorPalette.light,
     textAlign: "right",
     fontSize: 18
-  },
-  authorContainer: {
-    justifyContent: 'center',
-    alignItems: 'flex-end',
   },
   // Controls
   controlsContainer: {

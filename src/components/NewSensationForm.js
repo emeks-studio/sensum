@@ -24,7 +24,7 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
         maxFontSizeMultiplier={2}
         placeholder={placeholder}
         placeholderTextColor={theming.theme.colorPalette.principal}
-        style={styles.sensation}
+        style={styles.message}
         {...input}
       />
     );
@@ -46,13 +46,13 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
       onSubmit={onNewSensation}
       render={({ handleSubmit, submitting }) => (
         <View style={styles.rootContainer}>
-          <View style={styles.messageContainer}>
-            <View style={styles.sensationContainer}>
-              <SensumLogo
-                slice
-                circleOpacity={0}
-                style={styles.logoBackground}
-              />
+          <View style={styles.sensationContainer}>
+            <SensumLogo
+              slice
+              circleOpacity={0}
+              style={styles.logoBackground}
+            />
+            <View style={styles.messageContainer}>
               <Field
                 component={renderSensation}
                 name="message"
@@ -67,18 +67,20 @@ const NewSensationFormComponent = ({ onNewSensation, theming }) => {
               />
             </View>
           </View>
-          <TouchableOpacity
-            onPress={handleSubmit}
-            disabled={submitting}
-            style={[
-              styles.buttonStyle,
-              styles.buttonConditionalStyle(submitting),
-            ]}
-          >
-            <Text style={styles.buttonText(submitting)}>
-              {submitting ? "Transmitiendo" : "Transmitir"}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={handleSubmit}
+              disabled={submitting}
+              style={[
+                styles.buttonStyle,
+                styles.buttonConditionalStyle(submitting),
+              ]}
+            >
+              <Text style={styles.buttonText(submitting)}>
+                {submitting ? "Transmitiendo" : "Transmitir"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     />
@@ -89,16 +91,17 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
     flex: 1,
     justifyContent: "space-around"
   },
-  messageContainer: {
-    justifyContent: "center",
-    flexGrow: 1
-  },
   sensationContainer: {
+    justifyContent: "center",
+    alignItems: "center",
     flex: 3,
+    backgroundColor: theme.colorPalette.darker,
+  },
+  messageContainer: {
+    flex: 1,
     overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.colorPalette.darker,
     borderBottomWidth: 1,
     borderBottomColor: theme.colorPalette.dark
   },
@@ -108,24 +111,31 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
     height: 200,
     color: theme.colorPalette.dark
   },
-  sensation: {
+  message: {
     flexGrow: 1,
     padding: 10,
     fontFamily: theme.typography.fontFamilyLight,
     color: theme.colorPalette.light,
     fontSize: 23,
-    textAlign: "center",
+    textAlign: "center"
   },
   authorContainer: {
-    flex: 1
+    height: 64,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    paddingRight: 10,
   },
   author: {
     fontFamily: theme.typography.fontFamilyLight,
     color: theme.colorPalette.light,
-    backgroundColor: theme.colorPalette.darker,
     fontSize: 18,
-    paddingRight: 20,
-    textAlign: "right",
+    textAlign: "right"
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "stretch"
   },
   buttonStyle: {
     padding: 15,

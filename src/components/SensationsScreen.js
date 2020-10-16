@@ -64,8 +64,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     flexDirection: 'row',
     justifyContent: "space-between",
     alignItems: "flex-end",
-    padding: 20,
-    paddingBottom: 0,
+    margin: 20,
     marginBottom: 15
   },
   closeButton: {

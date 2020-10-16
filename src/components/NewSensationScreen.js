@@ -49,11 +49,12 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.colorPalette.dark,
-    padding: 20
+    paddingHorizontal: 20
   },
   header: {
     flexDirection: 'row',
     justifyContent: "flex-end",
+    marginTop: 20,
     marginBottom: 15
   },
   closeButton: {

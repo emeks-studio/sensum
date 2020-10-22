@@ -6,7 +6,7 @@ import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { observer } from "mobx-react";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
-import Close from "../assets/svgs/closeAlt.svg";
+import Close from "../assets/svgs/close.svg";
 
 const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
   const styles = stylesByTheme[theming.theme.id];

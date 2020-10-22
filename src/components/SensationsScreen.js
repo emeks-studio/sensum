@@ -7,7 +7,7 @@ import { withTheming } from "../util/theming";
 import { SensationItem } from "./SensationItem";
 import { TopBarTitle, showToast } from "./ui";
 import User from "../model/User";
-import CloseIcon from "../assets/svgs/closeAlt.svg";
+import CloseIcon from "../assets/svgs/close.svg";
 
 const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
@@ -22,6 +22,7 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
     navigation.navigate("Home");
   };
 
+  // TODO: Move to credits screen (We could use the title as a button for displaying the new)
   const goToLore = () => {
     const url = "https://emeks.gitlab.io/sensum/lore/";
     Linking.canOpenURL(url).then(supported => {

@@ -30,7 +30,6 @@ const happyTheme = {
   }
 }
 
-// TODO: Change me!
 const neutralTheme = {
   id: 'neutralTheme',
   colorPalette: {

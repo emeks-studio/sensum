@@ -8,7 +8,8 @@ import { AppRouter } from './AppRouter';
 import ReduxStore from '../state/ReduxStore';
 import { configCarrierCrow } from '../model/CarrierCrow';
 import { useModel } from '../model-components';
-import { showToast } from './ui';
+import { ToastProvider } from './ui/useToast';
+import { useToast } from './ui';
 import { handleBackButton } from '../util/navigator';
 import { useTheming } from '../util/theming';
 
@@ -16,6 +17,7 @@ function AppComponent() {
   const [state, setState ] = useState({
     appState: AppState.currentState,
   });
+  const showToast = useToast();
   const { theming } = useTheming();
   const { Oracle } = useModel();
   const CarrierCrow = configCarrierCrow({ Oracle });
@@ -31,11 +33,11 @@ function AppComponent() {
     Oracle.praiseTheSun()
     .then(result => {
       theming.setThemeBy(result.mood);
-      showToast({ text: result.line}, theming);
+      showToast(result.line)
     })
     .catch(_ => {
       // FIXME: Change message text!
-      showToast({ text: `sin conexión` }, theming)
+      showToast("Sin conexión")
     });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {
@@ -63,7 +65,9 @@ function AppComponent() {
   return (
     <Provider store={ReduxStore}>
       <Root>
-        <AppRouter />
+        <ToastProvider>
+          <AppRouter />
+        </ToastProvider>
       </Root>  
     </Provider>   
   );

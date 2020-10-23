@@ -1,17 +1,25 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Animated, Text } from "react-native";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  createContext,
+} from "react";
+import { Animated } from "react-native";
 import { Toast } from "./Toast";
 
-const useToast = ({height = 50, speed = 300} = {}) => {
-  const [toast, setToast] = useState (null);
-  const heightValue = useRef(new Animated.Value(height)).current;
+const ToastContext = createContext();
 
-  const animateToast = (expectedHeight) => ( 
+export const ToastProvider = ({ children, height = 50, speed = 300 }) => {
+  const [toast, setToast] = useState(null);
+
+  const heightValue = useRef(new Animated.Value(height)).current;
+  const animateToast = (expectedHeight) =>
     Animated.timing(heightValue, {
       toValue: expectedHeight,
-      duration: speed
-    })
-  );
+      duration: speed,
+    });
   const toastUp = () => animateToast(0).start();
   const toastDown = () => animateToast(height).start(() => setToast(null));
 
@@ -20,17 +28,19 @@ const useToast = ({height = 50, speed = 300} = {}) => {
     toastUp();
     const timeout = setTimeout(() => toastDown(), toast.duration);
     return () => clearTimeout(timeout);
-  }, [toast])
+  }, [toast]);
 
-  const showToast = (message = "", duration = 3000) => {
-    setToast({message, duration});
-  }
+  const showToast = useCallback(
+    (message = "", duration = 3000) => { setToast({ message, duration }); },
+    [setToast]
+  )
 
-  const renderToast = () => (
-    toast && <Toast message={toast.message} animValue={heightValue}/>
+  return (
+    <ToastContext.Provider value={showToast}>
+      {children}
+      {toast && <Toast message={toast.message} animValue={heightValue} />}
+    </ToastContext.Provider>
   );
+};
 
-  return [ showToast, renderToast ];
-}
-
-export { useToast };
+export const useToast = () => useContext(ToastContext);

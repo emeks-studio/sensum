@@ -2,19 +2,18 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Text, TouchableHighlight } from 'react-native';
 import { withModel } from '../model-components';
-import { showToast } from './ui';
+import { useToast } from './ui';
 import { ThemeSheet } from '../assets/styles/ThemeSheet';
 import { withTheming } from "../util/theming";
 
 const TamagochiComponent = ({ model: { Oracle }, theming }) => {
+  const showToast = useToast();
   const styles = stylesByTheme[theming.theme.id];
 
   const onPress = () => {
     Oracle.advanceLine();
     const newLine = Oracle.getLine;
-    if (newLine) {
-      showToast({text: newLine}, theming);
-    }
+    if (newLine) showToast(newLine);
   };
   
   return (

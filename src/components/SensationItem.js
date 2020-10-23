@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { observer } from "mobx-react";
 import { 
   View,
@@ -12,7 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import GestureRecognizer from "react-native-swipe-gestures";
 import { SensationControls } from "./SensationControls";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
-import { showToast } from "./ui";
+import { useToast } from "./ui";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import SensumLogo from "../assets/svgs/Logo";
@@ -28,8 +28,9 @@ function shouldBeDenied(sensation) {
 
 const SensationItemComponent = ({ model: { Sensations }, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
+  const showToast = useToast();
 
-  // TODO: This should be its own component
+  // TODO: This could be its own component
   const Sensation = ({sensation}) => {
     const animationValue = useRef(new Animated.Value(1)).current;
     const fadingAnimation = (val = 0) => {
@@ -110,7 +111,9 @@ const SensationItemComponent = ({ model: { Sensations }, theming }) => {
           <SensumLogo slice circleOpacity={0} style={styles.logoBackground}/>
           <Sensation sensation={Sensations.current}/>
         </GestureRecognizer>
-        <SensationControls/>
+        <View style={styles.controlsContainer}>
+          <SensationControls/>
+        </View>
       </View>
     )
   }
@@ -119,7 +122,7 @@ const SensationItemComponent = ({ model: { Sensations }, theming }) => {
     return renderLoading();
   } else {
     if (Sensations.error || Sensations.length === 0) {
-      showToast({ text: "😴  El Oráculo duerme un sueño imposible" }, theming);
+      showToast("😴  El Oráculo duerme un sueño imposible");
       return renderError();
     }
     return renderItem();
@@ -174,6 +177,24 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     textAlign: "right",
     fontSize: 18
   },
+  // Controls
+  controlsContainer: {
+    flex: 1,
+    backgroundColor: theme.colorPalette.darker,
+    justifyContent: "center",
+  },
+  controlsButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    flexBasis: 64,
+    height: 64,
+  },
+  controlsIcon: (alt = false) => ({
+    color: alt ? theme.colorPalette.secondary : theme.colorPalette.light,
+    height: 32,
+    width: 32,
+  }),
 }));
 
 const SensationItem = withTheming(withModel(observer(SensationItemComponent)));

@@ -5,11 +5,12 @@ import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import { SensationItem } from "./SensationItem";
-import { TopBarTitle, showToast } from "./ui";
+import { TopBarTitle, useToast } from "./ui";
 import User from "../model/User";
 import CloseIcon from "../assets/svgs/close.svg";
 
 const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming }) => {
+  const showToast = useToast();
   const styles = stylesByTheme[theming.theme.id];
 
   useEffect(() => {
@@ -34,8 +35,8 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
 
   const showNetwork = () => {
     User.tryGatherAcolytes().then(n => {
-      if (n) showToast({ text: `${n} electrones en órbita` }, theming);
-      else showToast({ text: `Sin conexión` }, theming);
+      if (n) showToast(`${n} electrones en órbita`);
+      else showToast("Sin conexión");
     });
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StatusBar, TouchableOpacity } from "react-native";
-import { showToast } from "./ui";
+import { useToast } from "./ui";
 import { NewSensationForm } from "./NewSensationForm";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { observer } from "mobx-react";
@@ -9,6 +9,7 @@ import { withTheming } from "../util/theming";
 import Close from "../assets/svgs/close.svg";
 
 const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
+  const showToast = useToast();
   const styles = stylesByTheme[theming.theme.id];
   
   const onNewSensation = ({ author, message }) => {
@@ -16,15 +17,11 @@ const NewSensationScreenComponent = ({ model: { Oracle }, navigation, theming })
       .then(() => {
         console.debug("[NewSensationScreen.newSensation] Successfully sent");
         navigation.popToTop();
-        showToast({
-          text: "Tu sensación se está transmitiendo a través de la corriente"
-        }, theming);
+        showToast("Tu sensación se está transmitiendo a través de la corriente");
       })
       .catch(error => {
         console.debug("[NewSensationScreen.newSensation] Error", error);
-        showToast({
-          text: "Tu mensaje aún no es digno de ser enviado, modifícalo"
-        }, theming);
+        showToast("Tu mensaje aún no es digno de ser enviado, modifícalo");
       });
   };
 

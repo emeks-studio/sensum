@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { View, TouchableOpacity, Text } from "react-native";
-import { showToast } from "./ui";
+import { useToast } from "./ui";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
@@ -11,6 +11,7 @@ import ControlPlus from "../assets/svgs/controlPlus.svg";
 import ControlMinus from "../assets/svgs/controlMinus.svg";
 
 const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
+  const showToast = useToast();
   const styles = stylesByTheme[theming.theme.id];
 
   const vote = function(item, vote) {
@@ -19,15 +20,12 @@ const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
         let text;
         if (success) text = vote ? "Ionizando [+++]" : "Ionizando [---]";
         else text = "¡Sobrecargas en el núcleo!";
-        showToast({ text }, theming);
+        showToast(text);
         // Sensations.next();
       })
       .catch((err) => {
         console.debug(`[SensationItem::vote] Error: ${err}`);
-        showToast(
-          { text: "El Oráculo está ocupado balanceando el núcleo" },
-          theming
-        );
+        showToast("El Oráculo está ocupado balanceando el núcleo");
       });
   };
 
@@ -36,53 +34,44 @@ const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
   const prev = () => Sensations.back();
   const next = () => Sensations.next();
   return (
-    <View style={styles.controlsContainer}>
-      <View style={styles.controlsBar}>
-        <View style={styles.controlsSection}>
-          <TouchableOpacity style={styles.controlsButton} onPress={minus}>
-            <ControlMinus
-              style={styles.controlsIcon(true)}
-              fill={styles.controlsIcon(true).color}
-            />
-            <Text style={styles.controlsText(true)}>
-              {Sensations.current.dislikes}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.controlsButton} onPress={plus}>
-            <ControlPlus
-              style={styles.controlsIcon()}
-              fill={styles.controlsIcon().color}
-            />
-            <Text style={styles.controlsText()}>
-              {Sensations.current.likes}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.controlsSection}>
-          <TouchableOpacity style={styles.controlsButton} onPress={prev}>
-            <ControlBack
-              style={styles.controlsIcon()}
-              fill={styles.controlsIcon().color}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.controlsButton} onPress={next}>
-            <ControlForward
-              style={styles.controlsIcon()}
-              fill={styles.controlsIcon().color}
-            />
-          </TouchableOpacity>
-        </View>
+    <View style={styles.controlsBar}>
+      <View style={styles.controlsSection}>
+        <TouchableOpacity style={styles.controlsButton} onPress={minus}>
+          <ControlMinus
+            style={styles.controlsIcon(true)}
+            fill={styles.controlsIcon(true).color}
+          />
+          <Text style={styles.controlsText(true)}>
+            {Sensations.current.dislikes}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.controlsButton} onPress={plus}>
+          <ControlPlus
+            style={styles.controlsIcon()}
+            fill={styles.controlsIcon().color}
+          />
+          <Text style={styles.controlsText()}>{Sensations.current.likes}</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.controlsSection}>
+        <TouchableOpacity style={styles.controlsButton} onPress={prev}>
+          <ControlBack
+            style={styles.controlsIcon()}
+            fill={styles.controlsIcon().color}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.controlsButton} onPress={next}>
+          <ControlForward
+            style={styles.controlsIcon()}
+            fill={styles.controlsIcon().color}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const stylesByTheme = ThemeSheet.create((theme) => ({
-  controlsContainer: {
-    flex: 1,
-    backgroundColor: theme.colorPalette.darker,
-    justifyContent: "center",
-  },
   controlsBar: {
     flex: 1,
     flexDirection: "row",

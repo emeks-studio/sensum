@@ -1,7 +1,6 @@
 
 import React, { useEffect } from "react";
 import { Animated, Text } from "react-native";
-import { observer } from 'mobx-react';
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { withTheming } from "../../util/theming";
 
@@ -35,7 +34,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const Toast = withTheming(observer(ToastComponent));
+const Toast = withTheming(ToastComponent);
 
 export {
   Toast

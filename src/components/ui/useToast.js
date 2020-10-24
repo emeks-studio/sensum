@@ -11,7 +11,7 @@ import { Toast } from "./Toast";
 
 const ToastContext = createContext();
 
-export const ToastProvider = ({ children, height = 50, speed = 300 }) => {
+const useToastState = (height = 50, speed = 300) => {
   const [toast, setToast] = useState(null);
 
   const heightValue = useRef(new Animated.Value(height)).current;
@@ -31,16 +31,22 @@ export const ToastProvider = ({ children, height = 50, speed = 300 }) => {
   }, [toast]);
 
   const showToast = useCallback(
-    (message = "", duration = 3000) => { setToast({ message, duration }); },
+    (message = "", duration = 2000) => { setToast({ message, duration }); },
     [setToast]
   )
 
+  return {message: toast?.message, anim: heightValue, showToast}
+};
+
+export const ToastProvider = ({ children, height, speed }) => {
+  const {message, anim, showToast} = useToastState(height, speed);
   return (
     <ToastContext.Provider value={showToast}>
       {children}
-      {toast && <Toast message={toast.message} animValue={heightValue} />}
+      <Toast message={message} animValue={anim} />
     </ToastContext.Provider>
   );
 };
 
 export const useToast = () => useContext(ToastContext);
+export default useToast;

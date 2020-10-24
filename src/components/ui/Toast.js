@@ -6,7 +6,7 @@ import { withTheming } from "../../util/theming";
 
 const ToastComponent = ({ message, animValue = 0, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
-
+  if(!message) return null;
   return (
     <Animated.View style={styles.toastContainer(animValue)}>
         <Text style={styles.toastText}>{message}</Text>

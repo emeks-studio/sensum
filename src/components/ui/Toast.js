@@ -20,6 +20,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     position: 'absolute',
     backgroundColor: theme.colorPalette.info,
     justifyContent: 'center',
+    padding: 10,
     left: 0,
     right: 0,
     bottom: 0,
@@ -29,8 +30,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   toastText: {
     color: theme.colorPalette.light,
     fontFamily: theme.typography.fontFamilyLight,
-    fontSize: 18,
-    paddingHorizontal: 20
+    fontSize: 17
   }
 }));
 

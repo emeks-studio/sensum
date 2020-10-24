@@ -88,7 +88,7 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    flexBasis: 64,
+    width: 64,
     height: 64,
   },
   controlsIcon: (alt = false) => ({

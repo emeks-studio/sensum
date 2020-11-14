@@ -1,4 +1,4 @@
-import useToast from './useToast';
+import { useToast } from './useToast';
 import { TopBarTitle } from './TopBarTitle';
 import { AnimatedFadingIcon } from './AnimatedFadingIcon';
 

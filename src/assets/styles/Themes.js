@@ -5,7 +5,7 @@ const noConnectionTheme = {
     darker: "#B691FF",
     principal: "#CBAAFF",
     secondary: "#9773D1",
-    info: "#4B3968",
+    info: "#CBAAFF", // Para las notificaciones todo oscuro quedaba chotis!
     light: "#271F34"
   },
   typography: {

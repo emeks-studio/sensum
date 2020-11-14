@@ -36,7 +36,7 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
   const showNetwork = () => {
     User.tryGatherAcolytes().then(n => {
       if (n) showToast(`${n} electrones en órbita`);
-      else showToast("Sin conexión");
+      else showToast("😴  ya guey! no insistas");
     });
   };
 

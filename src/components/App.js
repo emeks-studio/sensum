@@ -35,8 +35,8 @@ function AppComponent() {
       showToast(result.line)
     })
     .catch(_ => {
-      // FIXME: Change message text!
-      showToast("Sin conexión")
+      theming.setThemeBy();
+      showToast("😴  El Oráculo duerme un sueño imposible");
     });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {

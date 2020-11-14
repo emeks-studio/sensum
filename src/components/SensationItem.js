@@ -76,7 +76,7 @@ const SensationItemComponent = ({ model: { Sensations }, theming }) => {
     return renderLoading();
   } else {
     if (Sensations.error || Sensations.length === 0) {
-      showToast("😴  El Oráculo duerme un sueño imposible");
+      showToast("😴  Deja dormir en paz al Oráculo");
       return renderError();
     }
     return renderItem();

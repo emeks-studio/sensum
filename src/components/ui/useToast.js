@@ -48,5 +48,8 @@ export const ToastProvider = ({ children, height, speed }) => {
   );
 };
 
-export const useToast = () => useContext(ToastContext);
-export default useToast;
+const useToast = () => useContext(ToastContext);
+
+export {
+  useToast
+};

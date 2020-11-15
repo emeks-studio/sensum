@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { observer } from "mobx-react";
 import { View, Text, Animated, Easing } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -6,59 +6,47 @@ import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 
-// FIXME: Sometimes fading is to fast ?)
 const useFading = () => {
   const animationValue = useRef(new Animated.Value(1)).current;
-  const fadingAnimationWhile = (shouldRepeatFn, val = 0) => {
-    if (shouldRepeatFn()) {
-      Animated.timing(animationValue, {
-        toValue: val,
-        duration: 2500,
-        easing: Easing.linear,
-      }).start(() => {
-        fadingAnimationWhile(shouldRepeatFn, 1 - val);
-      });
-    } else {
-      animationValue.setValue(1);
-    }
+  const fadingAnimation = (val = 0) => {
+    Animated.timing(animationValue, {
+      toValue: val,
+      duration: 2500,
+      easing: Easing.linear,
+    }).start(() => fadingAnimation(1 - val));
   };
-  return [animationValue, fadingAnimationWhile];
+  return [animationValue, fadingAnimation];
 };
-
 function isTrending(sensation) {
   const dislikes = sensation.dislikes === 0 ? 1 : sensation.dislikes;
   return sensation.likes >= dislikes * 5;
 }
-
 function shouldBeDenied(sensation) {
   return sensation.dislikes > sensation.likes;
 }
 
 const SensationMessageComponent = ({ model: { Sensations }, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
-  const [animationValue, fadingAnimationWhile] = useFading();
-  
-  useEffect(() => {
-    fadingAnimationWhile(() => isTrending(Sensations.current));
-  }, [Sensations.current, Sensations.current.likes, Sensations.current.dislikes]);
-
+  const sensation = Sensations.current;
+  const [animValue, startFading] = useFading();
+  isTrending(sensation) && startFading();
   return (
     <>
-      <Animated.View style={[styles.messageContainer, { opacity: animationValue }]}>
+      <Animated.View style={[styles.messageContainer, { opacity: animValue }]}>
         <ScrollView contentContainerStyle={styles.messageScrollContent}>
           <Text
             textBreakStrategy="balanced"
             allowFontScaling
             maxFontSizeMultiplier={2}
             adjustsFontSizeToFit
-            style={styles.messageText(shouldBeDenied(Sensations.current))}
+            style={styles.messageText(shouldBeDenied(sensation))}
           >
-            {Sensations.current.message}
+            {sensation.message}
           </Text>
         </ScrollView>
       </Animated.View>
       <View style={styles.authorView}>
-        <Text style={styles.authorText}>{`~ ${Sensations.current.author}`}</Text>
+        <Text style={styles.authorText}>{`~ ${sensation.author}`}</Text>
       </View>
     </>
   );

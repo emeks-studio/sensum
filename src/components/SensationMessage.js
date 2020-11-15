@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { observer } from "mobx-react";
 import { View, Text, Animated, Easing } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -6,16 +6,33 @@ import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 
-const useFading = () => {
-  const animationValue = useRef(new Animated.Value(1)).current;
-  const fadingAnimation = (val = 0) => {
-    Animated.timing(animationValue, {
-      toValue: val,
-      duration: 2500,
-      easing: Easing.linear,
-    }).start(() => fadingAnimation(1 - val));
-  };
-  return [animationValue, fadingAnimation];
+const useFading = (active=false) => {
+  const animationValue = useRef(new Animated.Value(0)).current;
+  const fading = useRef(
+    Animated.loop(
+      Animated.timing(animationValue, {
+        toValue: 1,
+        duration: 3500,
+        isInteraction: false,
+        useNativeDriver: true,
+        easing: Easing.linear,
+    }))
+  ).current
+
+  useEffect(()=>{
+    const stopAnimation = () => {
+      fading.stop();
+      animationValue.setValue(0);
+    };
+    active ? fading.start() : stopAnimation();
+    return stopAnimation;
+  }, [active]);
+
+  const opacity = animationValue.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [1, 0, 1]
+  });
+  return [opacity];
 };
 function isTrending(sensation) {
   const dislikes = sensation.dislikes === 0 ? 1 : sensation.dislikes;
@@ -28,8 +45,7 @@ function shouldBeDenied(sensation) {
 const SensationMessageComponent = ({ model: { Sensations }, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
   const sensation = Sensations.current;
-  const [animValue, startFading] = useFading();
-  isTrending(sensation) && startFading();
+  const [animValue] = useFading(isTrending(sensation));
   return (
     <>
       <Animated.View style={[styles.messageContainer, { opacity: animValue }]}>

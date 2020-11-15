@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { observer } from "mobx-react";
 import _ from 'lodash';
-import { AppState, BackHandler } from 'react-native';
+import { AppState, BackHandler, Platform } from 'react-native';
 import { Provider } from 'react-redux';
+import BackgroundColor from 'react-native-background-color';
 import { AppRouter } from './AppRouter';
 import ReduxStore from '../state/ReduxStore';
 import { configCarrierCrow } from '../model/CarrierCrow';
@@ -65,6 +66,11 @@ function AppComponent() {
 }
 
 const AppWithProviders = () => {
+  useEffect(()=>{
+    if(Platform.OS === "android") {
+      setTimeout(() => { BackgroundColor.setColor("#271F34") }, 500);
+    }
+  }, []);
   return (
     <Provider store={ReduxStore}>
       <ToastProvider>

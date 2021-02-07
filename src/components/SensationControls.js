@@ -29,8 +29,8 @@ const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
       });
   };
 
-  const minus = () => vote(Sensations.current, false);
-  const plus = () => vote(Sensations.current, true);
+  const minus = () => Sensations.current && vote(Sensations.current, false);
+  const plus = () => Sensations.current && vote(Sensations.current, true);
   const prev = () => Sensations.back();
   const next = () => Sensations.next();
   return (
@@ -42,7 +42,7 @@ const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
             fill={styles.controlsIcon(true).color}
           />
           <Text style={styles.controlsText(true)}>
-            {Sensations.current.dislikes}
+            {Sensations?.current?.dislikes}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.controlsButton} onPress={plus}>
@@ -50,7 +50,7 @@ const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
             style={styles.controlsIcon()}
             fill={styles.controlsIcon().color}
           />
-          <Text style={styles.controlsText()}>{Sensations.current.likes}</Text>
+          <Text style={styles.controlsText()}>{Sensations?.current?.likes}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.controlsSection}>

@@ -41,7 +41,7 @@ const SensationItemComponent = ({ model: { Sensations }, theming }) => {
         <View style={styles.controlsContainer}>
           <TouchableOpacity
             style={styles.refetchButton}
-            onPress={() => Sensations.getMoreSensations()}
+            onPress={() => Sensations.asyncNext()}
           >
             <EyeIcon
               style={styles.refetchIcon}

@@ -15,8 +15,7 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
 
   useEffect(() => {
     console.debug("[SensationsScreen::refresh]");
-    Sensations.reset();
-    Sensations.getMoreSensations();
+    Sensations.init();
   }, []);
 
   const goToHome = () => {

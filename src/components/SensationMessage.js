@@ -6,63 +6,54 @@ import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 
-const useFading = (active=false) => {
+const useFadingRef = () => {
   const animationValue = useRef(new Animated.Value(0)).current;
+  const fadingRef = useRef(animationValue.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [1, 0, 1]
+  }));
+
   const fading = useRef(
     Animated.loop(
       Animated.timing(animationValue, {
         toValue: 1,
         duration: 3500,
+        useNativeDriver: false,
         isInteraction: false,
-        useNativeDriver: true,
         easing: Easing.linear,
     }))
   ).current
 
   useEffect(()=>{
-    const stopAnimation = () => {
-      fading.stop();
-      animationValue.setValue(0);
-    };
-    active ? fading.start() : stopAnimation();
-    return stopAnimation;
-  }, [active]);
-
-  const opacity = animationValue.interpolate({
-    inputRange: [0, 0.5, 1],
-    outputRange: [1, 0, 1]
+    fading.start();
   });
-  return [opacity];
+  
+  return [fadingRef];
 };
-function isTrending(sensation) {
-  const dislikes = sensation.dislikes === 0 ? 1 : sensation.dislikes;
-  return sensation.likes >= dislikes * 5;
-}
-function shouldBeDenied(sensation) {
-  return sensation.dislikes > sensation.likes;
-}
 
 const SensationMessageComponent = ({ model: { Sensations }, theming }) => {
   const styles = stylesByTheme[theming.theme.id];
-  const sensation = Sensations.current;
-  const [animValue] = useFading(isTrending(sensation));
+  const [fadingRef] = useFadingRef();
   return (
     <>
-      <Animated.View style={[styles.messageContainer, { opacity: animValue }]}>
+      <Animated.View
+        style={Sensations.isTrending ?
+          [styles.messageContainer, { opacity: fadingRef.current }]:
+          styles.messageContainer}>
         <ScrollView contentContainerStyle={styles.messageScrollContent}>
           <Text
             textBreakStrategy="balanced"
             allowFontScaling
             maxFontSizeMultiplier={2}
             adjustsFontSizeToFit
-            style={styles.messageText(shouldBeDenied(sensation))}
+            style={styles.messageText(Sensations.shouldBeDenied)}
           >
-            {sensation.message}
+            {Sensations?.current?.message}
           </Text>
         </ScrollView>
       </Animated.View>
       <View style={styles.authorView}>
-        <Text style={styles.authorText}>{`~ ${sensation.author}`}</Text>
+        <Text style={styles.authorText}>{`~ ${Sensations?.current?.author}`}</Text>
       </View>
     </>
   );

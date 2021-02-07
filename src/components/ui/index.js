@@ -1,9 +1,9 @@
-import { showToast } from './SensumToast';
+import { useToast } from './useToast';
 import { TopBarTitle } from './TopBarTitle';
-import { AnimatedFadeingIcon } from './AnimatedFadeingIcon';
+import { AnimatedFadingIcon } from './AnimatedFadingIcon';
 
 export {
-  showToast,
+  useToast,
   TopBarTitle,
-  AnimatedFadeingIcon,
+  AnimatedFadingIcon,
 };

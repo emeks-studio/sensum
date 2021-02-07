@@ -3,12 +3,12 @@ import { observer } from "mobx-react";
 import _ from 'lodash';
 import { AppState, BackHandler } from 'react-native';
 import { Provider } from 'react-redux';
-import { Root } from 'native-base';
 import { AppRouter } from './AppRouter';
 import ReduxStore from '../state/ReduxStore';
 import { configCarrierCrow } from '../model/CarrierCrow';
 import { useModel } from '../model-components';
-import { showToast } from './ui';
+import { ToastProvider } from './ui/useToast';
+import { useToast } from './ui';
 import { handleBackButton } from '../util/navigator';
 import { useTheming } from '../util/theming';
 
@@ -16,6 +16,7 @@ function AppComponent() {
   const [state, setState ] = useState({
     appState: AppState.currentState,
   });
+  const showToast = useToast();
   const { theming } = useTheming();
   const { Oracle } = useModel();
   const CarrierCrow = configCarrierCrow({ Oracle });
@@ -31,11 +32,11 @@ function AppComponent() {
     Oracle.praiseTheSun()
     .then(result => {
       theming.setThemeBy(result.mood);
-      showToast({ text: result.line}, theming);
+      showToast(result.line)
     })
     .catch(_ => {
-      // FIXME: Change message text!
-      showToast({ text: `sin conexión` }, theming)
+      theming.setThemeBy();
+      showToast("😴  El Oráculo duerme un sueño imposible");
     });
     AppState.addEventListener('change', handleAppStateChange);
     return () => {
@@ -60,16 +61,20 @@ function AppComponent() {
     setState({appState: nextAppState});
   }
 
-  return (
-    <Provider store={ReduxStore}>
-      <Root>
-        <AppRouter />
-      </Root>  
-    </Provider>   
-  );
+  return <AppRouter />;
 }
 
-const App = observer(AppComponent);
+const AppWithProviders = () => {
+  return (
+    <Provider store={ReduxStore}>
+      <ToastProvider>
+        <AppComponent/>
+      </ToastProvider>
+    </Provider>   
+  )
+}
+
+const App = observer(AppWithProviders);
 
 export {
   App

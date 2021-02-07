@@ -1,27 +1,28 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { View, Linking } from "react-native";
-import { Header, Left, Right, Button, Icon } from "native-base";
-import { ThemeSheet } from "../../assets/styles/ThemeSheet";
+import { View, Linking, StatusBar, TouchableOpacity } from "react-native";
+import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
-
 import { SensationItem } from "./SensationItem";
-import { TopBarTitle } from "./ui";
+import { TopBarTitle, useToast } from "./ui";
+import User from "../model/User";
+import CloseIcon from "../assets/svgs/close.svg";
 
 const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming }) => {
+  const showToast = useToast();
   const styles = stylesByTheme[theming.theme.id];
 
   useEffect(() => {
     console.debug("[SensationsScreen::refresh]");
-    Sensations.reset();
-    Sensations.getMoreSensations();
+    Sensations.init();
   }, []);
 
   const goToHome = () => {
     navigation.navigate("Home");
   };
 
+  // TODO: Move to credits screen (We could use the title as a button for displaying the new)
   const goToLore = () => {
     const url = "https://emeks.gitlab.io/sensum/lore/";
     Linking.canOpenURL(url).then(supported => {
@@ -31,20 +32,25 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
     });
   };
 
+  const showNetwork = () => {
+    User.tryGatherAcolytes().then(n => {
+      if (n) showToast(`${n} electrones en órbita`);
+      else showToast("😴  ya guey! no insistas");
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Header
-        style={styles.header}
-        androidStatusBarColor={styles.header.backgroundColor}
-      >
-        <Left />
-        <TopBarTitle onPress={goToLore} />
-        <Right>
-          <Button transparent onPress={goToHome}>
-            <Icon type="FontAwesome" name="times" />
-          </Button>
-        </Right>
-      </Header>
+      <StatusBar color={styles.container.backgroundColor}/>
+      <View style={styles.header}>
+        <TopBarTitle style={styles.headerTitle} onPress={showNetwork} />
+        <TouchableOpacity onPress={goToHome}>
+          <CloseIcon
+            style={styles.closeButton}
+            fill={styles.closeButton.color}
+          />
+        </TouchableOpacity>
+      </View>
       <SensationItem />
     </View>
   );
@@ -56,8 +62,16 @@ const stylesByTheme = ThemeSheet.create(theme => ({
     backgroundColor: theme.colorPalette.dark
   },
   header: {
-    backgroundColor: theme.colorPalette.dark,
-    elevation: 0
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    margin: 20,
+    marginBottom: 15
+  },
+  closeButton: {
+    color: theme.colorPalette.light,
+    height: 32,
+    width: 32
   }
 }));
 

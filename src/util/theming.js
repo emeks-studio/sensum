@@ -7,7 +7,7 @@ import {
   happyTheme,
   neutralTheme,
   angryTheme
-} from "../../assets/styles/Themes";
+} from "../assets/styles/Themes";
 
 // Hardcoded in the backend!
 const HAPPY_MOOD = "⌒_⌒";

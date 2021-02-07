@@ -3,7 +3,7 @@
 /* Config */
 const config = {};
 config.serverRoute  = 'https://sensum-server.herokuapp.com/api';
-// config.serverRoute = 'http://192.168.0.161:3000/api';
+//config.serverRoute = 'http://192.168.0.202:3000/api';
 
 /* Auxiliar methods */
 const parseResponse = function(response) {

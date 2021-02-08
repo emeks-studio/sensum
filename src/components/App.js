@@ -33,10 +33,18 @@ function AppComponent() {
     Oracle.praiseTheSun()
     .then(result => {
       theming.setThemeBy(result.mood);
+      // Fix: Splash screen showing behind app 
+      if (Platform.OS === "android") {
+        BackgroundColor.setColor(theming.theme.colorPalette.dark);
+      };
       showToast(result.line)
     })
     .catch(_ => {
       theming.setThemeBy();
+      // Fix: Splash screen showing behind app 
+      if (Platform.OS === "android") {
+        BackgroundColor.setColor(theming.theme.colorPalette.dark);
+      };
       showToast("😴  El Oráculo duerme un sueño imposible");
     });
     AppState.addEventListener('change', handleAppStateChange);
@@ -66,18 +74,13 @@ function AppComponent() {
 }
 
 const AppWithProviders = () => {
-  useEffect(()=>{
-    if(Platform.OS === "android") {
-      setTimeout(() => { BackgroundColor.setColor("#271F34") }, 500);
-    }
-  }, []);
   return (
     <Provider store={ReduxStore}>
       <ToastProvider>
         <AppComponent/>
       </ToastProvider>
     </Provider>   
-  )
+  );
 }
 
 const App = observer(AppWithProviders);

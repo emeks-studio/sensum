@@ -16,6 +16,8 @@ What is sensum?
 
 - [sensum-landing](https://gitlab.com/emeks/sensum); The sensum landing page, considered the mainly entry point to sensum universe, contains a developers logbook plenty of poetry, and philosophical reviews.
 
+- [sensumbot](https://github.com/ariedro/sensumbot); Telegram Bot for fetching the last messages from sensum to a chat or a group.
+
 ## Development
 
 ### Prerequisites

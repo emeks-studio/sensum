@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { observer } from "mobx-react";
 import _ from 'lodash';
-import { AppState, BackHandler } from 'react-native';
+import { AppState, BackHandler, Platform } from 'react-native';
 import { Provider } from 'react-redux';
+import BackgroundColor from 'react-native-background-color';
 import { AppRouter } from './AppRouter';
 import ReduxStore from '../state/ReduxStore';
 import { configCarrierCrow } from '../model/CarrierCrow';
@@ -32,10 +33,18 @@ function AppComponent() {
     Oracle.praiseTheSun()
     .then(result => {
       theming.setThemeBy(result.mood);
+      // Fix: Splash screen showing behind app 
+      if (Platform.OS === "android") {
+        BackgroundColor.setColor(theming.theme.colorPalette.dark);
+      };
       showToast(result.line)
     })
     .catch(_ => {
       theming.setThemeBy();
+      // Fix: Splash screen showing behind app 
+      if (Platform.OS === "android") {
+        BackgroundColor.setColor(theming.theme.colorPalette.dark);
+      };
       showToast("😴  El Oráculo duerme un sueño imposible");
     });
     AppState.addEventListener('change', handleAppStateChange);
@@ -71,7 +80,7 @@ const AppWithProviders = () => {
         <AppComponent/>
       </ToastProvider>
     </Provider>   
-  )
+  );
 }
 
 const App = observer(AppWithProviders);

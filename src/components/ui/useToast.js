@@ -19,6 +19,7 @@ const useToastState = (height = 50, speed = 300) => {
     Animated.timing(heightValue, {
       toValue: expectedHeight,
       duration: speed,
+      useNativeDriver: true,
     });
   const toastUp = () => animateToast(0).start();
   const toastDown = () => animateToast(height).start(() => setToast(null));

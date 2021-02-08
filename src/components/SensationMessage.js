@@ -21,7 +21,9 @@ const useFadingRef = () => {
         useNativeDriver: false,
         isInteraction: false,
         easing: Easing.linear,
-    }))
+    }), {
+    useNativeDriver: false,
+  })
   ).current
 
   useEffect(()=>{

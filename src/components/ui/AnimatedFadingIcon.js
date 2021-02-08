@@ -17,7 +17,8 @@ export const AnimatedFadingIcon = ({icon: Icon}) => {
     Animated.timing(animationValue, {
       toValue: max,
       duration: durationInMiliseconds,
-      easing: Easing.ease
+      easing: Easing.ease,
+      useNativeDriver: true
     }).start(() => {
       if (max == 1) {
         setMax(0);

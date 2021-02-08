@@ -1,11 +1,11 @@
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { observer } from "mobx-react";
 import _ from 'lodash';
 import { AppState, BackHandler, Platform } from 'react-native';
-import { Provider } from 'react-redux';
 import BackgroundColor from 'react-native-background-color';
 import { AppRouter } from './AppRouter';
-import ReduxStore from '../state/ReduxStore';
 import { configCarrierCrow } from '../model/CarrierCrow';
 import { useModel } from '../model-components';
 import { ToastProvider } from './ui/useToast';
@@ -75,11 +75,11 @@ function AppComponent() {
 
 const AppWithProviders = () => {
   return (
-    <Provider store={ReduxStore}>
+    <NavigationContainer>
       <ToastProvider>
         <AppComponent/>
       </ToastProvider>
-    </Provider>   
+    </NavigationContainer>
   );
 }
 

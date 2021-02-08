@@ -79,4 +79,15 @@ keytool -exportcert -alias sensum -keystore ./android/app/my-release-key.keystor
 
 ### Troubleshooting
 
-// TODO
+1. In case of an Android update is needed, always check https://developer.android.com/studio/releases/gradle-plugin
+
+
+2. Info about android build tools issues:
+```
+android $ gradle -q dependencies your-app-project:dependencies
+```
+
+3. Clean up the developer's bundle:
+```
+$ npx react-native start --reset-cache
+```

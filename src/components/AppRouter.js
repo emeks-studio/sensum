@@ -1,38 +1,37 @@
-import { connect } from "react-redux";
-import {
-  createReactNavigationReduxMiddleware,
-  createNavigationReducer,
-  createReduxContainer
-} from "react-navigation-redux-helpers";
-import { createStackNavigator } from "react-navigation";
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./HomeScreen";
 import { NewSensationScreen } from "./NewSensationScreen";
 import { SensationsScreen } from "./SensationsScreen";
 
-const MainRouter = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen
-    },
-    NewSensation: {
-      screen: NewSensationScreen
-    },
-    Sensations: {
-      screen: SensationsScreen
-    }
-  },
-  {
-    initialRouteName: "Home"
-  }
-);
+const Stack = createStackNavigator();
 
-const RouterReducer = createNavigationReducer(MainRouter);
-const middleware = createReactNavigationReduxMiddleware(state => state.nav);
+function AppRouter() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        options={{
+          headerShown: false,
+        }}
+        component={HomeScreen}
+      />
+      <Stack.Screen
+        name="NewSensation"
+        options={{
+          headerShown: false,
+        }}
+        component={NewSensationScreen}
+      />
+      <Stack.Screen
+        name="Sensations"
+        options={{
+          headerShown: false,
+        }}
+        component={SensationsScreen}
+      />
+    </Stack.Navigator>
+  );
+}
 
-const mapStateToProps = state => ({
-  state: state.nav
-});
-
-const AppRouter = connect(mapStateToProps)(createReduxContainer(MainRouter));
-
-export { RouterReducer, middleware, AppRouter };
+export { AppRouter };

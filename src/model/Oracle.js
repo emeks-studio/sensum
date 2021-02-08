@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observable, computed, action, runInAction } from "mobx";
 import SensumApi from '../api/SensumApi';
 

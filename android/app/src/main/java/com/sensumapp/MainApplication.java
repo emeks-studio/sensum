@@ -3,6 +3,8 @@ package com.sensumapp;
 import android.app.Application;
 import android.util.Log;
 
+// import com.swmansion.reanimated.ReanimatedJSIModulePackage;
+// import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
@@ -34,6 +36,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected String getJSMainModuleName() {
       return "index";
     }
+    
+    
+    // @Override
+    // protected JSIModulePackage getJSIModulePackage() {
+    //   return new ReanimatedJSIModulePackage();
+    // }
   };
 
   @Override

@@ -29,16 +29,16 @@
     "react-native-swipe-gestures": "^1.0.5"
   },
   "devDependencies": {
-    "@babel/core": "7.5.5",
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.5.1",
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-test-renderer": "16.13.1",
     "@babel/plugin-proposal-decorators": "7.4.4",
-    "@babel/runtime": "7.5.5",
-    "@react-native-community/eslint-config": "0.0.3",
-    "babel-jest": "24.8.0",
-    "eslint": "6.1.0",
-    "jest": "24.8.0",
-    "metro-react-native-babel-preset": "0.54.1",
-    "react-native-svg-transformer": "0.14.3",
-    "react-test-renderer": "16.8.6"
+    "react-native-svg-transformer": "0.14.3"
   },
   "jest": {
     "preset": "react-native"

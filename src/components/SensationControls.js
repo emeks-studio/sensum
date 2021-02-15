@@ -1,4 +1,5 @@
 import React from "react";
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { observer } from "mobx-react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { useToast } from "./ui";
@@ -102,8 +103,8 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   }),
 }));
 
-const SensationControls = withTheming(
+const SensationControls = gestureHandlerRootHOC(withTheming(
   withModel(observer(SensationControlsComponent))
-);
+));
 
 export { SensationControls };

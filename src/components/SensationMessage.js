@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { observer } from "mobx-react";
 import { View, Text, Animated, Easing } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -96,8 +97,8 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   },
 }));
 
-const SensationMessage = withTheming(
+const SensationMessage = gestureHandlerRootHOC(withTheming(
   withModel(observer(SensationMessageComponent))
-);
+));
 
 export { SensationMessage };

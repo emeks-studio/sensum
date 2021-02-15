@@ -1,4 +1,5 @@
 import React from "react";
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { View, StatusBar, TouchableOpacity } from "react-native";
 import { useToast } from "./ui";
 import { NewSensationForm } from "./NewSensationForm";
@@ -61,7 +62,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const NewSensationScreen = withTheming(withModel(observer(NewSensationScreenComponent)));
+const NewSensationScreen = gestureHandlerRootHOC(withTheming(withModel(observer(NewSensationScreenComponent))));
 
 NewSensationScreen.navigationOptions = {
   header: null

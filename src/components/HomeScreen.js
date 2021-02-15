@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { observer } from "mobx-react";
 import { View, StatusBar, TouchableOpacity } from "react-native";
 import { AnimatedFadingIcon } from "./ui";
@@ -117,7 +118,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const HomeScreen = withTheming(withModel(observer(HomeScreenComponent)));
+const HomeScreen = gestureHandlerRootHOC(withTheming(withModel(observer(HomeScreenComponent))));
 
 HomeScreen.navigationOptions = {
   header: null

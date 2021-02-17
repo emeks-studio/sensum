@@ -62,7 +62,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const NewSensationScreen = gestureHandlerRootHOC(withTheming(withModel(observer(NewSensationScreenComponent))));
+const NewSensationScreen = (withTheming(withModel(observer(NewSensationScreenComponent))));
 
 NewSensationScreen.navigationOptions = {
   header: null

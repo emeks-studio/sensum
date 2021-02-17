@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { observer } from "mobx-react";
-import { View, StatusBar, TouchableOpacity } from "react-native";
+import { View, StatusBar, TouchableOpacity, Text } from "react-native";
 import { AnimatedFadingIcon } from "./ui";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
@@ -38,12 +38,19 @@ const HomeScreenComponent = ({ model: { Oracle }, navigation, theming }) => {
         rotate={-45}
       />
       <View style={styles.header}>
-        <TouchableOpacity onPress={goToPulse}>
+        {/** FIXME!!!
+         *         <TouchableOpacity onPress={goToPulse}>
           <AnimatedFadingIcon icon={ () => PulseIcon({
             style: styles.sensationsButton,
             fill: styles.sensationsButton.color
           })}/>
         </TouchableOpacity>
+         * 
+         */}
+         <TouchableOpacity onPress={goToPulse}>
+           <Text>go to</Text>
+        </TouchableOpacity>
+
       </View>
       <View style={styles.oracleContainer}>
         <Tamagochi />
@@ -118,7 +125,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const HomeScreen = gestureHandlerRootHOC(withTheming(withModel(observer(HomeScreenComponent))));
+const HomeScreen = (withTheming(withModel(observer(HomeScreenComponent))));
 
 HomeScreen.navigationOptions = {
   header: null

@@ -166,6 +166,6 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   },
 }));
 
-const NewSensationForm = gestureHandlerRootHOC(withTheming(observer(NewSensationFormComponent)));
+const NewSensationForm = (withTheming(observer(NewSensationFormComponent)));
 
 export { NewSensationForm };

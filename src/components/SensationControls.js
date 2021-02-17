@@ -103,7 +103,7 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   }),
 }));
 
-const SensationControls = gestureHandlerRootHOC(withTheming(
+const SensationControls = (withTheming(
   withModel(observer(SensationControlsComponent))
 ));
 

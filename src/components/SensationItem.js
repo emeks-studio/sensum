@@ -127,6 +127,6 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   },
 }));
 
-const SensationItem = gestureHandlerRootHOC(withTheming(withModel(observer(SensationItemComponent))));
+const SensationItem = (withTheming(withModel(observer(SensationItemComponent))));
 
 export { SensationItem };

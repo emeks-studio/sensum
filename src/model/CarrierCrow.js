@@ -1,5 +1,4 @@
 import OneSignal from 'react-native-onesignal';
-import { navigate } from '../util/navigator';
 import User from '../model/User';
 import {
   MSG_CHOOSE_THE_ONE,
@@ -16,7 +15,7 @@ const CarrierCrow = Oracle => {
     // OneSignal.clearOneSignalNotifications();
     switch(additionalData.type){
       case MSG_NEW_SENSATION:
-        navigate('Sensations');
+        console.log("We could redirect the user to sensations screen!")
         break;
       case MSG_CHOOSE_THE_ONE:
         const totem = additionalData.totem;

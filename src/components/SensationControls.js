@@ -1,32 +1,31 @@
-import React from "react";
-import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
-import { observer } from "mobx-react";
-import { View, TouchableOpacity, Text } from "react-native";
-import { useToast } from "./ui";
-import { withModel } from "../model-components";
-import { withTheming } from "../util/theming";
-import { ThemeSheet } from "../assets/styles/ThemeSheet";
-import ControlBack from "../assets/svgs/controlBack.svg";
-import ControlForward from "../assets/svgs/controlForward.svg";
-import ControlPlus from "../assets/svgs/controlPlus.svg";
-import ControlMinus from "../assets/svgs/controlMinus.svg";
+import React from 'react';
+import {observer} from 'mobx-react';
+import {View, TouchableOpacity, Text} from 'react-native';
+import {useToast} from './ui';
+import {withModel} from '../model-components';
+import {withTheming} from '../util/theming';
+import {ThemeSheet} from '../assets/styles/ThemeSheet';
+import ControlBack from '../assets/svgs/controlBack.svg';
+import ControlForward from '../assets/svgs/controlForward.svg';
+import ControlPlus from '../assets/svgs/controlPlus.svg';
+import ControlMinus from '../assets/svgs/controlMinus.svg';
 
-const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
+const SensationControlsComponent = ({model: {Sensations}, theming}) => {
   const showToast = useToast();
   const styles = stylesByTheme[theming.theme.id];
 
-  const vote = function(item, vote) {
+  const vote = function (item, vote) {
     Sensations.vote(item, vote)
       .then((success) => {
         let text;
-        if (success) text = vote ? "Ionizando [+++]" : "Ionizando [---]";
-        else text = "¡Sobrecargas en el núcleo!";
+        if (success) text = vote ? 'Ionizando [+++]' : 'Ionizando [---]';
+        else text = '¡Sobrecargas en el núcleo!';
         showToast(text);
         // Sensations.next();
       })
       .catch((err) => {
         console.debug(`[SensationItem::vote] Error: ${err}`);
-        showToast("El Oráculo está ocupado balanceando el núcleo");
+        showToast('El Oráculo está ocupado balanceando el núcleo');
       });
   };
 
@@ -51,7 +50,9 @@ const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
             style={styles.controlsIcon()}
             fill={styles.controlsIcon().color}
           />
-          <Text style={styles.controlsText()}>{Sensations?.current?.likes}</Text>
+          <Text style={styles.controlsText()}>
+            {Sensations?.current?.likes}
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.controlsSection}>
@@ -75,20 +76,20 @@ const SensationControlsComponent = ({ model: { Sensations }, theming }) => {
 const stylesByTheme = ThemeSheet.create((theme) => ({
   controlsBar: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 20,
   },
   controlsSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    flexBasis: "45%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    flexBasis: '45%',
   },
   controlsButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
     width: 64,
     height: 64,
   },
@@ -103,8 +104,8 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   }),
 }));
 
-const SensationControls = (withTheming(
-  withModel(observer(SensationControlsComponent))
-));
+const SensationControls = withTheming(
+  withModel(observer(SensationControlsComponent)),
+);
 
-export { SensationControls };
+export {SensationControls};

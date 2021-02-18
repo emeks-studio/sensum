@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { observer } from "mobx-react";
 import { View, Linking, StatusBar, TouchableOpacity } from "react-native";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
@@ -76,7 +75,7 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   }
 }));
 
-const SensationsScreen = (withTheming(withModel(observer(SensationsScreenComponent))));
+const SensationsScreen = withTheming(withModel(observer(SensationsScreenComponent)));
 
 SensationsScreen.navigationOptions = {
   header: null

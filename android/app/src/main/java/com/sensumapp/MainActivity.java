@@ -14,6 +14,7 @@ public class MainActivity extends ReactActivity {
         return "sensum";
     }
     
+    // Require for react-native-screens 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);

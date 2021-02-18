@@ -1,5 +1,4 @@
 import React from "react";
-import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { observer } from "mobx-react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
@@ -166,6 +165,6 @@ const stylesByTheme = ThemeSheet.create((theme) => ({
   },
 }));
 
-const NewSensationForm = (withTheming(observer(NewSensationFormComponent)));
+const NewSensationForm = withTheming(observer(NewSensationFormComponent));
 
 export { NewSensationForm };

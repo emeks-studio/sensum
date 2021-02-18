@@ -1,5 +1,4 @@
 import React from "react";
-import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import { observer } from "mobx-react";
 import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import GestureRecognizer from "react-native-swipe-gestures";
@@ -127,6 +126,6 @@ const stylesByTheme = ThemeSheet.create(theme => ({
   },
 }));
 
-const SensationItem = (withTheming(withModel(observer(SensationItemComponent))));
+const SensationItem = withTheming(withModel(observer(SensationItemComponent)));
 
 export { SensationItem };

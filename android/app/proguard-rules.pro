@@ -10,3 +10,6 @@
 # Add any project specific keep options here:
 
 -keep class com.facebook.react.turbomodule.** { *; }
+
+# Without this react-native-svg package doesn't not work in production!
+-keep public class com.horcrux.svg.** {*;}

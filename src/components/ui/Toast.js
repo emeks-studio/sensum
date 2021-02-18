@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Animated, Text } from "react-native";
 import { ThemeSheet } from "../../assets/styles/ThemeSheet";
 import { withTheming } from "../../util/theming";

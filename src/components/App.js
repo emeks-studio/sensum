@@ -1,16 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { observer } from "mobx-react";
 import _ from 'lodash';
-import { AppState, BackHandler, Platform } from 'react-native';
-import { Provider } from 'react-redux';
+import { AppState, Platform } from 'react-native';
 import BackgroundColor from 'react-native-background-color';
 import { AppRouter } from './AppRouter';
-import ReduxStore from '../state/ReduxStore';
 import { configCarrierCrow } from '../model/CarrierCrow';
 import { useModel } from '../model-components';
 import { ToastProvider } from './ui/useToast';
 import { useToast } from './ui';
-import { handleBackButton } from '../util/navigator';
 import { useTheming } from '../util/theming';
 
 function AppComponent() {
@@ -21,13 +20,6 @@ function AppComponent() {
   const { theming } = useTheming();
   const { Oracle } = useModel();
   const CarrierCrow = configCarrierCrow({ Oracle });
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    }    
-  })
   
   useEffect(()=> {
     Oracle.praiseTheSun()
@@ -75,11 +67,11 @@ function AppComponent() {
 
 const AppWithProviders = () => {
   return (
-    <Provider store={ReduxStore}>
+    <NavigationContainer>
       <ToastProvider>
         <AppComponent/>
       </ToastProvider>
-    </Provider>   
+    </NavigationContainer>
   );
 }
 

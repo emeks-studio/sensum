@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./HomeScreen";
 import { NewSensationScreen } from "./NewSensationScreen";
 import { SensationsScreen } from "./SensationsScreen";
+import { app as MiscellaneousScreen } from "./MiscellaneousScreen.bs";
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,13 @@ function AppRouter() {
           headerShown: false,
         }}
         component={SensationsScreen}
+      />
+      <Stack.Screen
+        name="Miscellaneous"
+        options={{
+          headerShown: false,
+        }}
+        component={MiscellaneousScreen}
       />
     </Stack.Navigator>
   );

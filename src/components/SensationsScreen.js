@@ -21,6 +21,10 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
   const goToHome = () => {
     navigation.navigate("Home");
   };
+  
+  const goToMisc = () => {
+    navigation.navigate("Miscellaneous");
+  };
 
   // TODO: Move to credits screen (We could use the title as a button for displaying the new)
   const goToLore = () => {
@@ -43,7 +47,7 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
     <View style={styles.container}>
       <StatusBar color={styles.container.backgroundColor}/>
       <View style={styles.header}>
-        <TopBarTitle style={styles.headerTitle} onPress={showNetwork} />
+        <TopBarTitle style={styles.headerTitle} onPress={goToMisc} />
         <TouchableOpacity onPress={goToHome}>
           <CloseIcon
             style={styles.closeButton}

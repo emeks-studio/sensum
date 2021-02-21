@@ -59,3 +59,9 @@ buck-out/
 
 # App Production keys
 /android/keystores/release.keystore.properties
+
+# Rescript
+*.bs.js
+.bsb.lock
+.merlin
+lib/bs

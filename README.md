@@ -38,6 +38,14 @@ nvm use
 npm install
 ```
 
+### Development
+
+#### Rescript
+
+In case you want to code using rescript, these are useful links:
+
+- https://reason-react-native.github.io/en/docs/usage/
+
 ### Run
 
 #### Android

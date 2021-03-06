@@ -44,7 +44,11 @@ npm install
 
 In case you want to code using rescript, these are useful links:
 
-- https://reason-react-native.github.io/en/docs/usage/
+- [rescript](https://rescript-lang.org/)
+  - [Introduction](https://rescript-lang.org/docs/manual/latest/introduction)
+  - [VS reasonml syntax](https://rescript-lang.org/docs/manual/latest/migrate-from-bucklescript-reason)
+- [reason-react-native](https://reason-react-native.github.io/en/docs/usage/)
+  - [Styles](https://reason-react-native.github.io/en/docs/apis/Style/)
 
 ### Run
 

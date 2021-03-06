@@ -5,24 +5,80 @@ let getStylesBy = (~themeId: string) => {
   ThemeSheet.unsafeCreate(~themeId, ~styleByThemeFn=theme =>
     {
       "container": viewStyle(
-        ~justifyContent=#flexStart,
+        ~flex=1.0,
+        ~justifyContent=#spaceEvenly,
+        ~alignContent=#center,
         ~alignItems=#center,
-        ~margin=auto,
         ~backgroundColor=theme.colorPalette.dark,
         (),
       ),
-      "text": textStyle(~fontFamily=theme.typography.fontFamilyLight, ()),
+      "header": viewStyle(~flex=1.0, ~justifyContent=#flexStart, ()),
+      "body": viewStyle(
+        ~flex=3.0,
+        ~justifyContent=#center,
+        ~alignContent=#center,
+        ~alignItems=#center,
+        (),
+      ),
+      "footer": viewStyle(
+        ~flex=1.0,
+        ~justifyContent=#center,
+        ~alignContent=#center,
+        ~alignItems=#center,
+        (),
+      ),
+      "text": textStyle(
+        ~fontFamily=theme.typography.fontFamilyLight,
+        ~color=theme.colorPalette.light,
+        (),
+      ),
     }
   )
 }
 
+let goOutside: string => Js.Promise.t<unit> = url => {
+  Linking.canOpenURL(url)->Js.Promise.then_(canOpen => {
+    if canOpen == true {
+      Linking.openURL(url)
+    } else {
+      Js.log("TODO: Use a toast notification in order to notify the user!")
+      Js.Promise.resolve()
+    }
+  }, _)
+}
+
+// TODO LIST:
+// header with back button!
+// add icons for the outside buttons
+// styles for the actions
+// improve "emeks" style
+// get network electrons
+// change theme v1: Random temporal theme
+// change theme v2: Store user election in local storage
 @react.component
 let make = (~theming: Themes.theming) => {
   let themeId: string = theming.theme.id
-  let styles = getStylesBy(~themeId=themeId)
-
+  let styles = getStylesBy(~themeId)
   <View style={styles["container"]}>
-    <Text style={styles["text"]}> {themeId->React.string} </Text>
-    <Text> {"Powered by emeks"->React.string} </Text>
+    <View style={styles["header"]} />
+    <View style={styles["body"]}>
+      <TouchableOpacity
+        onPress={_ =>
+          goOutside("https://github.com/emeks-studio/sensum-mobile#sensum-mobile")->ignore}>
+        <Text style={styles["text"]}> {"Official repository"->React.string} </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={_ => goOutside("https://emeks.gitlab.io/sensum/lore/")->ignore}>
+        <Text style={styles["text"]}> {"sensum lore"->React.string} </Text>
+      </TouchableOpacity>
+      <Text style={styles["text"]}>
+        {"Contar electrones que orbitan actualmente!"->React.string}
+      </Text>
+      <Text style={styles["text"]}> {"Cambiar estilo de la app!"->React.string} </Text>
+    </View>
+    <View style={styles["footer"]}>
+      <TouchableOpacity onPress={_ => goOutside("https://emeks.com.ar")->ignore}>
+        <Text style={styles["text"]}> {"Powered by emeks"->React.string} </Text>
+      </TouchableOpacity>
+    </View>
   </View>
 }

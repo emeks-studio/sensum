@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { View, Linking, StatusBar, TouchableOpacity } from "react-native";
+import { View, StatusBar, TouchableOpacity } from "react-native";
 import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
@@ -24,16 +24,6 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
   
   const goToMisc = () => {
     navigation.navigate("Miscellaneous");
-  };
-
-  // TODO: Move to credits screen (We could use the title as a button for displaying the new)
-  const goToLore = () => {
-    const url = "https://emeks.gitlab.io/sensum/lore/";
-    Linking.canOpenURL(url).then(supported => {
-      if (supported) {
-        Linking.openURL(url);
-      }
-    });
   };
 
   const showNetwork = () => {

@@ -5,9 +5,9 @@ import { NewSensationScreen } from "./NewSensationScreen";
 import { SensationsScreen } from "./SensationsScreen";
 import { withTheming } from "../util/theming";
 import { observer } from "mobx-react";
-import { make as MiscellaneousScreen } from "./MiscellaneousScreen.bs";
+import { make as _MiscellaneousScreen } from "./MiscellaneousScreen.bs";
 
-const MiscellaneousScreenHOC = withTheming(observer(MiscellaneousScreen));
+const MiscellaneousScreen = withTheming(observer(_MiscellaneousScreen));
 
 const Stack = createStackNavigator();
 
@@ -40,7 +40,7 @@ function AppRouter() {
         options={{
           headerShown: false,
         }}
-        component={MiscellaneousScreenHOC}
+        component={MiscellaneousScreen}
       />
     </Stack.Navigator>
   );

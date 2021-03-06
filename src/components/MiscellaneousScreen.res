@@ -51,14 +51,25 @@ let goOutside: string => Js.Promise.t<unit> = url => {
 // header with back button!
 // add icons for the outside buttons
 // styles for the actions
-// improve "emeks" style
-// get network electrons
+// improve "emeks" link style
 // change theme v1: Random temporal theme
 // change theme v2: Store user election in local storage
+// FIXME: Rescript support for special characters!
 @react.component
 let make = (~theming: Themes.theming) => {
   let themeId: string = theming.theme.id
   let styles = getStylesBy(~themeId)
+  let showToast = UseToastBinding.useToast()
+
+  let showNetwork = () => {
+    UserBinding.user.tryGatherAcolytes()->Js.Promise.then_(result => {
+      switch result {
+      | "" => showToast("ya guey! no insistas")
+      | n => showToast(n ++ " electrones orbitando")
+      }
+    }, _)
+  }
+
   <View style={styles["container"]}>
     <View style={styles["header"]} />
     <View style={styles["body"]}>
@@ -70,9 +81,11 @@ let make = (~theming: Themes.theming) => {
       <TouchableOpacity onPress={_ => goOutside("https://emeks.gitlab.io/sensum/lore/")->ignore}>
         <Text style={styles["text"]}> {"sensum lore"->React.string} </Text>
       </TouchableOpacity>
-      <Text style={styles["text"]}>
-        {"Contar electrones que orbitan actualmente!"->React.string}
-      </Text>
+      <TouchableOpacity onPress={_ => showNetwork()->ignore}>
+        <Text style={styles["text"]}>
+          {"Contar electrones que orbitan actualmente!"->React.string}
+        </Text>
+      </TouchableOpacity>
       <Text style={styles["text"]}> {"Cambiar estilo de la app!"->React.string} </Text>
     </View>
     <View style={styles["footer"]}>

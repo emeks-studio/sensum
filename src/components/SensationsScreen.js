@@ -6,7 +6,6 @@ import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import { SensationItem } from "./SensationItem";
 import { TopBarTitle, useToast } from "./ui";
-import User from "../model/User";
 import CloseIcon from "../assets/svgs/close.svg";
 
 const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming }) => {
@@ -24,13 +23,6 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
   
   const goToMisc = () => {
     navigation.navigate("Miscellaneous");
-  };
-
-  const showNetwork = () => {
-    User.tryGatherAcolytes().then(n => {
-      if (n) showToast(`${n} electrones en órbita`);
-      else showToast("😴  ya guey! no insistas");
-    });
   };
 
   return (

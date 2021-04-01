@@ -55,11 +55,12 @@ let goOutside: string => Js.Promise.t<unit> = url => {
 // change theme v1: Random temporal theme
 // change theme v2: Store user election in local storage
 // FIXME: Rescript support for special characters!
+
 @react.component
 let make = (~theming: Themes.theming) => {
   let themeId: string = theming.theme.id
   let styles = getStylesBy(~themeId)
-  let showToast = UseToastBinding.useToast()
+  let showToast = Ui.Toast.useToast()
 
   let showNetwork = () => {
     UserBinding.user.tryGatherAcolytes()->Js.Promise.then_(result => {
@@ -69,9 +70,15 @@ let make = (~theming: Themes.theming) => {
       }
     }, _)
   }
-
+  
   <View style={styles["container"]}>
-    <View style={styles["header"]} />
+    <View style={styles["header"]}>
+      <TouchableOpacity
+        onPress={_ =>
+          goOutside("https://github.com/emeks-studio/sensum-mobile#sensum-mobile")->ignore}>
+        <CloseIcon theming />
+      </TouchableOpacity>
+    </View>
     <View style={styles["body"]}>
       <TouchableOpacity
         onPress={_ =>

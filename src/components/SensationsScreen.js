@@ -5,11 +5,10 @@ import { ThemeSheet } from "../assets/styles/ThemeSheet";
 import { withModel } from "../model-components";
 import { withTheming } from "../util/theming";
 import { SensationItem } from "./SensationItem";
-import { TopBarTitle, useToast } from "./ui";
+import { TopBarTitle } from "./ui";
 import CloseIcon from "../assets/svgs/close.svg";
 
 const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming }) => {
-  const showToast = useToast();
   const styles = stylesByTheme[theming.theme.id];
 
   useEffect(() => {
@@ -31,7 +30,7 @@ const SensationsScreenComponent = ({ model: { Sensations }, navigation, theming 
       <View style={styles.header}>
         <TopBarTitle style={styles.headerTitle} onPress={goToMisc} />
         <TouchableOpacity onPress={goToHome}>
-          <CloseIcon
+          <CloseIcon 
             style={styles.closeButton}
             fill={styles.closeButton.color}
           />

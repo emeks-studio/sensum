@@ -40,25 +40,15 @@ npm install
 
 ### Development
 
-#### Rescript
-
-In case you want to code using rescript, these are useful links:
-
-- [rescript](https://rescript-lang.org/)
-  - [Introduction](https://rescript-lang.org/docs/manual/latest/introduction)
-  - [VS reasonml syntax](https://rescript-lang.org/docs/manual/latest/migrate-from-bucklescript-reason)
-- [reason-react-native](https://reason-react-native.github.io/en/docs/usage/)
-  - [Styles](https://reason-react-native.github.io/en/docs/apis/Style/)
-
-### Run
-
-#### Android
+#### Run on Android
 
 Follow the official guide: [Running On Device](https://reactnative.dev/docs/running-on-device). Tl;dr
 
 ```bash (console 1)
 # Bundle the application
 npx react-native start
+# or
+npm start
 ```
 
 Then, having your phone connected to the PC via USB:
@@ -66,8 +56,26 @@ Then, having your phone connected to the PC via USB:
 ```bash (console 2)
 # Installation on your device
 npx react-native run-android
+# or 
+npm run android
 ```
 
+#### Using Rescript
+
+In case you want to code using Rescript, you should need an additional command:
+```bash (console 3)
+# Keep compiling and generating .js files from .res files
+npm run re:watch
+```
+
+Learn about these stack used:
+
+- [rescript](https://rescript-lang.org/)
+  - [Introduction](https://rescript-lang.org/docs/manual/latest/introduction)
+  - [VS reasonml syntax](https://rescript-lang.org/docs/manual/latest/migrate-from-bucklescript-reason)
+- [reason-react-native](https://reason-react-native.github.io/en/docs/usage/)
+  - [Styles](https://reason-react-native.github.io/en/docs/apis/Style/)
+  
 ### Deploy
 
 #### Android
@@ -103,3 +111,5 @@ android $ gradle -q dependencies your-app-project:dependencies
 ```
 $ npx react-native start --reset-cache
 ```
+
+4. Packages `react-native` and `reason-react-native` MUST use same version number!

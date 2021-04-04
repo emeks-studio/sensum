@@ -8,11 +8,16 @@ let getStylesBy = (~themeId: string) => {
         ~flex=1.0,
         ~justifyContent=#spaceEvenly,
         ~alignContent=#center,
-        ~alignItems=#center,
         ~backgroundColor=theme.colorPalette.dark,
         (),
       ),
-      "header": viewStyle(~flex=1.0, ~justifyContent=#flexStart, ()),
+      "header": viewStyle(
+        ~flex=1.0,
+        ~margin=15.->dp,
+        ~flexDirection=#row,
+        ~justifyContent=#flexEnd,
+        (),
+      ),
       "body": viewStyle(
         ~flex=3.0,
         ~justifyContent=#center,
@@ -27,9 +32,22 @@ let getStylesBy = (~themeId: string) => {
         ~alignItems=#center,
         (),
       ),
+      "closeButton": {
+        "height": "32",
+        "width": "32",
+        "color": theme.colorPalette.light,
+      },
       "text": textStyle(
         ~fontFamily=theme.typography.fontFamilyLight,
         ~color=theme.colorPalette.light,
+        ~margin=9.->dp,
+        ~fontSize=18.0,
+        (),
+      ),
+      "brandText": textStyle(
+        ~fontFamily=theme.typography.fontFamilyBold,
+        ~color=theme.colorPalette.secondary,
+        ~fontSize=18.0,
         (),
       ),
     }
@@ -47,20 +65,13 @@ let goOutside: string => Js.Promise.t<unit> = url => {
   }, _)
 }
 
-// TODO LIST:
-// header with back button!
-// add icons for the outside buttons
-// styles for the actions
-// improve "emeks" link style
-// change theme v1: Random temporal theme
-// change theme v2: Store user election in local storage
-// FIXME: Rescript support for special characters!
-
 @react.component
-let make = (~theming: Themes.theming) => {
+let make = (~theming: Themes.theming, ~navigation) => {
   let themeId: string = theming.theme.id
   let styles = getStylesBy(~themeId)
   let showToast = Ui.Toast.useToast()
+
+  let goBack = navigation["pop"]
 
   let showNetwork = () => {
     UserBinding.user.tryGatherAcolytes()->Js.Promise.then_(result => {
@@ -70,34 +81,50 @@ let make = (~theming: Themes.theming) => {
       }
     }, _)
   }
-  
+
+  let pickTheme = () => {
+    showToast("FIXME: Granujas trabajando!")
+    // FIXME: This doesn't work because setThemeBy impl. lost this* reference!
+    // switch Js.Math.random_int(1, 4) {
+    // | 1 => theming.setThemeBy(Themes.noConnectionTheme)
+    // | 2 => theming.setThemeBy(Themes.happyTheme)
+    // | 3 => theming.setThemeBy(Themes.neutralTheme)
+    // | 4 => theming.setThemeBy(Themes.angryTheme)
+    // | _ => theming.setThemeBy(Themes.noConnectionTheme) // It shouldn't be possible!
+    // }
+  }
+
   <View style={styles["container"]}>
     <View style={styles["header"]}>
-      <TouchableOpacity
-        onPress={_ =>
-          goOutside("https://github.com/emeks-studio/sensum-mobile#sensum-mobile")->ignore}>
-        <CloseIcon theming />
+      <TouchableOpacity onPress={_ => goBack()->ignore}>
+        <Ui.Icons.Close
+          height={styles["closeButton"]["height"]}
+          width={styles["closeButton"]["width"]}
+          fill={styles["closeButton"]["color"]}
+        />
       </TouchableOpacity>
     </View>
     <View style={styles["body"]}>
       <TouchableOpacity
         onPress={_ =>
           goOutside("https://github.com/emeks-studio/sensum-mobile#sensum-mobile")->ignore}>
-        <Text style={styles["text"]}> {"Official repository"->React.string} </Text>
+        <Text style={styles["text"]}> {"Ir al repositorio oficial"->React.string} </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={_ => goOutside("https://emeks.gitlab.io/sensum/lore/")->ignore}>
-        <Text style={styles["text"]}> {"sensum lore"->React.string} </Text>
+        <Text style={styles["text"]}> {"Ir al lore"->React.string} </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={_ => showNetwork()->ignore}>
         <Text style={styles["text"]}>
-          {"Contar electrones que orbitan actualmente!"->React.string}
+          {"Contar electrones orbitando actualmente"->React.string}
         </Text>
       </TouchableOpacity>
-      <Text style={styles["text"]}> {"Cambiar estilo de la app!"->React.string} </Text>
+      <TouchableOpacity onPress={_ => pickTheme()->ignore}>
+        <Text style={styles["text"]}> {"Cambiar estilo de la app"->React.string} </Text>
+      </TouchableOpacity>
     </View>
     <View style={styles["footer"]}>
       <TouchableOpacity onPress={_ => goOutside("https://emeks.com.ar")->ignore}>
-        <Text style={styles["text"]}> {"Powered by emeks"->React.string} </Text>
+        <Text style={styles["brandText"]}> {"Impulsado por emeks"->React.string} </Text>
       </TouchableOpacity>
     </View>
   </View>

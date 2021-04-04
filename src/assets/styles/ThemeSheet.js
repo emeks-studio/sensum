@@ -1,6 +1,14 @@
+// Original version in raw JS
+
 import _ from 'lodash';
 import { StyleSheet } from 'react-native';
-import { noConnectionTheme, happyTheme, neutralTheme, angryTheme } from './Themes';
+// Notice that here we are re-using generated code from rescript!
+import {
+  noConnectionTheme,
+  happyTheme,
+  neutralTheme,
+  angryTheme
+} from './Themes.bs.js'
 
 const build = themes => styleByThemeFn => {
   return _.fromPairs(
@@ -19,5 +27,5 @@ const availableThemes = [noConnectionTheme, happyTheme, neutralTheme, angryTheme
 ThemeSheet.create = build(availableThemes);
 
 export {
-  ThemeSheet 
-};
+  ThemeSheet,
+}

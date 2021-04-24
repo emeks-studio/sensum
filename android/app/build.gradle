@@ -135,8 +135,11 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 def keystorePropertiesFile = rootProject.file("./keystores/release.keystore.properties")
 // Initialize a new Properties() object called keystoreProperties.
 def keystoreProperties = new Properties()
-// Load your keystore.properties file into the keystoreProperties object.
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+// Check if keystorePropertiesFile exists before loading it.
+if(keystorePropertiesFile.exists()){
+    // Load your keystore.properties file into the keystoreProperties object.
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -169,10 +172,12 @@ android {
             keyPassword 'android'
         }
         release {
-          storePassword keystoreProperties['storePassword']
-          keyPassword keystoreProperties['keyPassword']
-          keyAlias keystoreProperties['keyAlias']
-          storeFile file(keystoreProperties['storeFile'])
+          if(keystoreProperties['storeFile']){
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyPassword keystoreProperties['keyPassword']
+            keyAlias keystoreProperties['keyAlias']
+          }
         }
     }
     buildTypes {

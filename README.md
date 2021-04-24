@@ -82,9 +82,11 @@ Learn about these stack used:
 
 1- Generate .apk
 
-1.1- Before generating the APK, first download the `my-release-key.keystore` from the emacs drive, and leave it `./android/app/`
-	
-1.2- Execute command
+1.1- Before generating the APK, first download the `my-release-key.keystore` from the emacs drive, and leave it at `./android/app/`.
+
+1.2- Once the release's .keystore is in place, create a `release.keystore.properties` file over `./android/keystores/` and add the corresponding signing information inside. You can use `release.keystore.properties.example` as a template.
+
+1.3- Execute command
 	
 ```bash
 cd android && ./gradlew bundleRelease && cd ..

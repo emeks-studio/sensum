@@ -60,6 +60,9 @@ buck-out/
 # App Production keys
 /android/keystores/release.keystore.properties
 
+# Java Heap Profiling
+*.hprof
+
 # Rescript
 *.bs.js
 .bsb.lock

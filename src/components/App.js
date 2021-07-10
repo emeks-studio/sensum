@@ -24,7 +24,7 @@ function AppComponent() {
   useEffect(()=> {
     Oracle.praiseTheSun()
     .then(result => {
-      theming.setThemeBy(result.mood);
+      theming.setThemeByMood(result.mood);
       // Fix: Splash screen showing behind app 
       if (Platform.OS === "android") {
         BackgroundColor.setColor(theming.theme.colorPalette.dark);
@@ -32,7 +32,7 @@ function AppComponent() {
       showToast(result.line)
     })
     .catch(_ => {
-      theming.setThemeBy();
+      theming.setThemeByMood();
       // Fix: Splash screen showing behind app 
       if (Platform.OS === "android") {
         BackgroundColor.setColor(theming.theme.colorPalette.dark);

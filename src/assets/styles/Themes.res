@@ -39,7 +39,7 @@ type theme = {
   typography: typography,
 }
 
-type theming = {theme: theme, setThemeBy: theme => unit}
+type theming = {theme: theme, setTheme: theme => unit}
 
 let noConnectionTheme: theme = {
   id: "noConnectionTheme",

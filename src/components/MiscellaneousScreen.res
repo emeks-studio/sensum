@@ -83,15 +83,14 @@ let make = (~theming: Themes.theming, ~navigation) => {
   }
 
   let pickTheme = () => {
-    showToast("FIXME: Granujas trabajando!")
-    // FIXME: This doesn't work because setThemeBy impl. lost this* reference!
-    // switch Js.Math.random_int(1, 4) {
-    // | 1 => theming.setThemeBy(Themes.noConnectionTheme)
-    // | 2 => theming.setThemeBy(Themes.happyTheme)
-    // | 3 => theming.setThemeBy(Themes.neutralTheme)
-    // | 4 => theming.setThemeBy(Themes.angryTheme)
-    // | _ => theming.setThemeBy(Themes.noConnectionTheme) // It shouldn't be possible!
-    // }
+    let randomChoice = Js.Math.random_int(1, 5)
+    switch randomChoice {
+    | 1 => theming.setTheme(Themes.noConnectionTheme)
+    | 2 => theming.setTheme(Themes.happyTheme)
+    | 3 => theming.setTheme(Themes.neutralTheme)
+    | 4 => theming.setTheme(Themes.angryTheme)
+    | _ => theming.setTheme(Themes.noConnectionTheme) // It shouldn't be possible!
+    }
   }
 
   <View style={styles["container"]}>

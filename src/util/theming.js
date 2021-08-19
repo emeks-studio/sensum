@@ -17,8 +17,13 @@ const NEUTRAL_MOOD = "⚆_⚆";
 class Theming {
   @observable theme = noConnectionTheme;
   
-  @action
-  setThemeBy(mood) {
+  @action.bound
+  setTheme(t) {
+    this.theme = t;
+  }
+  
+  @action.bound
+  setThemeByMood(mood) {
     this.theme = this.themeByMood(mood);
   }
   

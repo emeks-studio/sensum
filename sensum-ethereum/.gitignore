@@ -3,9 +3,17 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+.env
+coverage
+coverage.json
+typechain
 
 # Rescript
 *.bs.js
 .bsb.lock
 .merlin
 lib/bs
+
+#Hardhat files
+cache
+artifacts

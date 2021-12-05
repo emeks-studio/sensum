@@ -1,0 +1,30 @@
+{
+  "name": "sensum-ethereum",
+  "version": "1.0.0",
+  "description": "sensum smart contracts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emeks-studio/sensum-mobile.git"
+  },
+  "keywords": [
+    "blockchain",
+    "ethereum"
+  ],
+  "author": "emeks",
+  "bugs": {
+    "url": "https://github.com/emeks-studio/sensum-mobile/issues"
+  },
+  "homepage": "https://github.com/emeks-studio/sensum-mobile#readme",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.1",
+    "hardhat": "^2.6.8"
+  }
+}

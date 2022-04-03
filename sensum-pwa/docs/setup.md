@@ -36,3 +36,8 @@ Refs.
 - https://github.com/imjoshellis/BGQuickstart.com
 - https://willcodefor.beer/posts/how-to-add-tailwind-to-a-rescript-project/
 - https://vite-plugin-pwa.netlify.app/guide/#setup
+
+TODOs:
+
+- https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Add_to_home_screen
+- https://pwa-workshop.js.org/3-precaching/#preamble-promises-and-async-await

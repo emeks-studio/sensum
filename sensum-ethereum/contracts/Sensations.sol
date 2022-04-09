@@ -3,8 +3,8 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
 /**
- * @title Storage
- * @dev Store & retrieve value in a variable
+ * @title Sensations
+ * @dev Store & retrieve sensum sensations
  */
 contract Sensations {
 

@@ -27,7 +27,7 @@ $ npx hardhat node
 
 2. In another console, deploy your contrat in your local network:
 ```
-$ npx hardhat run scripts/sample-script.js --network localhost
+$ npx hardhat run scripts/sensations-deploy.js --network localhost
 > Greeter deployed to: 0xSomeAddress
 ```
 

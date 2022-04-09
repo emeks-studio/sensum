@@ -14,7 +14,7 @@ const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
 // From executing: npx hardhat run scripts/sensations-deploy.js --network localhost
 // Obs: You can also use an ENS name for the contract address
-const contractAddress = "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44";
+const contractAddress = "0x172076E0166D1F9Cc711C77Adf8488051744980C";
 
 // TODO: Use it to decode stuff returned by contract calls
 // const abiEncoder = ethers.utils.defaultAbiCoder;
@@ -126,19 +126,21 @@ const contractJsonAbi = `[
 // The Contract object
 const contract = new ethers.Contract(contractAddress, contractJsonAbi, provider);
 
-const getSensationByIndex = async (index) => {
-  return await contract.sensations(index);
+export async function getSensationByIndex (index) {
+  const sensationArray = await contract.sensations(index)
+  return {author: sensationArray[0], message: sensationArray[1]};
 }
 
-const getLatestSensation = async () => {
-  return await contract.sensations((await contract.getSensationsLength())- 1);
+export async function getLatestSensation () {
+  const index = await contract.getSensationsLength() - 1
+  return await getSensationByIndex(index);
 }
 
-const getSensationsLength = async () => {
+export async function getSensationsLength () {
   return await contract.getSensationsLength();
 }
 
-const newSensation = async (sensation) => {
+export async function newSensation (sensation) {
   // Gets default signer
   const signer = provider.getSigner();
   // In order to execute a tx using the contract we need to connect a signer
@@ -148,11 +150,4 @@ const newSensation = async (sensation) => {
   const tx = await contractWithSigner.newSensation(sensation);
   // Wait till tx is confirmed!
   return await tx.wait();
-}
-
-export default {
-  getSensationByIndex,
-  getLatestSensation,
-  getSensationsLength,
-  newSensation
 }

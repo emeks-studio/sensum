@@ -1,7 +1,8 @@
 {
   "name": "sensum-pwa",
   "bs-dependencies": [
-    "@rescript/react"
+    "@rescript/react",
+    "@ryyppy/rescript-promise"
   ],
   "bsc-flags": [
     "-bs-super-errors"

@@ -2,7 +2,7 @@
 
 import { ethers } from "ethers";
 
-// TODO: Let the use setup the provider!
+// TODO: Let the user setup the provider!
 const providerUrl = "http://127.0.0.1:8545"; // Using npx hardhat node
 const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 

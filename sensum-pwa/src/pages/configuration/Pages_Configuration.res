@@ -17,7 +17,7 @@ let make = () => {
       saveNetworkUrl(networkUrlInput)
     }
 
-    <div className="my-10 grid grid-rows-1 grid-flow-col gap-3 place-content-center ">
+    <div className="my-10 grid grid-flow-row gap-3 place-content-center ">
       <label htmlFor="networkInput" className="text-xl text-purple-50">
         {"network"->React.string}
       </label>

@@ -1,5 +1,8 @@
 @react.component
 let make = () => {
+  
+  
+  
   // TODO: Clean up this mess.
   Sensations.getSensationsLength()
   ->Promise.then(index => {
@@ -44,6 +47,7 @@ let make = () => {
     Promise.resolve()
   })
   ->ignore
-
+  
+  State.Configuration.loadNetworkHook()
   <Router />
 }

@@ -10,7 +10,7 @@ let make = () => {
     ->React.array
 
   <div className="bg-black flex flex-col h-screen overflow-hidden">
-    <Core.Ui.Navbar rightComponent={<Core.Ui.Icons.GearIcon />} />
+    <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
     <main className="overflow-y-scroll"> {items} </main>
   </div>
 }

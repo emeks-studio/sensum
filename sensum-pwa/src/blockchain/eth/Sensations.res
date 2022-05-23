@@ -27,3 +27,38 @@ external getSensationsLength: () => Js.Promise.t<bigInt> = "getSensationsLength"
 
 @module("./Sensations.js")
 external newSensation: (~s: sensation) => Js.Promise.t<confirmedTransaction> = "newSensation"
+
+// Ex. get sensation
+// Bad examples: Try with this instead, and check the COMPILE time error:
+// Sensations.getSensationByIndex(~index=1000)->Promise.then(sensation => {
+// Good example: 
+// Sensations.getSensationByIntIndex(~index=0)
+// ->Promise.then(sensation => {
+//   Js.Console.log2("initial sensation:", sensation)
+//   Promise.resolve()
+// })
+// ->Promise.catch(err => {
+//   Js.Console.error(err)
+//   Promise.resolve()
+// })
+// ->ignore
+
+// Ex. new sensation
+//  let s: Sensations.sensation = {
+//    author: "mk",
+//    message: "los Granujas sean unidos porque esa es la ley 1ra",
+//  }
+//  Sensations.newSensation(~s)
+//  ->Promise.then(confirmedTx => {
+//    Js.Console.log(confirmedTx)
+//    Sensations.getLatestSensation()
+//  })
+//  ->Promise.then(sensation => {
+//    Js.Console.log2("latest sensation:", sensation)
+//    Promise.resolve()
+//  })
+//  ->Promise.catch(err => {
+//    Js.Console.log(err)
+//    Promise.resolve()
+//  })
+//  ->ignore

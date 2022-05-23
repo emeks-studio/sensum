@@ -14,7 +14,7 @@ const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
 // From executing: npx hardhat run scripts/sensations-deploy.js --network localhost
 // Obs: You can also use an ENS name for the contract address
-const contractAddress = "0x172076E0166D1F9Cc711C77Adf8488051744980C";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 // TODO: Use it to decode stuff returned by contract calls
 // const abiEncoder = ethers.utils.defaultAbiCoder;

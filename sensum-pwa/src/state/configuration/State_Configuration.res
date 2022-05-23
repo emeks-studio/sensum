@@ -9,7 +9,7 @@ let networkUrlAtom = Recoil.atom({
   default: initialUrl,
 })
 
-let loadNetworkHook = () => {
+let useEffectLoadNetworkFromStorage = () => {
   let (_networkUrl, setNetworkUrl) = Recoil.useRecoilState(networkUrlAtom)
 
   React.useEffect0(() => {
@@ -18,7 +18,7 @@ let loadNetworkHook = () => {
   })
 }
 
-let useNetworkHook = () => {
+let useNetwork = () => {
   let (networkUrl, setNetworkUrl) = Recoil.useRecoilState(networkUrlAtom)
 
   let saveNetworkUrl = (url: string) => {

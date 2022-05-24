@@ -1,23 +1,40 @@
 @react.component
 let make = () => {
-  let (maybeNetworkUrl, saveNetworkUrl) = State.Configuration.useNetworkUrl()
+  let (maybeConfig, saveConfig) = State.Configuration.useConfig()
   let networkForm = {
-    let defaultUrl = switch maybeNetworkUrl {
+    let defaultUrl = switch maybeConfig {
     | None => State.Configuration.defaultUrl
-    | Some(url) => url
+    | Some(c) => c.networkUrl
     }
     let (networkUrlInput, setNetworkInput) = React.useState(_ => defaultUrl)
 
-    let onChange = event => {
+    let defaultSensationsContractAddress = switch maybeConfig {
+    | None => State.Configuration.defaultSensationsContractAddress
+    | Some(c) => c.sensationsContractAddress
+    }
+    let (sensationsContractAddressInput, setSensationsContractAddressInput) = React.useState(_ =>
+      defaultSensationsContractAddress
+    )
+
+    let onChangeNetworkUrlInput = event => {
       let updatedValue = ReactEvent.Form.target(event)["value"]
       setNetworkInput(_ => updatedValue)
     }
 
-    let onSave = _event => {
-      saveNetworkUrl(networkUrlInput)
+    let onChangeSensationsContractAddressInput = event => {
+      let updatedValue = ReactEvent.Form.target(event)["value"]
+      setSensationsContractAddressInput(_ => updatedValue)
     }
 
-    <div className="my-10 grid grid-flow-row gap-3 place-content-center ">
+    let onSave = _event => {
+      // TODO: Do something if validation fails!
+      saveConfig(
+        ~networkUrl=networkUrlInput,
+        ~sensationsContractAddress=sensationsContractAddressInput,
+      )->ignore
+    }
+
+    <div className="my-10 grid grid-flow-row gap-3 place-content-center">
       <label htmlFor="networkInput" className="text-xl text-purple-50">
         {"network"->React.string}
       </label>
@@ -26,7 +43,17 @@ let make = () => {
         id="networkInput"
         placeholder="Blockchain Network Provider"
         value=networkUrlInput
-        onChange
+        onChange=onChangeNetworkUrlInput
+      />
+      <label htmlFor="sensationsContractAddress" className="text-xl text-purple-50">
+        {"sensations contract address"->React.string}
+      </label>
+      <textarea
+        className="form-control px-2 resize-none"
+        id="sensationsContractAddress"
+        placeholder="0x..."
+        value=sensationsContractAddressInput
+        onChange=onChangeSensationsContractAddressInput
       />
       <button
         className="text-xl px-2 text-purple-50 bg-purple-500 hover:bg-purple-900" onClick=onSave>

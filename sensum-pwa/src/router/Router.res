@@ -3,9 +3,9 @@
 let make = () => {
   // Notice that for reads is ok/safe to just use directly the atom.
   // But for writes, we should use some of the exposed hooks.
-  let mNetworkUrl = Recoil.useRecoilValue(State.Configuration.networkUrlAtom)
+  let maybeNetworkUrl = Recoil.useRecoilValue(State.Configuration.maybeNetworkUrlAtom)
   React.useEffect1(_ => {
-    switch mNetworkUrl {
+    switch maybeNetworkUrl {
     | Some(networkUrl) =>
       Ethers.getNetwork(~networkUrl)
       ->Promise.then(status => {
@@ -31,11 +31,11 @@ let make = () => {
     | None => Js.Console.log("no network url!")
     }
     None
-  }, [mNetworkUrl])
+  }, [maybeNetworkUrl])
 
   let routerUrl = RescriptReactRouter.useUrl()
 
-  switch networkUrl {
+  switch maybeNetworkUrl {
   | None => <Pages_Configuration />
   | _ =>
     switch routerUrl.path {

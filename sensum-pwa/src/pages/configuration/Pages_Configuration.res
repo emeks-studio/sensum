@@ -1,8 +1,8 @@
 @react.component
 let make = () => {
-  let (networkUrl, saveNetworkUrl) = State.Configuration.useNetwork()
+  let (maybeNetworkUrl, saveNetworkUrl) = State.Configuration.useNetworkUrl()
   let networkForm = {
-    let defaultUrl = switch networkUrl {
+    let defaultUrl = switch maybeNetworkUrl {
     | None => State.Configuration.defaultUrl
     | Some(url) => url
     }

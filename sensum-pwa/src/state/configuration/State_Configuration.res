@@ -4,13 +4,13 @@ let defaultUrl = "http://127.0.0.1:8545"
 let initialUrl: option<string> = None
 let networkUrlKey: string = "networkUrl"
 
-let networkUrlAtom = Recoil.atom({
+let maybeNetworkUrlAtom = Recoil.atom({
   key: networkUrlKey,
   default: initialUrl,
 })
 
 let useEffectLoadNetworkFromStorage = () => {
-  let (_networkUrl, setNetworkUrl) = Recoil.useRecoilState(networkUrlAtom)
+  let (_mNetworkUrl, setNetworkUrl) = Recoil.useRecoilState(maybeNetworkUrlAtom)
 
   React.useEffect0(() => {
     setNetworkUrl(_ => storage->Dom.Storage2.getItem(networkUrlKey))
@@ -18,8 +18,9 @@ let useEffectLoadNetworkFromStorage = () => {
   })
 }
 
-let useNetwork = () => {
-  let (networkUrl, setNetworkUrl) = Recoil.useRecoilState(networkUrlAtom)
+// useNetworkUrl :: option<string>
+let useNetworkUrl = () => {
+  let (maybeNetworkUrl, setNetworkUrl) = Recoil.useRecoilState(maybeNetworkUrlAtom)
 
   let saveNetworkUrl = (url: string) => {
     if url == "" {
@@ -31,5 +32,5 @@ let useNetwork = () => {
     }
   }
 
-  (networkUrl, saveNetworkUrl)
+  (maybeNetworkUrl, saveNetworkUrl)
 }

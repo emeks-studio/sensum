@@ -39,7 +39,7 @@ let make = () => {
         Promise.resolve()
       })->ignore
       
-    | None => Js.Console.log("no network url!")
+    | None => Js.Console.log("no config!")
     }
     None
   }, [maybeConfig])

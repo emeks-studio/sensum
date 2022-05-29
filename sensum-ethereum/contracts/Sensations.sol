@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicense
+//SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
@@ -9,7 +9,7 @@ import "hardhat/console.sol";
 contract Sensations {
 
     struct sensation {
-        string author;
+        uint256 avatar;
         string message;
     }
 
@@ -17,7 +17,7 @@ contract Sensations {
     event Synapsis(sensation _sensation, uint256 _index);
 
     constructor() {
-        console.log("Deploying Sensations contract uWu");
+        console.log("Deploying sensations contract uWu");
     }
 
     function getSensationsLength() public view returns (uint256) {
@@ -32,10 +32,10 @@ contract Sensations {
     // }
 
     // TODO:
-    // Check for author and message lengths.
     // Sanitize input. base64 could be an option to avoid above error as well.
     function newSensation(sensation memory _sensation) public {
-        console.log("Generating new sensation: '%s', '%s'", _sensation.author, _sensation.message);
+        require (bytes(_sensation.message).length <= 512, "too long sensation message");
+        console.log("Generating new sensation: '%s', '%s'", _sensation.avatar, _sensation.message);
         sensations.push(_sensation);
         emit Synapsis(_sensation, sensations.length - 1);
     }

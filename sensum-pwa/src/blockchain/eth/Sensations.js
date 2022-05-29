@@ -18,9 +18,9 @@ const contractJsonAbi = `[
         {
           "components": [
             {
-              "internalType": "string",
-              "name": "author",
-              "type": "string"
+              "internalType": "uint256",
+              "name": "avatar",
+              "type": "uint256"
             },
             {
               "internalType": "string",
@@ -61,9 +61,9 @@ const contractJsonAbi = `[
         {
           "components": [
             {
-              "internalType": "string",
-              "name": "author",
-              "type": "string"
+              "internalType": "uint256",
+              "name": "avatar",
+              "type": "uint256"
             },
             {
               "internalType": "string",
@@ -92,9 +92,9 @@ const contractJsonAbi = `[
       "name": "sensations",
       "outputs": [
         {
-          "internalType": "string",
-          "name": "author",
-          "type": "string"
+          "internalType": "uint256",
+          "name": "avatar",
+          "type": "uint256"
         },
         {
           "internalType": "string",
@@ -108,27 +108,31 @@ const contractJsonAbi = `[
   ]`;
   
 export async function getSensationByIndex (config, index) {
-  const provider = new ethers.providers.JsonRpcProvider(config.networkUrl);
+  const provider = config.networkUrl === 'ropsten' ?
+   ethers.getDefaultProvider('ropsten') : new ethers.providers.JsonRpcProvider(networkUrl);
   const contract = new ethers.Contract(config.sensationsContractAddress, contractJsonAbi, provider);
   const sensationArray = await contract.sensations(index)
-  return {author: sensationArray[0], message: sensationArray[1]};
+  return {avatar: sensationArray[0], message: sensationArray[1]};
 }  
   
 export async function getLatestSensation (config) {
-  const provider = new ethers.providers.JsonRpcProvider(config.networkUrl);
+  const provider = config.networkUrl === 'ropsten' ?
+   ethers.getDefaultProvider('ropsten') : new ethers.providers.JsonRpcProvider(networkUrl);
   const contract = new ethers.Contract(config.sensationsContractAddress, contractJsonAbi, provider);
   const index = await contract.getSensationsLength() - 1;
   return getSensationByIndex(config, index);
 }
 
 export async function getSensationsLength (config) {
-  const provider = new ethers.providers.JsonRpcProvider(config.networkUrl);
+  const provider = config.networkUrl === 'ropsten' ?
+   ethers.getDefaultProvider('ropsten') : new ethers.providers.JsonRpcProvider(networkUrl);
   const contract = new ethers.Contract(config.sensationsContractAddress, contractJsonAbi, provider);
   return contract.getSensationsLength();
 }
 
 export async function newSensation (config, sensation) {
-  const provider = new ethers.providers.JsonRpcProvider(config.networkUrl);
+  const provider = config.networkUrl === 'ropsten' ?
+   ethers.getDefaultProvider('ropsten') : new ethers.providers.JsonRpcProvider(networkUrl);
   const contract = new ethers.Contract(config.sensationsContractAddress, contractJsonAbi, provider);
   // Gets default signer
   const signer = provider.getSigner();

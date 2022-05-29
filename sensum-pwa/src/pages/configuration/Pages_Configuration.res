@@ -36,12 +36,12 @@ let make = () => {
 
     <div className="my-10 grid grid-flow-row gap-3 place-content-center">
       <label htmlFor="networkInput" className="text-xl text-purple-50">
-        {"network"->React.string}
+        {"blockchain network provider"->React.string}
       </label>
       <input
         className="form-control px-2"
         id="networkInput"
-        placeholder="Blockchain Network Provider"
+        placeholder="http://127.0.0.1:8545"
         value=networkUrlInput
         onChange=onChangeNetworkUrlInput
       />

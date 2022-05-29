@@ -13,36 +13,18 @@ type confirmedTransaction
 type bigInt
 
 @module("./Sensations.js")
-external getSensationByIndex: (~index: bigInt) => Js.Promise.t<sensation> = "getSensationByIndex"
-
-// Notice that use the same JS method `getSensationByIndex`, but propose different type signature!
-@module("./Sensations.js")
-external getSensationByIntIndex: (~index: int) => Js.Promise.t<sensation> = "getSensationByIndex"
+external getSensationByIndex: (~config: State.Configuration.config, ~index: bigInt) => Js.Promise.t<sensation> = "getSensationByIndex"
 
 @module("./Sensations.js")
-external getLatestSensation: () => Js.Promise.t<sensation> = "getLatestSensation"
+external getLatestSensation: (~config: State.Configuration.config) => Js.Promise.t<sensation> = "getLatestSensation"
 
 @module("./Sensations.js")
-external getSensationsLength: () => Js.Promise.t<bigInt> = "getSensationsLength"
+external getSensationsLength: (~config: State.Configuration.config) => Js.Promise.t<bigInt> = "getSensationsLength"
 
 @module("./Sensations.js")
-external newSensation: (~s: sensation) => Js.Promise.t<confirmedTransaction> = "newSensation"
+external newSensation: (~config: State.Configuration.config, ~s: sensation) => Js.Promise.t<confirmedTransaction> = "newSensation"
 
-// Ex. get sensation
-// Bad examples: Try with this instead, and check the COMPILE time error:
-// Sensations.getSensationByIndex(~index=1000)->Promise.then(sensation => {
-// Good example: 
-// Sensations.getSensationByIntIndex(~index=0)
-// ->Promise.then(sensation => {
-//   Js.Console.log2("initial sensation:", sensation)
-//   Promise.resolve()
-// })
-// ->Promise.catch(err => {
-//   Js.Console.error(err)
-//   Promise.resolve()
-// })
-// ->ignore
-
+// Old! now you need to pass the config as a parameter too.
 // Ex. new sensation
 //  let s: Sensations.sensation = {
 //    author: "mk",

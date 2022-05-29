@@ -3,11 +3,11 @@
 let make = () => {
   // Notice that for reads is ok/safe to just use directly the atom.
   // But for writes, we should use some of the exposed hooks.
-  let maybeNetworkUrl = Recoil.useRecoilValue(State.Configuration.maybeNetworkUrlAtom)
+  let maybeConfig = Recoil.useRecoilValue(State.Configuration.maybeConfigAtom)
   React.useEffect1(_ => {
-    switch maybeNetworkUrl {
-    | Some(networkUrl) =>
-      Ethers.getNetwork(~networkUrl)
+    switch maybeConfig {
+    | Some(config) =>
+      Ethers.getNetwork(~networkUrl=config.networkUrl)
       ->Promise.then(status => {
         Js.Console.log2("getNetwork::response", status)
         Promise.resolve()
@@ -18,7 +18,7 @@ let make = () => {
       })
       ->ignore
 
-      Ethers.getBlockNumber(~networkUrl)
+      Ethers.getBlockNumber(~networkUrl=config.networkUrl)
       ->Promise.then(blockNumber => {
         Js.Console.log2("getBlockNumber::response", blockNumber)
         Promise.resolve()
@@ -28,14 +28,25 @@ let make = () => {
         Promise.resolve()
       })
       ->ignore
-    | None => Js.Console.log("no network url!")
+      
+      Sensations.getLatestSensation(~config=config)
+       ->Promise.then(sensation => {
+        Js.Console.log2("getLatestSensation::response", sensation)
+        Promise.resolve()
+      })
+      ->Promise.catch(err => {
+        Js.Console.log2("getLatestSensation::error", err)
+        Promise.resolve()
+      })->ignore
+      
+    | None => Js.Console.log("no config!")
     }
     None
-  }, [maybeNetworkUrl])
+  }, [maybeConfig])
 
   let routerUrl = RescriptReactRouter.useUrl()
 
-  switch maybeNetworkUrl {
+  switch maybeConfig {
   | None => <Pages_Configuration />
   | _ =>
     switch routerUrl.path {

@@ -1,5 +1,5 @@
 @react.component
 let make = () => {
-  State.Configuration.useEffectLoadNetworkFromStorage()
+  State.Configuration.useEffectLoadConfigFromStorage()
   <Router />
 }

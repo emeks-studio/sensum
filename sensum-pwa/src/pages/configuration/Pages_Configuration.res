@@ -1,7 +1,12 @@
-@react.component
-let make = () => {
-  let (maybeConfig, saveConfig) = State.Configuration.useConfig()
-  let networkForm = {
+module NetworkForm = {
+  @react.component
+  let make = (
+    ~maybeConfig: option<State.Configuration.config>,
+    ~saveConfig: (
+      ~networkUrl: string,
+      ~sensationsContractAddress: string,
+    ) => Belt.Result.t<unit, string>,
+  ) => {
     let defaultUrl = switch maybeConfig {
     | None => State.Configuration.defaultUrl
     | Some(c) => c.networkUrl
@@ -27,11 +32,15 @@ let make = () => {
     }
 
     let onSave = _event => {
-      // TODO: Do something if validation fails!
-      saveConfig(
+      let result = saveConfig(
         ~networkUrl=networkUrlInput,
         ~sensationsContractAddress=sensationsContractAddressInput,
-      )->ignore
+      )
+      // TODO: Display error instead of logging it!
+      switch result {
+        | Error(msg) => Js.Console.log2("Error: ", msg)
+        | _ => ignore()
+      }
     }
 
     <div className="my-10 grid grid-flow-row gap-3 place-content-center">
@@ -61,9 +70,14 @@ let make = () => {
       </button>
     </div>
   }
+}
+
+@react.component
+let make = () => {
+  let (maybeConfig, saveConfig) = State.Configuration.useConfig()
 
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
-    <main className="overflow-y-scroll"> {networkForm} </main>
+    <main className="overflow-y-scroll"> {<NetworkForm maybeConfig saveConfig />} </main>
   </div>
 }

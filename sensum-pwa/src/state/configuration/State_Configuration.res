@@ -8,17 +8,12 @@ let storage = Dom.Storage2.localStorage
 let defaultSensationsContractAddress = "0xb016b0f45dcf44c99804e876aefcc82ea4ed6099"
 let defaultUrl = "ropsten"
 
-type config = {
-  sensationsContractAddress: string,
-  networkUrl: string,
-}
-
 // bind to JS' JSON.parse
 @scope("JSON") @val
-external configFromJSON: string => config = "parse"
+external configFromJSON: string => Types.config = "parse"
 
 let configStorageKey = "config"
-let emptyConfig: option<config> = None
+let emptyConfig: option<Types.config> = None
 let maybeConfigAtom = Recoil.atom({
   key: configStorageKey,
   default: emptyConfig,
@@ -40,7 +35,7 @@ let useConfig = () => {
     if (networkUrl == "" || sensationsContractAddress == "") {
       Belt.Result.Error("Empty settings not allowed")
     } else {
-      let updatedConfig = {
+      let updatedConfig: Types.config = {
         networkUrl: networkUrl,
         sensationsContractAddress: sensationsContractAddress
       }

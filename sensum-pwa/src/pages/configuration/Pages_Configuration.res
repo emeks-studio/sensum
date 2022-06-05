@@ -1,7 +1,7 @@
 module NetworkForm = {
   @react.component
   let make = (
-    ~maybeConfig: option<State.Configuration.config>,
+    ~maybeConfig: option<Types.config>,
     ~saveConfig: (
       ~networkUrl: string,
       ~sensationsContractAddress: string,

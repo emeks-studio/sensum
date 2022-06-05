@@ -130,6 +130,15 @@ export async function getSensationsLength (config) {
   return contract.getSensationsLength();
 }
 
+// TODO: Improve big int inteface!
+export async function getSensationsLengthFormatted (config) {
+  const provider = config.networkUrl === 'ropsten' ?
+   ethers.getDefaultProvider('ropsten') : new ethers.providers.JsonRpcProvider(networkUrl);
+  const contract = new ethers.Contract(config.sensationsContractAddress, contractJsonAbi, provider);
+  const index = await contract.getSensationsLength();
+  return index.toString();
+}
+
 export async function newSensation (config, sensation) {
   const provider = config.networkUrl === 'ropsten' ?
    ethers.getDefaultProvider('ropsten') : new ethers.providers.JsonRpcProvider(networkUrl);

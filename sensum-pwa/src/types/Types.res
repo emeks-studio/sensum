@@ -10,11 +10,14 @@ type network = {
 // TODO: Redefine this type
 type confirmedTransaction
 
-// TODO: Redefine this type! Ex. Object { _hex: "0x2b", _isBigNumber: true }
-type bigInt
+module BigInt = {
+  // Internal state: Object { _hex: "0x2b", _isBigNumber: true }
+  type t
+  @send external toString: t => string = "toString"
+}
 
 type sensation = {
-  avatar: bigInt,
+  avatar: BigInt.t,
   message: string
 }
 

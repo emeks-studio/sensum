@@ -2,16 +2,13 @@
 // but if in runtime returns something different, there will be still a bug!
 
 @module("./Sensations.js")
-external getSensationByIndex: (~config: Types.config, ~index: Types.bigInt) => Js.Promise.t<Types.sensation> = "getSensationByIndex"
+external getSensationByIndex: (~config: Types.config, ~index: Types.BigInt.t) => Js.Promise.t<Types.sensation> = "getSensationByIndex"
 
 @module("./Sensations.js")
 external getLatestSensation: (~config: Types.config) => Js.Promise.t<Types.sensation> = "getLatestSensation"
 
 @module("./Sensations.js")
-external getSensationsLength: (~config: Types.config) => Js.Promise.t<Types.bigInt> = "getSensationsLength"
-
-@module("./Sensations.js")
-external getSensationsLengthFormatted: (~config: Types.config) => Js.Promise.t<string> = "getSensationsLengthFormatted"
+external getSensationsLength: (~config: Types.config) => Js.Promise.t<Types.BigInt.t> = "getSensationsLength"
 
 @module("./Sensations.js")
 external newSensation: (~config: Types.config, ~s: Types.sensation) => Js.Promise.t<Types.confirmedTransaction> = "newSensation"

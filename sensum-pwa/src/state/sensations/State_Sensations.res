@@ -6,13 +6,13 @@ let sensationsIndex = Recoil.asyncSelector({
     let maybeConfig = get(State_Configuration.maybeConfigAtom)
     switch maybeConfig {
     | Some(config) =>
-      Sensations.getSensationsLengthFormatted(~config)
+      Sensations.getSensationsLength(~config)
       ->Promise.then(sensationIndex => {
-        Js.Console.log2("getSensationsLengthFormatted::response", sensationIndex)
+        Js.Console.log2("getSensationsLength::response", sensationIndex)
         Promise.resolve(Belt.Result.Ok(sensationIndex))
       })
       ->Promise.catch(err => {
-        Js.Console.log2("getSensationsLengthFormatted::error", err)
+        Js.Console.log2("getSensationsLength::error", err)
         Promise.resolve(Belt.Result.Error("error getting sensation index"))
       })
     | None => Promise.resolve(Belt.Result.Error("no config"))

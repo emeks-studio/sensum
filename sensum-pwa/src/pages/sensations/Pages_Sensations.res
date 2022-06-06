@@ -1,3 +1,5 @@
+// TODO: Given the current index, we will need something like an iterator
+// in order to request for the latest sensations
 module SensationsBody = {
   @react.component
   let make = () => {
@@ -5,7 +7,7 @@ module SensationsBody = {
     <div>
       <h1 className="text-4xl text-purple-50">
         {switch sensationIndex {
-        | Belt.Result.Ok(indexAsText) => indexAsText->React.string
+        | Belt.Result.Ok(i) => i->Types.BigInt.toString->React.string
         | Belt.Result.Error(e) => e->React.string
         }}
       </h1>
@@ -26,7 +28,8 @@ let make = () => {
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
     <main className="overflow-y-scroll">
-      <React.Suspense fallback={<div> {"suspensed"->React.string} </div>}>
+      <React.Suspense
+        fallback={<div className="text-sm text-purple-50"> {"suspensed"->React.string} </div>}>
         <SensationsBody />
       </React.Suspense>
     </main>

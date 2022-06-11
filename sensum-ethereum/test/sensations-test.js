@@ -13,7 +13,7 @@ const checkSensation = async (contract, sensation, expectedLength) => {
   expect(parseInt(eventArgs[0]._hex, 16)).to.equal(sensation.avatar);
 };
 
-describe("Sensum", function () {
+describe("sensations contract test suite", function () {
   let Sensations;
   let sensations;
   beforeEach(async function () {

@@ -18,7 +18,7 @@ describe("legacy sensations contract test suite", function () {
 
       expect(await sensations.getSensationsLength()).to.equal(i + 1);
       expect(eventArgs[1]).to.equal(legacySensations[i].message);
-      expect(parseInt(eventArgs[0]._hex, 16)).to.equal(legacySensations[i].avatar);
+      expect(eventArgs[0]).to.equal(legacySensations[i].avatar);
     }
   });
 });

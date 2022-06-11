@@ -24,6 +24,14 @@ describe("sensations contract test suite", function () {
     expect(await sensations.getSensationsLength()).to.equal(0));
   it("Should be able to send a sensation", () =>
     checkSensation(sensations, { avatar: 0, message: "M o n i" }, 1));
+  it("Should fail when sensation message is too large", async () => {
+    await expect(
+      sensations.newSensation({
+        avatar: 0,
+        message: "x".repeat(1000),
+      })
+    ).to.be.revertedWith("too long sensation message");
+  });
   it("Should be able to handle all the legacy sensations", async function () {
     this.timeout(0); // will take a while
     for (let i = 0; i < legacySensations.length; i++)

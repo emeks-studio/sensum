@@ -1,15 +1,37 @@
-// TODO: Given the current index, we will need something like an iterator
-// in order to request for the latest sensations
+type sensationsIterator = IteratorNotReady | Iterator(Types.BigInt.t)
+
 module SensationsBody = {
   @react.component
-  let make = () => {
-    let sensationIndex = Recoil.useRecoilValue(State.Sensations.sensationsIndex)
+  let make = (~iterator: sensationsIterator, ~setIterator: (sensationsIterator => sensationsIterator) => unit) => {
+    let sensationLength = Recoil.useRecoilValue(State.Sensations.length)
+    let (sensations, setSensations) = State.Sensations.useSensations();
+    React.useEffect1(() => {
+      switch sensationLength {
+      | Belt.Result.Ok(length) =>
+        switch iterator {
+        | IteratorNotReady => setIterator(_ => Iterator(length))
+        | Iterator(_) => () // Suppose new sensations appears, we don't want to reboot the iterator.
+        }
+      | Belt.Result.Error(_) => ()
+      }
+      None
+    }, [sensationLength])
+    // TODO: Use special setSensations to request/fetch more!
+    React.useEffect1(() => {
+      switch iterator {
+      | IteratorNotReady => ()
+      | Iterator(it) => ()
+      }
+      None
+    }, [iterator])
+    
     <div>
       <h1 className="text-4xl text-purple-50">
-        {switch sensationIndex {
-        | Belt.Result.Ok(i) => i->Types.BigInt.toString->React.string
-        | Belt.Result.Error(e) => e->React.string
-        }}
+        {sensations->Belt.List.mapWithIndex((index, sensations) => {
+          <div key={index->Belt.Int.toString}>
+            <h1 className="text-4xl text-purple-50"> {"element"->React.string} </h1>
+          </div>
+        })->Belt.List.toArray->React.array}
       </h1>
     </div>
   }
@@ -17,20 +39,13 @@ module SensationsBody = {
 
 @react.component
 let make = () => {
-  // let items =
-  //   Belt.Array.rangeBy(0, 42, ~step=1)
-  //   ->Belt.Array.map(i => {
-  //     <div key={i->Belt.Int.toString}>
-  //       <h1 className="text-4xl text-purple-50"> {"element"->React.string} </h1>
-  //     </div>
-  //   })
-  //   ->React.array
+  let (iterator, setIterator) = React.useState(_ => IteratorNotReady)
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
     <main className="overflow-y-scroll">
       <React.Suspense
         fallback={<div className="text-sm text-purple-50"> {"suspensed"->React.string} </div>}>
-        <SensationsBody />
+        <SensationsBody iterator setIterator/>
       </React.Suspense>
     </main>
   </div>

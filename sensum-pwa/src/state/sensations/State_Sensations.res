@@ -1,5 +1,5 @@
-let sensationsIndex = Recoil.asyncSelector({
-  key: "sensationsIndex",
+let length = Recoil.asyncSelector({
+  key: "sensationsLength",
   get: ({get}) => {
     /* Obs: We call State_Configuration instead of State.Configuration
      in order to avoid circular dependencies */
@@ -19,3 +19,15 @@ let sensationsIndex = Recoil.asyncSelector({
     }
   },
 })
+
+// TODO: Instead of a list we could use a more refined type that encapsulates more things
+let sensationsLoaded: Recoil.readWrite<list<Types.sensation>> = Recoil.atom({
+  key: "sensationsLoaded",
+  default: list{},
+})
+
+let useSensations = () => {
+  let (sensations, setSensations) = Recoil.useRecoilState(sensationsLoaded)
+  // TODO: Provide custom setSensations method that actually performs the fetch!
+  (sensations, setSensations)
+}

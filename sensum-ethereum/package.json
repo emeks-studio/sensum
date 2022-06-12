@@ -4,7 +4,9 @@
   "description": "sensum smart contracts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "hardhat test test/*-test.js",
+    "test:basic": "hardhat test test/sensations-test.js",
+    "test:legacy": "hardhat test test/sensations-legacy-test.js"
   },
   "repository": {
     "type": "git",

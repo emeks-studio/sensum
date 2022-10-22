@@ -27,18 +27,7 @@ let make = () => {
         Js.Console.log2("getBlockNumber::error", err)
         Promise.resolve()
       })
-      ->ignore
-      
-      Sensations.getLatestSensation(~config=config)
-       ->Promise.then(sensation => {
-        Js.Console.log2("getLatestSensation::response", sensation)
-        Promise.resolve()
-      })
-      ->Promise.catch(err => {
-        Js.Console.log2("getLatestSensation::error", err)
-        Promise.resolve()
-      })->ignore
-      
+      ->ignore 
     | None => Js.Console.log("no config!")
     }
     None

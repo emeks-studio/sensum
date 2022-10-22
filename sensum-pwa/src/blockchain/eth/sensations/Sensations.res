@@ -1,28 +1,20 @@
 // Be careful, these methods serve as type checking at rescript level, 
 // but if in runtime returns something different, there will be still a bug!
 
-// TODO: Redefine this type
-type confirmedTransaction
-
-// TODO: Redefine this type! Ex. Object { _hex: "0x2b", _isBigNumber: true }
-type bigInt
-
-type sensation = {
-  avatar: bigInt,
-  message: string
-}
+@module("./Sensations.js")
+external getSensationByIndex: (~config: Types.config, ~index: Types.BigInt.t) => Js.Promise.t<Types.sensation> = "getSensationByIndex"
 
 @module("./Sensations.js")
-external getSensationByIndex: (~config: State.Configuration.config, ~index: bigInt) => Js.Promise.t<sensation> = "getSensationByIndex"
+external getLatestSensation: (~config: Types.config) => Js.Promise.t<Types.sensation> = "getLatestSensation"
 
 @module("./Sensations.js")
-external getLatestSensation: (~config: State.Configuration.config) => Js.Promise.t<sensation> = "getLatestSensation"
+external getSensationsLength: (~config: Types.config) => Js.Promise.t<Types.BigInt.t> = "getSensationsLength"
 
 @module("./Sensations.js")
-external getSensationsLength: (~config: State.Configuration.config) => Js.Promise.t<bigInt> = "getSensationsLength"
+external newSensation: (~config: Types.config, ~s: Types.sensation) => Js.Promise.t<Types.confirmedTransaction> = "newSensation"
 
-@module("./Sensations.js")
-external newSensation: (~config: State.Configuration.config, ~s: sensation) => Js.Promise.t<confirmedTransaction> = "newSensation"
+
+
 
 // Old! now you need to pass the config as a parameter too.
 // New format ex:

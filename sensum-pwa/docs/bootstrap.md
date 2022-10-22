@@ -1,4 +1,6 @@
-# Setup
+# Initial Bootstrap 
+
+Disclaimer: Now the project uses yarn instead of npm.
 
 ## How it was initialized this project?
 

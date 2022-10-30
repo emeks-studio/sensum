@@ -1,34 +1,27 @@
 module NetworkForm = {
   @react.component
   let make = (
-    ~maybeConfig: option<Types.config>,
+    ~config: Types.config,
     ~saveConfig: (
       ~networkUrl: string,
       ~sensationsContractAddress: string,
     ) => Belt.Result.t<unit, string>,
   ) => {
-    let defaultUrl = switch maybeConfig {
-    | None => State.Configuration.defaultUrl
-    | Some(c) => c.networkUrl
-    }
-    let (networkUrlInput, setNetworkInput) = React.useState(_ => defaultUrl)
 
-    let defaultSensationsContractAddress = switch maybeConfig {
-    | None => State.Configuration.defaultSensationsContractAddress
-    | Some(c) => c.sensationsContractAddress
-    }
     let (sensationsContractAddressInput, setSensationsContractAddressInput) = React.useState(_ =>
-      defaultSensationsContractAddress
+      config.sensationsContractAddress
     )
+
+    let (networkUrlInput, setNetworkInput) = React.useState(_ => config.networkUrl)
+    
+    let onChangeSensationsContractAddressInput = event => {
+      let updatedValue = ReactEvent.Form.target(event)["value"]
+      setSensationsContractAddressInput(_ => updatedValue)
+    }
 
     let onChangeNetworkUrlInput = event => {
       let updatedValue = ReactEvent.Form.target(event)["value"]
       setNetworkInput(_ => updatedValue)
-    }
-
-    let onChangeSensationsContractAddressInput = event => {
-      let updatedValue = ReactEvent.Form.target(event)["value"]
-      setSensationsContractAddressInput(_ => updatedValue)
     }
 
     let onSave = _event => {
@@ -39,7 +32,9 @@ module NetworkForm = {
       // TODO: Display error instead of logging it!
       switch result {
         | Error(msg) => Js.Console.log2("Error: ", msg)
-        | _ => ignore()
+        | _ => {
+          RescriptReactRouter.push("/")
+        }
       }
     }
 
@@ -73,11 +68,11 @@ module NetworkForm = {
 }
 
 @react.component
-let make = () => {
-  let (maybeConfig, saveConfig) = State.Configuration.useConfig()
-
+let make = (~config, ~saveConfig) => {
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
-    <main className="overflow-y-scroll"> {<NetworkForm maybeConfig saveConfig />} </main>
+    <main className="overflow-y-scroll">
+      <NetworkForm config saveConfig />
+    </main>
   </div>
 }

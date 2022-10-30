@@ -2,8 +2,7 @@
   "name": "sensum-pwa",
   "bs-dependencies": [
     "@rescript/react",
-    "@ryyppy/rescript-promise",
-    "rescript-recoil"
+    "@ryyppy/rescript-promise"
   ],
   "bsc-flags": [
     "-bs-super-errors"

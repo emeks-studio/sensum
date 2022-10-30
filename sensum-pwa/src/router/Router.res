@@ -33,7 +33,6 @@ let make = () => {
 
   let routerUrl = RescriptReactRouter.useUrl()
 
-  Js.Console.log("render")
   switch maybeConfig {
   | None => <Pages_Configuration config=defaultConfig saveConfig />
   | Some(config) =>

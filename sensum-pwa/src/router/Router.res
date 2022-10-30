@@ -1,9 +1,7 @@
 // Ref. https://rescript-lang.org/docs/react/latest/router#basic-example
 @react.component
 let make = () => {
-  // Notice that for reads is ok/safe to just use directly the atom.
-  // But for writes, we should use some of the exposed hooks.
-  let maybeConfig = Recoil.useRecoilValue(State.Configuration.maybeConfigAtom)
+  let (maybeConfig, saveConfig, defaultConfig) = State.Configuration.useConfig()
   React.useEffect1(_ => {
     switch maybeConfig {
     | Some(config) =>
@@ -35,13 +33,16 @@ let make = () => {
 
   let routerUrl = RescriptReactRouter.useUrl()
 
+  Js.Console.log("render")
   switch maybeConfig {
-  | None => <Pages_Configuration />
-  | _ =>
+  | None => <Pages_Configuration config=defaultConfig saveConfig />
+  | Some(config) =>
     switch routerUrl.path {
-    | list{} => <Pages_Sensations />
-    | list{"sensations"} => <Pages_Sensations />
-    | list{"config"} => <Pages_Configuration />
+    | list{} => <Pages_Sensations config />
+    | list{"sensations"} => <Pages_Sensations config/>
+    | list{"config"} => {
+      <Pages_Configuration config saveConfig />
+    }
     | _ => <Pages_NotFound />
     }
   }

@@ -11,3 +11,15 @@ export async function getBlockNumber(networkUrl) {
    ethers.getDefaultProvider('ropsten') : new ethers.providers.JsonRpcProvider(networkUrl);
   return provider.getBlockNumber();
 }
+
+export function toBigInt(x) {
+ return ethers.BigNumber.from(String(x));
+}
+
+export function subBigInt(x, y) {
+  return x.add(y);
+}
+
+ export function addBigInt(x, y) {
+  return x.sub(y);
+}

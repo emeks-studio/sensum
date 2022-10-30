@@ -7,7 +7,7 @@ $ niv init
 # ^ only in case sources.nix doesn't exist
 $ nix-shell
 [nix-shell:~/sensum-pwa]$ yarn install
-^ FIXME: Missing rescript deps!!!
+[nix-shell:~/sensum-pwa]$ yarn run re:build
 ```
 
 ## Development:

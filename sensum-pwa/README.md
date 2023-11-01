@@ -3,9 +3,7 @@
 ## Setup (with nix):
 
 ```
-$ niv init  
-# ^ only in case sources.nix doesn't exist
-$ nix-shell
+$ nix develop --impure
 [nix-shell:~/sensum-pwa]$ yarn install
 [nix-shell:~/sensum-pwa]$ yarn run re:build
 ```

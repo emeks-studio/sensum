@@ -6,14 +6,18 @@ module SensationsBody = {
   let make = (
     ~sensations: list<Types.sensation>
   ) => {    
-    <div>
-      <h1 className="text-4xl text-purple-50">
-        {sensations->Belt.List.mapWithIndex((index, sensations) => {
-          <div key={index->Belt.Int.toString}>
-            <h1 className="text-4xl text-purple-50"> {"element"->React.string} </h1>
+    <div className="flex flex-col flex-wrap">
+        {sensations->Belt.List.mapWithIndex((index, sensation) => {
+          let direction = (mod(index,2) == 0) ? "flex-row" : "flex-row-reverse"
+          <div className=`flex ${direction} flex-nowrap bg-black` key={index->Belt.Int.toString}>
+            <div className="m-5 w-32 h-32 bg-red-100">{sensation.avatar->Types.BigInt.toString->React.string}</div>
+            <div className="m-5 w-full h-32 bg-yellow-400">
+              <p className="text-lg text-purple-50 font-medium">
+                {sensation.message->React.string}
+              </p>
+            </div>
           </div>
         })->Belt.List.toArray->React.array}
-      </h1>
     </div>
   }
 }

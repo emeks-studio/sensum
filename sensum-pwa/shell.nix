@@ -8,7 +8,7 @@ pkgs.mkShell {
     pkgs.nodejs-14_x
     pkgs.yarn
     pkgs.yarn2nix
-    pkgs.python3        # Required by Rescript givent it used of Ninja build system
+    pkgs.python3        # Required by Rescript given it used of Ninja build system
   ];
   inherit NPM_CONFIG_PREFIX;
 

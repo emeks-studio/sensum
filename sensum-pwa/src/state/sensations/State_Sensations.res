@@ -4,7 +4,28 @@ let useSensations = (~config: Types.config) => {
   let (sensations, setSensations) = React.useState(_ => list{})
 
   React.useEffect1(() => {
-    Sensations.getSensationsLength(~config)
+
+    if config.sensationsContractAddress == "mock" {
+      let mockedSensations: list<Types.sensation> = list{
+        {avatar: 1->Ethers.toBigInt, message: "something"},
+        {avatar: 2->Ethers.toBigInt, message: "los granujas sean unidos porque esa es la ley primera"},
+        {avatar: 3->Ethers.toBigInt, message: "somos los mismos de siempre ?"},
+        {avatar: 1->Ethers.toBigInt, message: "something"},
+        {avatar: 2->Ethers.toBigInt, message: "los granujas sean unidos porque esa es la ley primera"},
+        {avatar: 3->Ethers.toBigInt, message: "somos los mismos de siempre ?"},
+        {avatar: 1->Ethers.toBigInt, message: "something"},
+        {avatar: 2->Ethers.toBigInt, message: "los granujas sean unidos porque esa es la ley primera"},
+        {avatar: 3->Ethers.toBigInt, message: "somos los mismos de siempre ?"},
+        {avatar: 1->Ethers.toBigInt, message: "something"},
+        {avatar: 2->Ethers.toBigInt, message: "los granujas sean unidos porque esa es la ley primera"},
+        {avatar: 3->Ethers.toBigInt, message: "somos los mismos de siempre ?"},
+        {avatar: 1->Ethers.toBigInt, message: "something"},
+        {avatar: 2->Ethers.toBigInt, message: "los granujas sean unidos porque esa es la ley primera"},
+        {avatar: 3->Ethers.toBigInt, message: "somos los mismos de siempre ?"},
+      }
+      setSensations(_ => mockedSensations)
+    } else {
+      Sensations.getSensationsLength(~config)
       ->Promise.then(sensationlength => {
         Js.Console.log2("getSensationsLength::response", sensationlength)
         let latestSensationIndex = Ethers.subBigInt(sensationlength, Ethers.toBigInt(1))
@@ -19,6 +40,7 @@ let useSensations = (~config: Types.config) => {
         Js.Console.log2("useSensations::error", err)
         Promise.resolve()
       })->ignore
+    }
     None
    }, 
    [config]

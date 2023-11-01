@@ -10,7 +10,7 @@ let storage = Dom.Storage2.localStorage
 // let defaultUrl = "ropsten"
 
 // Current default:
-let defaultSensationsContractAddress = ""
+let defaultSensationsContractAddress = "mock"
 let defaultUrl = "http://127.0.0.1:8545"
 
 let defaultConfig: Types.config = {

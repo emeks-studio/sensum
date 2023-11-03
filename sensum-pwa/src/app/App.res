@@ -1,4 +1,6 @@
 @react.component
 let make = () => {
-  <Router />
+  <RescriptReactErrorBoundary fallback={_error => <div> {"Unexpected error occurred"->React.string} </div>}>
+    <Router />
+  </RescriptReactErrorBoundary>
 }

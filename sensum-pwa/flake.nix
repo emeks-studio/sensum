@@ -36,12 +36,12 @@
               rescript
             ];
             shellHook = ''
-              npm install
-              # Warning: Do it after npm install!
+              yarn install
               ln -s "${rescript}/rescript" "$PWD/node_modules/.bin/rescript"
               ln -s ${rescript} "$PWD/node_modules/rescript"
               export PATH="${rescript}:$PWD/node_modules/.bin:$PATH"
               rescript build -with-deps
+              yarn build
             '';
             NIX_LD_LIBRARY_PATH = lib.makeLibraryPath [
               stdenv.cc.cc

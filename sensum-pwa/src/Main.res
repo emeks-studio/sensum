@@ -3,6 +3,9 @@
 let rootQuery = ReactDOM.querySelector("#root")
 
 switch rootQuery {
-| Some(root) => ReactDOM.render(<App />, root)
+| Some(root) => 
+  root
+    ->ReactDOM.Client.createRoot
+    ->ReactDOM.Client.Root.render(_, <App />)
 | None => ()
 }

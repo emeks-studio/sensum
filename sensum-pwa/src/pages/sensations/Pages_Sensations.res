@@ -28,10 +28,7 @@ let make = (~config: Types.config) => {
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
     <main className="overflow-y-scroll">
-      <React.Suspense
-        fallback={<div className="text-sm text-purple-50"> {"suspensed"->React.string} </div>}>
-        <SensationsBody sensations/>
-      </React.Suspense>
+     <SensationsBody sensations />
     </main>
   </div>
 }

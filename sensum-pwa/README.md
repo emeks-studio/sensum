@@ -4,8 +4,6 @@
 
 ```
 $ nix develop --impure
-[nix-shell:~/sensum-pwa]$ yarn install
-[nix-shell:~/sensum-pwa]$ yarn run re:build
 ```
 
 ## Development:
@@ -13,13 +11,11 @@ $ nix develop --impure
 In one tab (Run vitejs):
 
 ```bash
-$ yarn run build
-^ only the first time (if dist folder does not exist)
-$ yarn run dev
+$ yarn dev
 ```
 
 In other (Run Rescript):
 
 ```bash
-$ yarn run re:watch
+$ yarn re:watch
 ```

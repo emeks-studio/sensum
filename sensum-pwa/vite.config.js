@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
@@ -8,7 +7,6 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [
-    reactRefresh(),
     VitePWA({
       includeAssets: ['/assets/img/favicon.svg', '/assets/img/favicon.ico', '/assets/robots.txt', '/assets/img/apple-touch-icon.png'],  
       strategies: 'injectManifest', // Vs generateSW (more out of the box, less customizable!)

@@ -5,7 +5,7 @@ let storage = Dom.Storage2.localStorage
 // let defaultSensationsContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
 // @Deprecated
-// Deployed tx: https://sepolia.etherscan.io/address/0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc
+// Deployed contract: https://sepolia.etherscan.io/address/0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc
 let defaultSensationsContractAddress = "0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc"
 let defaultUrl = "sepolia"
 

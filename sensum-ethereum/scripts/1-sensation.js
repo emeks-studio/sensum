@@ -16,15 +16,17 @@ async function main() {
 
   // We get the contract to deploy
   const contractFactory = await hre.ethers.getContractFactory("Sensations");
+  // Deployed contract: https://sepolia.etherscan.io/address/0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc
   const contract = await contractFactory.attach("0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc");
 
-  console.log("Contract address: ", contract.address);
+  console.log("Contract address:", contract.address);
 
   const tx = await contract.newSensation({
     "avatar": "0xe7a8aa2df7e5d0b233da615af4e7fef148bec39aef1709da0a80391ad0316563",
     "message": " Los granujas sean unidos porque ésa es la ley primera. Compartan cerveza verdadera en cualquier tiempo que sea, porque si entre ellos se pelean, los devoran el sinceja.",
-    "timestamp": "2018-01-01T00:00:01.000Z"
   });
+
+  console.log("transaction:", tx);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -109,8 +109,8 @@ const contractJsonAbi = `[
 
 export async function getSensationByIndex(config, index) {
   const provider =
-    config.networkUrl === "ropsten"
-      ? ethers.getDefaultProvider("ropsten")
+    config.networkUrl === "sepolia"
+      ? ethers.getDefaultProvider("sepolia")
       : new ethers.providers.JsonRpcProvider(config.networkUrl);
   const contract = new ethers.Contract(
     config.sensationsContractAddress,
@@ -118,13 +118,13 @@ export async function getSensationByIndex(config, index) {
     provider
   );
   const sensationArray = await contract.sensations(index);
-  return { avatar: sensationArray[0], message: sensationArray[1] };
+  return Promise.resolve({ avatar: sensationArray[0], message: sensationArray[1] });
 }
 
 export async function getLatestSensation(config) {
   const provider =
-    config.networkUrl === "ropsten"
-      ? ethers.getDefaultProvider("ropsten")
+    config.networkUrl === "sepolia"
+      ? ethers.getDefaultProvider("sepolia")
       : new ethers.providers.JsonRpcProvider(config.networkUrl);
   const contract = new ethers.Contract(
     config.sensationsContractAddress,
@@ -137,21 +137,22 @@ export async function getLatestSensation(config) {
 
 export async function getSensationsLength(config) {
   const provider =
-    config.networkUrl === "ropsten"
-      ? ethers.getDefaultProvider("ropsten")
+    config.networkUrl === "sepolia"
+      ? ethers.getDefaultProvider("sepolia")
       : new ethers.providers.JsonRpcProvider(config.networkUrl);
   const contract = new ethers.Contract(
     config.sensationsContractAddress,
     contractJsonAbi,
     provider
   );
-  return contract.getSensationsLength(); 
+  const index = await contract.getSensationsLength()
+  return Promise.resolve(index); 
 }
 
 export async function newSensation(config, sensation) {
   const provider =
-    config.networkUrl === "ropsten"
-      ? ethers.getDefaultProvider("ropsten")
+    config.networkUrl === "sepolia"
+      ? ethers.getDefaultProvider("sepolia")
       : new ethers.providers.JsonRpcProvider(config.networkUrl);
   const contract = new ethers.Contract(
     config.sensationsContractAddress,

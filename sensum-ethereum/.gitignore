@@ -17,3 +17,6 @@ lib/bs
 #Hardhat files
 cache
 artifacts
+
+# sensitive date
+keys.json

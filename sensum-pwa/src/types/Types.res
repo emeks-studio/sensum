@@ -11,7 +11,6 @@ type network = {
 type confirmedTransaction
 
 module BigInt = {
-  // Internal state: Object { _hex: "0x2b", _isBigNumber: true }
   type t
   @send external toString: t => string = "toString"
 }

@@ -7,7 +7,7 @@ let make = () => {
     | Some(config) =>
       Ethers.getNetwork(~networkUrl=config.networkUrl)
       ->Promise.then(status => {
-        Js.Console.log2("getNetwork::response", status)
+        Js.Console.log2("getNetwork::chainId", status.chainId)
         Promise.resolve()
       })
       ->Promise.catch(err => {

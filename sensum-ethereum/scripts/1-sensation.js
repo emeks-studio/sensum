@@ -16,11 +16,9 @@ async function main() {
 
   // We get the contract to deploy
   const contractFactory = await hre.ethers.getContractFactory("Sensations");
-  const contract = await contractFactory.deploy();
+  const contract = await contractFactory.attach("0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc");
 
-  await contract.deployed();
-
-  console.log("Contract deployed to: ", contract.address);
+  console.log("Contract address: ", contract.address);
 
   const tx = await contract.newSensation({
     "avatar": "0xe7a8aa2df7e5d0b233da615af4e7fef148bec39aef1709da0a80391ad0316563",

@@ -4,7 +4,7 @@ let useSensations = (~config: Types.config) => {
   let (sensations, setSensations) = React.useState(_ => list{})
 
   React.useEffect1(() => {
-
+     Js.Console.log2("useSensations::config", config)
     if config.sensationsContractAddress == "mock" {
       let mockedSensations: list<Types.sensation> = list{
         {avatar: 1->Ethers.toBigInt, message: "something"},

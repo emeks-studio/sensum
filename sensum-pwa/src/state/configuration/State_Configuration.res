@@ -5,13 +5,13 @@ let storage = Dom.Storage2.localStorage
 // let defaultSensationsContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
 // @Deprecated
-// Deployed tx: https://ropsten.etherscan.io/tx/0x29ef130f4288054c287481356458614b26ebdf98adbf5c521e34f552b81ad02a
-// let defaultSensationsContractAddress = "0xb016b0f45dcf44c99804e876aefcc82ea4ed6099"
-// let defaultUrl = "ropsten"
+// Deployed tx: https://sepolia.etherscan.io/address/0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc
+let defaultSensationsContractAddress = "0x84D7d0F4A74930A26bD04789ffFbC573E54dFaBc"
+let defaultUrl = "sepolia"
 
 // Current default:
-let defaultSensationsContractAddress = "mock"
-let defaultUrl = "http://127.0.0.1:8545"
+// let defaultSensationsContractAddress = "mock"
+// let defaultUrl = "http://127.0.0.1:8545"
 
 let defaultConfig: Types.config = {
   sensationsContractAddress: defaultSensationsContractAddress,

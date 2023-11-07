@@ -12,6 +12,11 @@ export async function getBlockNumber(networkUrl) {
   return provider.getBlockNumber();
 }
 
+export function getProvider(networkUrl) {
+  return networkUrl === 'sepolia' ?
+   ethers.getDefaultProvider('sepolia') : new ethers.providers.JsonRpcProvider(networkUrl);
+}
+
 export function toBigInt(x) {
  return BigInt(x);
 }

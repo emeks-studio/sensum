@@ -7,6 +7,10 @@ type network = {
   name: string
 }
 
+type provider
+
+type contract
+
 // TODO: Redefine this type
 type confirmedTransaction
 

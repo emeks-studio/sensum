@@ -2,16 +2,19 @@
 // but if in runtime returns something different, there will be still a bug!
 
 @module("./Sensations.js")
-@val external getSensationByIndex: (~config: Types.config, ~index: Types.BigInt.t) => promise<Types.sensation> = "getSensationByIndex"
+external getContract: (~config: Types.config, ~provider: Types.provider) => Types.contract = "getContract"
 
 @module("./Sensations.js")
-@val external getLatestSensation: (~config: Types.config) => promise<Types.sensation> = "getLatestSensation"
+external getSensationByIndex: (~contract: Types.contract, ~index: Types.BigInt.t) => promise<Types.sensation> = "getSensationByIndex"
 
 @module("./Sensations.js")
-@val external getSensationsLength: (~config: Types.config) => promise<Types.BigInt.t> = "getSensationsLength"
+external getLatestSensation: (~contract: Types.contract) => promise<Types.sensation> = "getLatestSensation"
 
 @module("./Sensations.js")
-@val external newSensation: (~config: Types.config, ~s: Types.sensation) => promise<Types.confirmedTransaction> = "newSensation"
+external getSensationsLength: (~contract: Types.contract) => promise<Types.BigInt.t> = "getSensationsLength"
+
+@module("./Sensations.js")
+external newSensation: (~contract: Types.contract, ~s: Types.sensation) => promise<Types.confirmedTransaction> = "newSensation"
 
 
 

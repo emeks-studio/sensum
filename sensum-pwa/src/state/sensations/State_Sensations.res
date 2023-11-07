@@ -2,6 +2,7 @@
 // TODO: Provide fetchMoreSensations method!
 let useSensations = (~config: Types.config) => {
   let (sensations, setSensations) = React.useState(_ => list{})
+  let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
 
   React.useEffect1(() => {
      Js.Console.log2("useSensations::config", config)
@@ -25,21 +26,27 @@ let useSensations = (~config: Types.config) => {
       }
       setSensations(_ => mockedSensations)
     } else {
-      Sensations.getSensationsLength(~config)
-      ->Promise.then(sensationlength => {
+      let p = async () => {
+       try {
+        let contract = Sensations.getContract(~config, ~provider)
+        let sensationlength = await Sensations.getSensationsLength(~contract)
         Js.Console.log2("getSensationsLength::response", sensationlength)
         let latestSensationIndex = Ethers.subBigInt(sensationlength, Ethers.toBigInt(1))
-        Sensations.getSensationByIndex(~config, ~index=latestSensationIndex)
-      })
-      ->Promise.then(sensation => {
+        Js.Console.log2("latestSensationIndex", latestSensationIndex)
+        let sensation = await Sensations.getSensationByIndex(~contract, ~index=latestSensationIndex)
         Js.Console.log2("getSensationByIndex::response", sensation)
         setSensations(_ => list{sensation})
-        Promise.resolve()
-      })
-      ->Promise.catch(err => {
-        Js.Console.log2("useSensations::error", err)
-        Promise.resolve()
-      })->ignore
+       } catch {
+       | Js.Exn.Error(e) =>
+          switch Js.Exn.message(e) {
+          | Some(msg) => {
+            Js.log("JS error thrown: " ++ msg)
+          }
+          | None => Js.log("Some other exception has been thrown")
+          }
+       }
+      }
+      p()->ignore
     }
     None
    }, 

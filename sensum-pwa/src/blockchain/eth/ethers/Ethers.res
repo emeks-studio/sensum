@@ -6,6 +6,9 @@ external getNetwork: (~networkUrl: string) => promise<Types.network> = "getNetwo
 external getBlockNumber: (~networkUrl: string) => promise<Types.BigInt.t> = "getBlockNumber"
 
 @module("./Ethers.js")
+external getProvider: (~networkUrl: string)  => Types.provider = "getProvider"
+
+@module("./Ethers.js")
 external toBigInt: int => Types.BigInt.t = "toBigInt"
 
 @module("./Ethers.js")

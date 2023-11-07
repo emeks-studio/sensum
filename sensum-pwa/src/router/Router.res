@@ -2,34 +2,34 @@
 @react.component
 let make = () => {
   let (maybeConfig, saveConfig, defaultConfig) = State.Configuration.useConfig()
-  React.useEffect1(_ => {
-    switch maybeConfig {
-    | Some(config) =>
-      Ethers.getNetwork(~networkUrl=config.networkUrl)
-      ->Promise.then(status => {
-        Js.Console.log2("getNetwork::chainId", status.chainId)
-        Promise.resolve()
-      })
-      ->Promise.catch(err => {
-        Js.Console.log2("getNetwork::error", err)
-        Promise.resolve()
-      })
-      ->ignore
-
-      Ethers.getBlockNumber(~networkUrl=config.networkUrl)
-      ->Promise.then(blockNumber => {
-        Js.Console.log2("getBlockNumber::response", blockNumber)
-        Promise.resolve()
-      })
-      ->Promise.catch(err => {
-        Js.Console.log2("getBlockNumber::error", err)
-        Promise.resolve()
-      })
-      ->ignore 
-    | None => Js.Console.log("no config!")
-    }
-    None
-  }, [maybeConfig])
+  //React.useEffect1(_ => {
+  //  switch maybeConfig {
+  //  | Some(config) =>
+  //    Ethers.getNetwork(~networkUrl=config.networkUrl)
+  //    ->Promise.then(status => {
+  //      Js.Console.log2("getNetwork::chainId", status.chainId)
+  //      Promise.resolve()
+  //    })
+  //    ->Promise.catch(err => {
+  //      Js.Console.log2("getNetwork::error", err)
+  //      Promise.resolve()
+  //    })
+  //    ->ignore
+//
+  //    Ethers.getBlockNumber(~networkUrl=config.networkUrl)
+  //    ->Promise.then(blockNumber => {
+  //      Js.Console.log2("getBlockNumber::response", blockNumber)
+  //      Promise.resolve()
+  //    })
+  //    ->Promise.catch(err => {
+  //      Js.Console.log2("getBlockNumber::error", err)
+  //      Promise.resolve()
+  //    })
+  //    ->ignore 
+  //  | None => Js.Console.log("no config!")
+  //  }
+  //  None
+  //}, [maybeConfig])
 
   let routerUrl = RescriptReactRouter.useUrl()
 

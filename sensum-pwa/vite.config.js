@@ -14,8 +14,8 @@ export default defineConfig({
       srcDir: 'src',
       filename: 'ServiceWorker.js',
       manifest: {
-        name: 'sensum',
-        short_name: 'sensum',
+        name: 'd-sensum',
+        short_name: 'd-sensum',
         display_override: ["fullscreen", "minimal-ui"],
         display: "standalone", // https://developer.mozilla.org/en-US/docs/Web/Manifest/display_override#values
         start_url: '/',

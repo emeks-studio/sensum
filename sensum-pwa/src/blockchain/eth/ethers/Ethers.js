@@ -2,20 +2,26 @@ import { ethers } from 'ethers';
 
 export async function getNetwork(networkUrl) {
   const provider = networkUrl === 'sepolia' ?
-   ethers.getDefaultProvider('sepolia') : new ethers.providers.JsonRpcProvider(networkUrl);
+   ethers.getDefaultProvider('sepolia') : new ethers.JsonRpcProvider(networkUrl);
   return provider.getNetwork();
 }
 
 export async function getBlockNumber(networkUrl) {
   const provider = networkUrl === 'sepolia' ?
-   ethers.getDefaultProvider('sepolia') : new ethers.providers.JsonRpcProvider(networkUrl);
+   ethers.getDefaultProvider('sepolia') : new ethers.JsonRpcProvider(networkUrl);
   return provider.getBlockNumber();
 }
 
 export function getProvider(networkUrl) {
   return networkUrl === 'sepolia' ?
-   ethers.getDefaultProvider('sepolia') : new ethers.providers.JsonRpcProvider(networkUrl);
+   ethers.getDefaultProvider('sepolia', {exclusive: ["infura"]}) : new ethers.JsonRpcProvider(networkUrl);
 }
+
+// TODO: Do some cleanup!
+// export function getProvider(networkUrl) {
+//   return networkUrl === 'sepolia' ?
+//    ethers.getDefaultProvider('sepolia', {infura: "your_api_key", exclusive: ["infura"]}) : new ethers.JsonRpcProvider(networkUrl);
+// }
 
 export function toBigInt(x) {
  return BigInt(x);

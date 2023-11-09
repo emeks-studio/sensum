@@ -1,10 +1,21 @@
+
+module DefaultRightComponent = {
+  @react.component
+  let make = () => {
+    <div className="flex">
+      <Core_Ui_GraveyardButton /><Core_Ui_SanctuaryButton /><Core_Ui_ConfigButton />
+    </div>
+  }
+}
+
 @react.component
-let make = (~rightComponent: React.element=React.null) => {
+let make = (~rightComponent: React.element=<DefaultRightComponent />) => {
   let onClick = event => {
     ReactEvent.Mouse.preventDefault(event)
     RescriptReactRouter.replace("/")
   }
   
+  // FIXME: Make it responsive!
   <header
     className="border-purple-900 border-b-2 flex justify-between">
     <button onClick>

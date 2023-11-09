@@ -50,7 +50,7 @@ module NetworkForm = {
         onChange=onChangeNetworkUrlInput
       />
       <label htmlFor="sensationsContractAddress" className="text-xl text-purple-50">
-        {"sensations contract address"->React.string}
+        {"channel contract address"->React.string}
       </label>
       <textarea
         className="form-control px-2 resize-none"
@@ -70,7 +70,7 @@ module NetworkForm = {
 @react.component
 let make = (~config, ~saveConfig) => {
   <div className="bg-black flex flex-col h-screen overflow-hidden">
-    <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
+    <Core.Ui.Navbar />
     <main className="overflow-y-scroll">
       <NetworkForm config saveConfig />
     </main>

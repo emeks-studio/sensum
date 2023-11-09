@@ -5,7 +5,7 @@ let make = () => {
     RescriptReactRouter.replace("/")
   }
   <div className="bg-black flex flex-col h-screen overflow-hidden">
-    <Core.Ui.Navbar rightComponent={<Core.Ui.ConfigButton />} />
+    <Core.Ui.Navbar />
     <main className="flex flex-1 overflow-y-scroll justify-center items-center">
       <div className="flex flex-col gap-5">
         <h1 className="text-4xl text-purple-50"> {"You enter into the limbo"->React.string} </h1>

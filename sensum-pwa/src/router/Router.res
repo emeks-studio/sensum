@@ -38,8 +38,7 @@ let make = () => {
   | Some(config) =>
     switch routerUrl.path {
     | list{} => <Pages_Sensations config />
-    // TODO: Create sanctuary page!
-    | list{"sanctuary"} => <Pages_NotFound />
+    | list{"sanctuary"} => <Pages_NewSensation config/>
     | list{"graveyard"} => <Pages_Sensations config/>
     | list{"config"} => {
       <Pages_Configuration config saveConfig />

@@ -1,14 +1,10 @@
 import { ethers } from 'ethers';
 
-export async function getNetwork(networkUrl) {
-  const provider = networkUrl === 'sepolia' ?
-   ethers.getDefaultProvider('sepolia') : new ethers.JsonRpcProvider(networkUrl);
+export async function getNetwork(provider) {
   return provider.getNetwork();
 }
 
-export async function getBlockNumber(networkUrl) {
-  const provider = networkUrl === 'sepolia' ?
-   ethers.getDefaultProvider('sepolia') : new ethers.JsonRpcProvider(networkUrl);
+export async function getBlockNumber(provider) {
   return provider.getBlockNumber();
 }
 

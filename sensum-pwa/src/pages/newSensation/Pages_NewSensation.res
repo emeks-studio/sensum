@@ -2,6 +2,10 @@ type pickingAvatar = Picking | Selected(string) | AboutToSelect
 
 @react.component
 let make = (~config: Types.config) => {
+  let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
+  let contract = Sensations.getContract(~config, ~provider)
+  // TODO: new ethers.Wallet( privateKey [ , provider ] ) (!) 
+
   let (sensation, setSensation) = React.useState(() => {Types.avatar: Ethers.toBigInt(0), Types.message: ""})
   let (pickingAvatar, setPickingAvatar) = React.useState(() => AboutToSelect)
 
@@ -9,6 +13,30 @@ let make = (~config: Types.config) => {
      let message = ReactEvent.Form.target(event)["value"]
      setSensation(prev => {...prev, Types.message: message})
    }
+
+  let onTransmitSensation = async () => {
+    if sensation.message == "" {
+      Js.Console.log2("[error] onTransmitSensation", "sensation.message is empty")
+    } else {
+      try {
+        let confirmedTx = await Sensations.newSensation(~contract, ~sensation, ~provider)
+        Js.Console.log2("[ok] onTransmitSensation::Sensations.newSensation", confirmedTx)
+        RescriptReactRouter.replace("/graveyard")
+      } catch {
+         | Js.Exn.Error(e) => {
+            switch Js.Exn.message(e) {
+            | Some(msg) =>
+              Js.Console.log2("[error] onTransmitSensation::Sensations.newSensation", msg)
+            | None => 
+              Js.Console.log2(
+                "[error] onTransmitSensation::Sensations.newSensation", 
+                "Some other exception has been thrown"
+              )
+            }
+         }
+      }
+    }
+  }
 
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar />
@@ -38,39 +66,53 @@ let make = (~config: Types.config) => {
           }
         </div>
       | AboutToSelect =>
-        <div className=`flex flex-row flex-nowrap bg-black`>
+        <div className=`flex flex-col bg-black`>
+            <div className=`flex flex-row flex-nowrap bg-black`>
+                <button
+                  className="my-5 mx-1 w-28 h-28 bg-black flex items-center justify-center border-2 border-solid border-purple-50 text-md px-5 opacity-50 text-purple-50 hover:bg-purple-900"
+                  onClick={_ => setPickingAvatar(_ => Picking)}
+                >
+                  {"Pick Avatar"->React.string}
+                </button>
+                // FIXME: On focus, there is an extra blue border! We should just change the color of the border we already have
+                <textarea
+                  className=`my-5 mx-1 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2 border-dotted border-purple-50 focus:border-none`
+                  id="newSensationMessage"
+                  placeholder="Write your feelings..."
+                  onChange=onChangeSensationMessage
+                />
+            </div>
             <button
-              className="my-5 mx-1 w-28 h-28 bg-black flex items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 hover:bg-purple-900"
+                  className="my-2 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 disabled:opacity-50"
+                  disabled=true
+                >
+                  {"Transmit Sensation"->React.string}
+            </button>
+        </div>
+      | Selected(avatar) =>
+        <div className=`flex flex-col bg-black`>
+          <div className=`flex flex-row flex-nowrap bg-black`>
+            <button
+              className="my-5 mx-1 w-28 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50 text-4xl px-5 text-purple-50 hover:bg-black"
               onClick={_ => setPickingAvatar(_ => Picking)}
             >
-              {"Pick Avatar"->React.string}
+              {avatar->React.string}
             </button>
             // FIXME: On focus, there is an extra blue border! We should just change the color of the border we already have
-            // FIXME: Adjust placeholder text color and position
             <textarea
               className="my-5 mx-1 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2 border-dotted border-purple-50 focus:border-none"
               id="newSensationMessage"
               placeholder="Write your feelings..."
+              value={sensation.message}
               onChange=onChangeSensationMessage
             />
-        </div>
-      | Selected(avatar) =>
-        <div className=`flex flex-row flex-nowrap bg-black`>
+          </div>
           <button
-            className="my-5 mx-1 w-28 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50 text-4xl px-5 text-purple-50 hover:bg-black"
-            onClick={_ => setPickingAvatar(_ => Picking)}
+             className="my-2 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 hover:bg-purple-900"
+             onClick={_ => onTransmitSensation()->ignore}
           >
-            {avatar->React.string}
+          {"Transmit Sensation"->React.string}
           </button>
-          // FIXME: On focus, there is an extra blue border! We should just change the color of the border we already have
-          // FIXME: Adjust placeholder text color and position
-          <textarea
-            className="my-5 mx-1 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2 border-dotted border-purple-50 focus:border-none"
-            id="newSensationMessage"
-            placeholder="Write your feelings..."
-            value={sensation.message}
-            onChange=onChangeSensationMessage
-          />
         </div>
       }} 
     </main>

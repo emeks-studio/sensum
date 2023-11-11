@@ -1,9 +1,9 @@
 
 @module("./Ethers.js")
-external getNetwork: (~networkUrl: string) => promise<Types.network> = "getNetwork"
+external getNetwork: (~provider: Types.provider) => promise<Types.network> = "getNetwork"
 
 @module("./Ethers.js")
-external getBlockNumber: (~networkUrl: string) => promise<Types.BigInt.t> = "getBlockNumber"
+external getBlockNumber: (~provider: Types.provider) => promise<Types.BigInt.t> = "getBlockNumber"
 
 @module("./Ethers.js")
 external getProvider: (~networkUrl: string)  => Types.provider = "getProvider"

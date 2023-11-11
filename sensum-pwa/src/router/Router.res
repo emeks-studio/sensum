@@ -2,10 +2,12 @@
 @react.component
 let make = () => {
   let (maybeConfig, saveConfig, defaultConfig) = State.Configuration.useConfig()
+
   React.useEffect1(_ => {
     switch maybeConfig {
-    | Some(config) =>
-      Ethers.getNetwork(~networkUrl=config.networkUrl)
+    | Some(config) => {
+      let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
+      Ethers.getNetwork(~provider)
       ->Promise.then(status => {
         Js.Console.log2("getNetwork::chainId", status.chainId)
         Promise.resolve()
@@ -16,7 +18,7 @@ let make = () => {
       })
       ->ignore
 
-      Ethers.getBlockNumber(~networkUrl=config.networkUrl)
+      Ethers.getBlockNumber(~provider)
       ->Promise.then(blockNumber => {
         Js.Console.log2("getBlockNumber::response", blockNumber)
         Promise.resolve()
@@ -26,6 +28,7 @@ let make = () => {
         Promise.resolve()
       })
       ->ignore 
+    }
     | None => Js.Console.log("no config!")
     }
     None

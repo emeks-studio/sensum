@@ -11,6 +11,11 @@ type provider
 
 type contract
 
+type wallet = {
+  provider: provider,
+  address: string,
+}
+
 // TODO: Redefine this type
 type confirmedTransaction
 

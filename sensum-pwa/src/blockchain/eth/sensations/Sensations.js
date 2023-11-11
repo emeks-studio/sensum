@@ -129,13 +129,9 @@ export async function getSensationsLength(contract) {
   return contract.getSensationsLength()
 }
 
-export async function newSensation(contract, sensation, provider) {
-  // Gets default signer
-  const signer = provider.getSigner();
-  console.log("signer", signer);
+export async function newSensation(contract, sensation, wallet) {
   // In order to execute a tx using the contract we need to connect a signer
-  // TODO: Not use the default! make the user choose?
-  const contractWithSigner = contract.connect(signer);
+  const contractWithSigner = contract.connect(wallet);
   // Wait till tx is sent!
   const tx = await contractWithSigner.newSensation(sensation);
   // Wait till tx is confirmed!

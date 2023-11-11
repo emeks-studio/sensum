@@ -27,6 +27,14 @@ export function addBigInt(x, y) {
   return x + y;
 }
 
- export function subBigInt(x, y) {
+export function subBigInt(x, y) {
   return x - y;
+}
+
+export function newWalletFromPrivateKey(privateKey, provider) {
+  return new ethers.Wallet(privateKey, provider);
+}
+
+export function getWalletBalance(wallet) {
+  return wallet.provider.getBalance(wallet.address);
 }

@@ -16,3 +16,9 @@ external addBigInt: (Types.BigInt.t, Types.BigInt.t) => Types.BigInt.t = "addBig
 
 @module("./Ethers.js")
 external subBigInt: (Types.BigInt.t, Types.BigInt.t) => Types.BigInt.t = "subBigInt"
+
+@module("./Ethers.js")
+external newWalletFromPrivateKey: (~privateKey: string, ~provider: Types.provider) => Types.wallet = "newWalletFromPrivateKey"
+
+@module("./Ethers.js")
+external getWalletBalance: (~wallet: Types.wallet) => promise<Types.BigInt.t> = "getWalletBalance"

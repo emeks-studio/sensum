@@ -14,7 +14,7 @@ external getLatestSensation: (~contract: Types.contract) => promise<Types.sensat
 external getSensationsLength: (~contract: Types.contract) => promise<Types.BigInt.t> = "getSensationsLength"
 
 @module("./Sensations.js")
-external newSensation: (~contract: Types.contract, ~sensation: Types.sensation, ~provider: Types.provider) => promise<Types.confirmedTransaction> = "newSensation"
+external newSensation: (~contract: Types.contract, ~sensation: Types.sensation, ~wallet: Types.wallet) => promise<Types.confirmedTransaction> = "newSensation"
 
 
 

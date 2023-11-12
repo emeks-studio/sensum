@@ -14,7 +14,7 @@ let useSensations = (~config: Types.config) => {
         Js.Console.log2("useSensations::getSensationsLength", sensationslength)
         let sensationsIndex = Ethers.subBigInt(sensationslength, Ethers.toBigInt(1))
         Js.Console.log2("useSensations::index", sensationslength)
-        let indexes = Belt.Array.makeBy(4, (i) => Ethers.subBigInt(sensationsIndex, Ethers.toBigInt(i)))
+        let indexes = Belt.Array.makeBy(10, (i) => Ethers.subBigInt(sensationsIndex, Ethers.toBigInt(i)))
                         -> Belt.Array.keep((i) => Ethers.greaterOrEqualBigInt(i, Ethers.toBigInt(0)))
         let results = indexes
                         ->Belt.Array.map(_, (index) => Sensations.getSensationByIndex(~contract, ~index))
@@ -50,7 +50,7 @@ let useSensations = (~config: Types.config) => {
       let p = async () => {
         try {
           let contract = Sensations.getContract(~config, ~provider)
-          let indexes = Belt.Array.makeBy(4, (i) => Ethers.subBigInt(lastUnloadedIndex, Ethers.toBigInt(i)))
+          let indexes = Belt.Array.makeBy(5, (i) => Ethers.subBigInt(lastUnloadedIndex, Ethers.toBigInt(i)))
                           -> Belt.Array.keep((i) => Ethers.greaterOrEqualBigInt(i, Ethers.toBigInt(0)))
           let results = indexes
                           ->Belt.Array.map(_, (index) => Sensations.getSensationByIndex(~contract, ~index))

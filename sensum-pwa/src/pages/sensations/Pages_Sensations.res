@@ -23,7 +23,7 @@ module SensationsBody = {
         })->React.array}
         {loading ? 
           <div className="flex justify-center my-5">
-            <label className="text-4xl text-purple-50">
+            <label className="text-4xl p-2 text-purple-50">
               {"...LOADING..."->React.string} 
             </label>
           </div>
@@ -31,19 +31,19 @@ module SensationsBody = {
         }
         {!loading && sensations->Belt.Array.length == 0 ? 
           <div className="flex justify-center my-5">
-            <label className="text-4xl text-purple-50">
-              {"[Numb]"->React.string} 
+            <label className="text-4xl p-2 text-purple-50">
+              {"[NUMB]"->React.string} 
             </label>
           </div>
         : React.null
         }
         <div className="flex justify-center my-5">
           <button 
-            className="text-4xl text-purple-50 disabled:opacity-50" 
+            className="text-4xl p-2 text-purple-50 disabled:opacity-50 hover:bg-purple-900" 
             onClick={_ => loadMore()}
             disabled={loading || Ethers.equalBigInt(lastUnloadedIndex, Ethers.toBigInt(-1))}
           >
-            {"Read More"->React.string}
+            {"READ MORE"->React.string}
           </button>
         </div>
     </div>
@@ -55,7 +55,7 @@ let make = (~config: Types.config) => {
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar />
     <main className="overflow-y-scroll">
-     <SensationsBody sensations loading  loadMore lastUnloadedIndex/>
+     <SensationsBody config/>
     </main>
   </div>
 }

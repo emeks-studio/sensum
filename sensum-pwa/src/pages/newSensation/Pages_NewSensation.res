@@ -6,7 +6,6 @@ let privateKey = "0x25aa6fec3324277deae6b4c934338fca5ef3940529f24d8cb77c7facebd5
 // Hardhat private key
 // let privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
 
-
 module MessengerInfo = {
     @react.component
     let make = (~wallet: Types.wallet) => {
@@ -57,7 +56,7 @@ let make = (~config: Types.config) => {
   let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
   let contract = Sensations.getContract(~config, ~provider)
   let wallet = Ethers.newWalletFromPrivateKey(~privateKey, ~provider)
-  let (trasmitingSensation, setTransmitingSensation) = React.useState(() => false)
+  let (trasmittingSensation, setTransmittingSensation) = React.useState(() => false)
   let (sensation, setSensation) = React.useState(() => {Types.avatar: Ethers.toBigInt(0), Types.message: ""})
   let (pickingAvatar, setPickingAvatar) = React.useState(() => AboutToSelect)
 
@@ -72,15 +71,15 @@ let make = (~config: Types.config) => {
     if sensation.message == "" {
       Js.Console.log2("[error] onTransmitSensation", "sensation.message is empty")
     } else {
-      setTransmitingSensation(_ => true)
+      setTransmittingSensation(_ => true)
       try {
         let confirmedTx = await Sensations.newSensation(~contract, ~sensation, ~wallet)
-        setTransmitingSensation(_ => false)
+        setTransmittingSensation(_ => false)
         Js.Console.log2("[ok] onTransmitSensation::Sensations.newSensation", confirmedTx)
         RescriptReactRouter.replace("/graveyard")
       } catch {
          | Js.Exn.Error(e) => {
-            setTransmitingSensation(_ => false)
+            setTransmittingSensation(_ => false)
             switch Js.Exn.message(e) {
             | Some(msg) =>
               Js.Console.log2("[error] onTransmitSensation::Sensations.newSensation", msg)
@@ -171,9 +170,9 @@ let make = (~config: Types.config) => {
           <button
              className="my-1 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 hover:bg-purple-900 disabled:opacity-50"
              onClick={_ => onTransmitSensation()->ignore}
-             disabled={trasmitingSensation || sensation.message == ""}
+             disabled={trasmittingSensation || sensation.message == ""}
           >
-          {(trasmitingSensation ? "Transmiting..." : "Transmit Sensation")->React.string}
+          {(trasmittingSensation ? "Transmitting..." : "Transmit Sensation")->React.string}
           </button>
         </div>
       }} 

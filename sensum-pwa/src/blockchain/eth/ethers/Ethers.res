@@ -18,6 +18,9 @@ external addBigInt: (Types.BigInt.t, Types.BigInt.t) => Types.BigInt.t = "addBig
 external subBigInt: (Types.BigInt.t, Types.BigInt.t) => Types.BigInt.t = "subBigInt"
 
 @module("./Ethers.js")
+external greaterOrEqual: (Types.BigInt.t, Types.BigInt.t) => bool = "greaterOrEqual"
+
+@module("./Ethers.js")
 external newWalletFromPrivateKey: (~privateKey: string, ~provider: Types.provider) => Types.wallet = "newWalletFromPrivateKey"
 
 @module("./Ethers.js")

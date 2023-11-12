@@ -4,7 +4,8 @@ type sensationsIterator = IteratorNotReady | Iterator(Types.BigInt.t)
 module SensationsBody = {
   @react.component
   let make = (
-    ~sensations: list<Types.sensation>
+    ~sensations: list<Types.sensation>,
+    ~loading: bool
   ) => {    
     // FIXME: Make it responsive!
     <div className="flex flex-col flex-wrap">
@@ -23,6 +24,22 @@ module SensationsBody = {
             </div>
           </div>
         })->Belt.List.toArray->React.array}
+        {loading ? 
+          <div className="flex justify-center my-5">
+            <label className="text-4xl text-purple-50">
+              {"...LOADING..."->React.string} 
+            </label>
+          </div>
+        : React.null
+        }
+        {!loading && sensations->Belt.List.length == 0 ? 
+          <div className="flex justify-center my-5">
+            <label className="text-4xl text-purple-50">
+              {"[Numb]"->React.string} 
+            </label>
+          </div>
+        : React.null
+        }
     </div>
   }
 }
@@ -30,11 +47,11 @@ module SensationsBody = {
 @react.component
 let make = (~config: Types.config) => {
   // let (sensations, fetchMoreSensations) = State.Sensations.useSensations(~config);
-  let (sensations) = State.Sensations.useSensations(~config);
+  let (sensations, loading) = State.Sensations.useSensations(~config);
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar />
     <main className="overflow-y-scroll">
-     <SensationsBody sensations />
+     <SensationsBody sensations loading />
     </main>
   </div>
 }

@@ -31,6 +31,10 @@ export function subBigInt(x, y) {
   return x - y;
 }
 
+export function greaterOrEqual(x,y) {
+  return x >= y;
+}
+
 export function newWalletFromPrivateKey(privateKey, provider) {
   return new ethers.Wallet(privateKey, provider);
 }

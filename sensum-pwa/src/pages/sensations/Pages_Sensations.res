@@ -1,15 +1,12 @@
-// TODO: See if this is still useful?
-type sensationsIterator = IteratorNotReady | Iterator(Types.BigInt.t)
-
 module SensationsBody = {
   @react.component
   let make = (
-    ~sensations: list<Types.sensation>,
-    ~loading: bool
+    ~config: Types.config
   ) => {    
+    let (sensations, loading, loadMore, lastUnloadedIndex) = State.Sensations.useSensations(~config);
     // FIXME: Make it responsive!
     <div className="flex flex-col flex-wrap">
-        {sensations->Belt.List.mapWithIndex((index, sensation) => {
+        {sensations->Belt.Array.mapWithIndex((index, sensation) => {
           let direction = (mod(index,2) == 0) ? "flex-row" : "flex-row-reverse"
           <div className=`flex ${direction} flex-nowrap bg-black` key={index->Belt.Int.toString}>
             // FIXME: Apply faces given the avatar id number
@@ -23,7 +20,7 @@ module SensationsBody = {
               </p>
             </div>
           </div>
-        })->Belt.List.toArray->React.array}
+        })->React.array}
         {loading ? 
           <div className="flex justify-center my-5">
             <label className="text-4xl text-purple-50">
@@ -32,7 +29,7 @@ module SensationsBody = {
           </div>
         : React.null
         }
-        {!loading && sensations->Belt.List.length == 0 ? 
+        {!loading && sensations->Belt.Array.length == 0 ? 
           <div className="flex justify-center my-5">
             <label className="text-4xl text-purple-50">
               {"[Numb]"->React.string} 
@@ -40,18 +37,25 @@ module SensationsBody = {
           </div>
         : React.null
         }
+        <div className="flex justify-center my-5">
+          <button 
+            className="text-4xl text-purple-50 disabled:opacity-50" 
+            onClick={_ => loadMore()}
+            disabled={loading || Ethers.equalBigInt(lastUnloadedIndex, Ethers.toBigInt(-1))}
+          >
+            {"Read More"->React.string}
+          </button>
+        </div>
     </div>
   }
 }
 
 @react.component
 let make = (~config: Types.config) => {
-  // let (sensations, fetchMoreSensations) = State.Sensations.useSensations(~config);
-  let (sensations, loading) = State.Sensations.useSensations(~config);
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar />
     <main className="overflow-y-scroll">
-     <SensationsBody sensations loading />
+     <SensationsBody sensations loading  loadMore lastUnloadedIndex/>
     </main>
   </div>
 }

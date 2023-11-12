@@ -31,7 +31,11 @@ export function subBigInt(x, y) {
   return x - y;
 }
 
-export function greaterOrEqual(x,y) {
+export function equalBigInt(x, y) {
+  return x === y;
+}
+
+export function greaterOrEqualBigInt(x,y) {
   return x >= y;
 }
 

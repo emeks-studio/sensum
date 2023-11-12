@@ -1,9 +1,7 @@
-
-// TODO: Provide fetchMoreSensations method!
 let useSensations = (~config: Types.config) => {
-  // let (sensationsIndex, setSensationsIndex) = React.useState(_ => Ethers.toBigInt(0))
+  let (lastUnloadedIndex, setLastUnloadedIndex) = React.useState(_ => Ethers.toBigInt(-1))
   let (loading, setLoading) = React.useState(_ => true)
-  let (sensations, setSensations) = React.useState(_ => list{})
+  let (sensations, setSensations) = React.useState(_ => [])
   let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
 
   React.useEffect1(() => {
@@ -17,14 +15,15 @@ let useSensations = (~config: Types.config) => {
         let sensationsIndex = Ethers.subBigInt(sensationslength, Ethers.toBigInt(1))
         Js.Console.log2("useSensations::index", sensationslength)
         let indexes = Belt.Array.makeBy(4, (i) => Ethers.subBigInt(sensationsIndex, Ethers.toBigInt(i)))
-                        -> Belt.Array.keep((i) => Ethers.greaterOrEqual(i, Ethers.toBigInt(0)))
+                        -> Belt.Array.keep((i) => Ethers.greaterOrEqualBigInt(i, Ethers.toBigInt(0)))
         let results = indexes
                         ->Belt.Array.map(_, (index) => Sensations.getSensationByIndex(~contract, ~index))
                         ->Js.Promise.all
         let sensations = await results
         Js.Console.log2("useSensations::sensations", sensations)
-        setSensations(_ => sensations->Belt.List.fromArray)
+        setSensations(_ => sensations)
         setLoading(_ => false)
+        setLastUnloadedIndex(_ => Ethers.subBigInt(indexes->Array.get(Array.length(indexes) - 1), Ethers.toBigInt(1)))
       } catch {
       | Js.Exn.Error(e) =>
          switch Js.Exn.message(e) {
@@ -44,6 +43,40 @@ let useSensations = (~config: Types.config) => {
    }, 
    [config]
   )
+  let loadMore = () => {
+    Js.Console.log2("loadMore::lastLoadedIndex", lastUnloadedIndex)
+    if (Ethers.greaterOrEqualBigInt(lastUnloadedIndex, Ethers.toBigInt(0)) && !loading) {
+      setLoading(_ => true)
+      let p = async () => {
+        try {
+          let contract = Sensations.getContract(~config, ~provider)
+          let indexes = Belt.Array.makeBy(4, (i) => Ethers.subBigInt(lastUnloadedIndex, Ethers.toBigInt(i)))
+                          -> Belt.Array.keep((i) => Ethers.greaterOrEqualBigInt(i, Ethers.toBigInt(0)))
+          let results = indexes
+                          ->Belt.Array.map(_, (index) => Sensations.getSensationByIndex(~contract, ~index))
+                          ->Js.Promise.all
+          let sensations = await results
+          Js.Console.log2("loadMore::sensations", sensations)
+          setSensations(prevSensations => Belt.Array.concat(prevSensations, sensations))
+          setLoading(_ => false)
+          setLastUnloadedIndex(_ => Ethers.subBigInt(indexes->Array.get(Array.length(indexes) - 1), Ethers.toBigInt(1)))
+        } catch {
+        | Js.Exn.Error(e) =>
+           switch Js.Exn.message(e) {
+           | Some(msg) => {
+             Js.log("JS error thrown: " ++ msg)
+             setLoading(_ => false)
+           }
+           | None => {
+             Js.log("Some other exception has been thrown")
+             setLoading(_ => false)
+           }
+           }
+        }
+      }
+      p()->ignore
+    }
+  }
 
-  (sensations, loading)
+  (sensations, loading, loadMore, lastUnloadedIndex)
 }

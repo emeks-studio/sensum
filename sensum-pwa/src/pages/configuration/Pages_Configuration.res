@@ -40,7 +40,7 @@ module NetworkForm = {
 
     <div className="my-10 grid grid-flow-row gap-3 place-content-center">
       <label htmlFor="networkInput" className="text-xl text-purple-50">
-        {"blockchain network provider"->React.string}
+        {"Network (blockchain provider)"->React.string}
       </label>
       <input
         className="form-control px-2"
@@ -50,7 +50,7 @@ module NetworkForm = {
         onChange=onChangeNetworkUrlInput
       />
       <label htmlFor="sensationsContractAddress" className="text-xl text-purple-50">
-        {"channel contract address"->React.string}
+        {"Channel (contract address)"->React.string}
       </label>
       <textarea
         className="form-control px-2 resize-none"
@@ -60,8 +60,11 @@ module NetworkForm = {
         onChange=onChangeSensationsContractAddressInput
       />
       <button
-        className="text-xl px-2 text-purple-50 bg-purple-500 hover:bg-purple-900" onClick=onSave>
-        {"save"->React.string}
+        className="text-md px-2 text-purple-50 border-2 border-solid border-purple-50  disabled:opacity-50 hover:bg-purple-900" 
+        disabled={networkUrlInput == "" || sensationsContractAddressInput == ""}
+        onClick=onSave
+      >
+        {"SAVE"->React.string}
       </button>
     </div>
   }

@@ -131,7 +131,7 @@ let make = (~config: Types.config) => {
                   {"Pick Avatar"->React.string}
                 </button>
                 <textarea
-                  className=`my-3 mx-1 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2  border-dotted border-purple-50 focus:outline-none focus:border-purple-900`
+                  className=`my-3 mx-1 p-2 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2  border-dotted border-purple-50 focus:outline-none focus:border-purple-900`
                   id="newSensationMessage"
                   placeholder="Write your feelings..."
                   onChange=onChangeSensationMessage
@@ -144,7 +144,7 @@ let make = (~config: Types.config) => {
               className="my-1 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 disabled:opacity-50"
               disabled=true
             >
-            {"Transmit Sensation"->React.string}
+            {"TRANSMIT SENSATION"->React.string}
             </button>
         </div>
       | Selected(avatar) =>
@@ -157,7 +157,7 @@ let make = (~config: Types.config) => {
               {avatar->React.string}
             </button>
             <textarea
-              className="my-3 mx-1 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2 border-dotted border-purple-50 focus:outline-none focus:border-purple-900"
+              className="my-3 mx-1 p-2 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2 border-dotted border-purple-50 focus:outline-none focus:border-purple-900"
               id="newSensationMessage"
               placeholder="Write your feelings..."
               value={sensation.message}
@@ -172,7 +172,7 @@ let make = (~config: Types.config) => {
              onClick={_ => onTransmitSensation()->ignore}
              disabled={trasmittingSensation || sensation.message == ""}
           >
-          {(trasmittingSensation ? "Transmitting..." : "Transmit Sensation")->React.string}
+          {(trasmittingSensation ? "TRANSMITTING..." : "TRANSMIT SENSATION")->React.string}
           </button>
         </div>
       }} 

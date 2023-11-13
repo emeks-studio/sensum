@@ -23,7 +23,7 @@ module SensationsBody = {
         })->React.array}
         {loading ? 
           <div className="flex justify-center my-5">
-            <label className="text-4xl p-2 text-purple-50">
+            <label className="text-md p-2 text-purple-50">
               {"...LOADING..."->React.string} 
             </label>
           </div>
@@ -31,7 +31,7 @@ module SensationsBody = {
         }
         {!loading && sensations->Belt.Array.length == 0 ? 
           <div className="flex justify-center my-5">
-            <label className="text-4xl p-2 text-purple-50">
+            <label className="text-md p-2 text-purple-50">
               {"[NUMB]"->React.string} 
             </label>
           </div>
@@ -39,7 +39,7 @@ module SensationsBody = {
         }
         <div className="flex justify-center my-5">
           <button 
-            className="text-4xl p-2 text-purple-50 disabled:opacity-50 hover:bg-purple-900" 
+            className="text-md p-2 text-purple-50 border-2 border-solid border-purple-50  disabled:opacity-50 hover:bg-purple-900" 
             onClick={_ => loadMore()}
             disabled={loading || Ethers.equalBigInt(lastUnloadedIndex, Ethers.toBigInt(-1))}
           >

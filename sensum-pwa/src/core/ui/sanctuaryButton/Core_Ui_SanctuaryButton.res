@@ -18,6 +18,6 @@ let make = () => {
     className={isActive() ? "bg-purple-900" : "hover:bg-purple-900"}
     disabled={isActive()}
     onClick={onClick}>
-    <a className="text-xl text-purple-50 pl-5 pr-5">{"Sanctuary"->React.string}</a>
+    <a className="text-xl text-purple-50 pl-5 pr-5">{"SANCTUARY"->React.string}</a>
   </button>
 }

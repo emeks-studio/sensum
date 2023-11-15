@@ -1,3 +1,4 @@
+%%raw("import 'vite/modulepreload-polyfill'")
 %%raw("import './index.css'")
 
 let rootQuery = ReactDOM.querySelector("#root")

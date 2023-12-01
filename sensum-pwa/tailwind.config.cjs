@@ -1,11 +1,11 @@
 module.exports = {
-  mode: 'jit',
-  content: ['./src/**/*.{js,res,jsx}'],
+  mode: "jit",
+  content: ["./src/**/*.{js,res,jsx}"],
   theme: {
     fontFamily: {
-      mono: ['monospace'],
+      mono: ["monospace"],
     },
     extend: {},
   },
   plugins: [],
-}
+};

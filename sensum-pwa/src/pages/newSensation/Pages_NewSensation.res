@@ -35,12 +35,11 @@ module MessengerInfo = {
       <div className="flex flex-col">
         <label className="text-md text-purple-50 mx-1">{"Messenger"->React.string}</label>
         <div className="flex flex-row flex-wrap mx-1 gap-2">
-          <label className="text-md text-purple-50">{"* Address: "->React.string}</label>
-          <label className="text-md text-purple-50">{wallet.address->React.string} </label>
+          <label className="truncate text-md text-purple-50">{"* Address: "->React.string}{wallet.address->React.string}</label>
         </div>
         <div className="flex flex-row flex-wrap mx-1 gap-2">
-          <label className="text-md text-purple-50">{"* Mana: "->React.string}</label>
-          <label className="text-md text-purple-50">
+          <label className="truncate text-md text-purple-50">
+            {"* Mana: "->React.string}
             {switch balance {
             | None => "..."->React.string
             | Some(b) => `${b->Types.BigInt.toString} ${b->Types.BigInt.toString == "0" ? "(Pray for power!)" : ""}`->React.string
@@ -131,7 +130,7 @@ let make = (~config: Types.config) => {
                   {"Pick Avatar"->React.string}
                 </button>
                 <textarea
-                  className=`my-3 mx-1 p-2 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2  border-dotted border-purple-50 focus:outline-none focus:border-purple-900`
+                  className=`my-3 mx-1 p-2 flex-1 h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2  border-dotted border-purple-50 focus:outline-none focus:border-purple-900`
                   id="newSensationMessage"
                   placeholder="Write your feelings..."
                   onChange=onChangeSensationMessage

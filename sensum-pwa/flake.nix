@@ -2,6 +2,20 @@
   description = "Flake for sensum-pwa";
 
   nixConfig = {
+    # This sets the flake to use the IOG nix cache (and others).
+    # Nix should ask for permission before using it,
+    # but remove it here if you do not want it to.
+    extra-substituters = [
+      "https://cache.iog.io"
+      "https://pre-commit-hooks.cachix.org"
+      "https://emeks-public.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+      "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
+      "emeks-public.cachix.org-1:sz2oZuYq7EsRb5FW6sDtpPU1CWh+6ymOgxFgmrYTKGI="
+    ];
+    allow-import-from-derivation = "true";
     # TODO: Add cache!
     bash-prompt = "\\[\\e[0;37m\\](\\[\\e[0m\\]nix) \\[\\e[0;1;32m\\]elune\\[\\e[0m\\]\\w \\[\\e[0;1m\\]λ \\[\\e[0m\\]";
   };
@@ -37,16 +51,13 @@
             ];
             shellHook = ''
               yarn install
-              ln -s "${rescript}/rescript" "$PWD/node_modules/.bin/rescript"
-              ln -s ${rescript} "$PWD/node_modules/rescript"
-              export PATH="${rescript}:$PWD/node_modules/.bin:$PATH"
+              modules="$PWD/node_modules"
+              mkdir -p "$modules"
+              rm -rf "$modules/rescript"
+              ln -s ${rescript} "$modules/rescript"
               rescript build -with-deps
               yarn build
             '';
-            NIX_LD_LIBRARY_PATH = lib.makeLibraryPath [
-              stdenv.cc.cc
-            ];
-            NIX_LD = lib.fileContents "${stdenv.cc}/nix-support/dynamic-linker";
           }; 
         }
     );

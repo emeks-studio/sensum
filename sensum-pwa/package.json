@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "re:build": "rescript",
     "re:watch": "rescript build -w",
+    "re:format": "rescript format",
     "serve": "serve dist"
   },
   "dependencies": {

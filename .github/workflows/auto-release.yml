@@ -32,7 +32,6 @@ jobs:
       
       - name: Create Release
         id: create_release
-        working-directory: ./sensum-pwa
         uses: CupOfTea696/gh-action-auto-release@v1.0.0
         with:
           title: "Release: $version"
@@ -43,7 +42,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Upload tar archive
-        working-directory: ./sensum-pwa
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

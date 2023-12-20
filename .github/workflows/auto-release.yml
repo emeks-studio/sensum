@@ -1,0 +1,52 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/hydrogen'
+
+      - name: Install dependencies
+        working-directory: ./sensum-pwa
+        run: yarn install
+
+      - name: Build project
+        working-directory: ./sensum-pwa
+        run: yarn build
+
+      - name: Create tar archive
+        working-directory: ./sensum-pwa
+        run: tar cf dist.tar dist
+      
+      - name: Create Release
+        id: create_release
+        uses: CupOfTea696/gh-action-auto-release@v1.0.0
+        with:
+          title: "Release: $version"
+          tag: "dsensum-v$semver"
+          draft: false
+          regex: "/^Release: dsensum-v#{semver}$/i"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload tar archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist.tar
+          asset_name: dist.tar
+          asset_content_type: application/x-tar

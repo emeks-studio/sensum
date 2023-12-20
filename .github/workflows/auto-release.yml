@@ -42,7 +42,6 @@ jobs:
           regex: "/^Release: dsensum-v#{semver}$/i"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Upload tar archive
       
       - name: Upload tar archive
         working-directory: ./sensum-pwa

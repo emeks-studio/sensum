@@ -22,6 +22,10 @@ jobs:
         working-directory: ./sensum-pwa
         run: yarn install
 
+      - name: Compile Rescript code
+        working-directory: ./sensum-pwa
+        run: rescript build -with-deps 
+
       - name: Build project
         working-directory: ./sensum-pwa
         run: yarn build

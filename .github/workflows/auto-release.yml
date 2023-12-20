@@ -2,8 +2,7 @@ name: Auto Release
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   release:
@@ -32,16 +31,16 @@ jobs:
 
       - name: Create tar archive
         working-directory: ./sensum-pwa
-        run: tar cf dist.tar dist
+        run: tar cf dsensum-pwa.tar dist
       
       - name: Create Release
         id: create_release
-        uses: CupOfTea696/gh-action-auto-release@v1.0.0
+        uses: CupOfTea696/gh-action-auto-release@v1.0.2
         with:
-          title: "Release: $version"
+          title: "d-sensum: $version"
           tag: "dsensum-v$semver"
           draft: false
-          regex: "/^Release: dsensum-v#{semver}$/i"
+          regex: "/^dsensum-v#{semver}$/i"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -51,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist.tar
-          asset_name: dist.tar
+          asset_path: ./sensum-pwa/dsensum-pwa.tar
+          asset_name: dsensum-pwa.tar
           asset_content_type: application/x-tar

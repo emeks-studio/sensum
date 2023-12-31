@@ -29,6 +29,16 @@ jobs:
         working-directory: ./sensum-pwa
         run: yarn build
 
+      - name: Serve as a Github page
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          folder: ./sensum-pwa/dist
+          branch: main
+          repository-name: emeks-studio/dsensum
+          token: ${{ secrets.DEPLOY_PAT }}
+          git-config-name: mk-emeks
+          git-config-email: mirko@emeks.com.ar
+
       - name: Create tar archive
         working-directory: ./sensum-pwa
         run: tar cf dsensum-pwa.tar dist

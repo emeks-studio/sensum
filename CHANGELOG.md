@@ -1,5 +1,8 @@
 # sensum
 
+## v0.0.2
+* Serve as Github page
+
 ## v0.0.1
 * Add auto release as a github action
 * A few good UI fixes

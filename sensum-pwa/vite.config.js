@@ -12,13 +12,14 @@ export default defineConfig({
       strategies: 'injectManifest', // Vs generateSW (more out of the box, less customizable!)
       registerType: 'autoUpdate', // Vs Prompt for new content
       srcDir: 'src',
+      base: '/dsensum/',
       filename: 'ServiceWorker.js',
       manifest: {
         name: 'd-sensum',
         short_name: 'd-sensum',
         display_override: ["fullscreen", "minimal-ui"],
         display: "standalone", // https://developer.mozilla.org/en-US/docs/Web/Manifest/display_override#values
-        start_url: '/',
+        start_url: '/dsensum/',
         description: 'mysterious app',
         theme_color: '#4B3968',
         background_color: '#4B3968',

@@ -104,7 +104,7 @@ let make = (~config: Types.config) => {
               let (pos, avatar) = option
                   <button
                     key={pos->Belt.Int.toString}
-                    className="my-5 mx-1 w-28 h-28 bg-black flex items-center justify-center border-2 border-solid border-purple-50 text-4xl px-5 text-purple-50 hover:bg-purple-900"
+                    className="my-5 mx-1 w-28 h-28 bg-black flex items-center justify-center border-2 border-solid border-purple-50 text-3xl px-1 text-purple-50 hover:bg-purple-900"
                     onClick={_ => {
                       switch State.Avatar.optionsMap->Belt.Map.Int.get(pos) {
                         | Some(avatar) => {
@@ -150,7 +150,7 @@ let make = (~config: Types.config) => {
         <div className=`flex flex-col bg-black`>
           <div className=`flex flex-row flex-nowrap bg-black`>
             <button
-              className="my-3 mx-1 w-28 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50 text-4xl px-5 text-purple-50 hover:bg-black"
+              className="my-3 mx-1 w-28 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50 text-3xl px-1 text-purple-50 hover:bg-black"
               onClick={_ => setPickingAvatar(_ => Picking)}
             >
               {avatar->React.string}

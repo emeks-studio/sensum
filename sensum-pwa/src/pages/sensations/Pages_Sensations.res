@@ -7,12 +7,13 @@ module SensationsBody = {
     // FIXME: Make it responsive!
     <div className="flex flex-col flex-wrap">
         {sensations->Belt.Array.mapWithIndex((index, sensation) => {
+           let (avatar, avatarCustomClass) = State.Avatar.getAvatarFromIndex(sensation.avatar)
           let direction = (mod(index,2) == 0) ? "flex-row" : "flex-row-reverse"
           <div className=`flex ${direction} flex-nowrap bg-black` key={index->Belt.Int.toString}>
             // FIXME: Apply faces given the avatar id number
             //<div className="m-5 w-32 h-32 bg-red-100">{sensation.avatar->Types.BigInt.toString->React.string}</div>
             <div className="my-5 mx-1 w-28 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50">
-              <label className="text-4xl pb-1 text-purple-50">{State.Avatar.getAvatarFromIndex(sensation.avatar)->React.string} </label>
+              <label className=`pb-1 text-purple-50 ${avatarCustomClass}`>{(avatar)->React.string}</label>
             </div>
             <div className="my-5 mx-1 h-28 flex-1 items-center justify-center overflow-auto border-2 border-dotted border-purple-50">
               <p className="text-lg text-purple-50 font-medium px-2">

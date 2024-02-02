@@ -59,6 +59,14 @@ let optionsArray: array<(int, (string, string))> = [
   (51, ("̿̿ ̿̿ ̿̿ ̿'̿'̵͇̿з= ( ▀ ͜͞ʖ▀)", "font-sans text-sm")),
   (52, ("(ง︡'-'︠)ง", "font-sans text-4xl")),
   (53, ("( T____T)", "text-base")),
+  (54, ("(╯°□°）╯︵ ┻━┻", "font-sans text-sm")),
+  (55, ("(ﾉಥ益ಥ）ﾉ﻿ ┻━┻", "font-sans text-sm")),
+  (56, ("ヽ༼ຈل͜ຈ༽ﾉ", "text-base")),
+  (57, ("ヽ(´▽`)/", "text-xl")),
+  (58, ("(☞ﾟヮﾟ)☞", "font-sans text-xl")),
+  (59, ("m9(・∀・)", "font-sans text-base")),
+  (60, ("♪┏(・o･)┛♪", "font-sans text-base")),
+  (61, ("\\[T]/", "text-3xl")),
 ]
 
 let optionsMap: Belt.Map.Int.t<(string, string)> = Belt.Map.Int.fromArray(optionsArray)

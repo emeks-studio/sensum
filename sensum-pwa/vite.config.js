@@ -6,6 +6,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  base: '/dsensum/',
   plugins: [
     VitePWA({
       includeAssets: ['/assets/img/favicon.svg', '/assets/img/favicon.ico', '/assets/robots.txt', '/assets/img/apple-touch-icon.png'],  

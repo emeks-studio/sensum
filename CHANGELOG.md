@@ -1,5 +1,8 @@
 # sensum
 
+## v0.0.3
+* Fix serve as Github page
+
 ## v0.0.2
 * Serve as Github page
 

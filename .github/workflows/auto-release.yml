@@ -2,7 +2,7 @@ name: Auto Release
 
 on:
   push:
-    branches: [ master ]
+    branches: [master, test]
 
 jobs:
   release:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/hydrogen'
+          node-version: "lts/hydrogen"
 
       - name: Install dependencies
         working-directory: ./sensum-pwa
@@ -39,10 +39,16 @@ jobs:
           git-config-name: mk-emeks
           git-config-email: mirko@emeks.com.ar
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [release]
+    if: github.ref == 'refs/heads/master'
+
+    steps:
       - name: Create tar archive
         working-directory: ./sensum-pwa
         run: tar cf dsensum-pwa.tar dist
-      
+
       - name: Create Release
         id: create_release
         uses: CupOfTea696/gh-action-auto-release@v1.0.2
@@ -53,7 +59,7 @@ jobs:
           regex: "/^dsensum-v#{semver}$/i"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Upload tar archive
         uses: actions/upload-release-asset@v1
         env:

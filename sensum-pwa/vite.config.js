@@ -12,7 +12,6 @@ export default defineConfig({
       strategies: 'injectManifest', // Vs generateSW (more out of the box, less customizable!)
       registerType: 'autoUpdate', // Vs Prompt for new content
       srcDir: 'src',
-      base: '/dsensum/',
       filename: 'ServiceWorker.js',
       manifest: {
         name: 'd-sensum',

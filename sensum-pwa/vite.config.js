@@ -19,7 +19,7 @@ export default defineConfig({
         short_name: 'd-sensum',
         display_override: ["fullscreen", "minimal-ui"],
         display: "standalone", // https://developer.mozilla.org/en-US/docs/Web/Manifest/display_override#values
-        publicPath: '/dsensum/',
+        start_url: '/dsensum/',
         description: 'mysterious app',
         theme_color: '#4B3968',
         background_color: '#4B3968',

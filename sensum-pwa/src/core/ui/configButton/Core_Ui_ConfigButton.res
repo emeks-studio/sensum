@@ -4,14 +4,14 @@ let make = () => {
 
   let isConfigPage = () => {
     switch url.path {
-    | list{"config"} => true
+    | list{"dsensum", "config"} => true
     | _ => false
     }
   }
 
   let onClick = event => {
     ReactEvent.Mouse.preventDefault(event)
-    RescriptReactRouter.replace("/config")
+    RescriptReactRouter.replace("/dsensum/config")
   }
 
   <button

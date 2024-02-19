@@ -4,14 +4,14 @@ let make = () => {
 
   let isActive = () => {
     switch url.path {
-    | list{"sanctuary"} => true
+    | list{"dsensum", "sanctuary"} => true
     | _ => false
     }
   }
 
   let onClick = event => {
     ReactEvent.Mouse.preventDefault(event)
-    RescriptReactRouter.replace("/sanctuary")
+    RescriptReactRouter.replace("/dsensum/sanctuary")
   }
 
   <button

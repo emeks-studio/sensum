@@ -12,7 +12,7 @@ module DefaultRightComponent = {
 let make = (~rightComponent: React.element=<DefaultRightComponent />) => {
   let onClick = event => {
     ReactEvent.Mouse.preventDefault(event)
-    RescriptReactRouter.replace("/")
+    RescriptReactRouter.replace("/dsensum")
   }
   
   // FIXME: Make it responsive!

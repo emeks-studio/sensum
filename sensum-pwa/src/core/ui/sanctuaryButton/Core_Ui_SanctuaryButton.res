@@ -11,7 +11,7 @@ let make = () => {
 
   let onClick = event => {
     ReactEvent.Mouse.preventDefault(event)
-    RescriptReactRouter.replace("/sanctuary")
+    RescriptReactRouter.replace("/dsensum/sanctuary")
   }
 
   <button

@@ -33,7 +33,7 @@ module NetworkForm = {
       switch result {
         | Error(msg) => Js.Console.log2("Error: ", msg)
         | _ => {
-          RescriptReactRouter.push("/")
+          RescriptReactRouter.push("/dsensum")
         }
       }
     }

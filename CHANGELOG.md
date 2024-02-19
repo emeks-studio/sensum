@@ -1,5 +1,8 @@
 # sensum
 
+## v0.0.4
+* Fix routing issues for PWA
+
 ## v0.0.3
 * Fix serve as Github page
 

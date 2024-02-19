@@ -40,10 +40,10 @@ let make = () => {
   | None => <Pages_Configuration config=defaultConfig saveConfig />
   | Some(config) =>
     switch routerUrl.path {
-    | list{} => <Pages_Sensations config />
-    | list{"sanctuary"} => <Pages_NewSensation config/>
-    | list{"graveyard"} => <Pages_Sensations config/>
-    | list{"config"} => {
+    | list{"dsensum"} => <Pages_Sensations config />
+    | list{"dsensum", "sanctuary"} => <Pages_NewSensation config/>
+    | list{"dsensum", "graveyard"} => <Pages_Sensations config/>
+    | list{"dsensum", "config"} => {
       <Pages_Configuration config saveConfig />
     }
     | _ => <Pages_NotFound />

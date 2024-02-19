@@ -29,6 +29,12 @@ jobs:
         working-directory: ./sensum-pwa
         run: yarn build
 
+      - name: Archive sensum build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sensum-artifact
+          path: ./sensum-pwa/dist/
+
       - name: Serve as a Github page
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
@@ -45,6 +51,12 @@ jobs:
     if: github.ref == 'refs/heads/master'
 
     steps:
+      - name: Download sensum build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sensum-artifact
+          path: ./sensum-pwa/dist
+
       - name: Create tar archive
         working-directory: ./sensum-pwa
         run: tar cf dsensum-pwa.tar dist

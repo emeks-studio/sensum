@@ -2,6 +2,7 @@
 
 ## v0.0.4
 * Fix routing issues for PWA
+* Fix .tar at github actions
 
 ## v0.0.3
 * Fix serve as Github page

@@ -4,7 +4,7 @@ let make = () => {
 
   let isActive = () => {
     switch url.path {
-    | list{} => true
+    | list{"dsensum"} => true
     | list{"dsensum", "graveyard"} => true
     | _ => false
     }

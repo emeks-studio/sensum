@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sensum-artifact
-          path: dist/
+          path: ./sensum-pwa/dist/
 
       - name: Serve as a Github page
         uses: JamesIves/github-pages-deploy-action@4.1.1

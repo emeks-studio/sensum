@@ -11,39 +11,40 @@
 
 ## [sensum](https://sensum.emeks.com.ar)
 
-sensum is an open and anonymous network that allows electrons to express 
-themselves by transmitting their sensations through the current each time 
-The Oracle randomly designates one of them as the new _chosen one_.\
-Sesations are carried to every electron, yet no one can know where they echo from.
+An anonymously way of express your sensations through a decentralized network, power by open source code and blockchain technologies. For more details about the project please visit and read our [wiki page](https://github.com/emeks-studio/sensum/wiki).
+
+**NOTICE**: Since we recently achieve decentralization, `sensum` can be considered as an historical name. Now we usually refer to the project as `d-sensum`.
 
 ### Repositories
 
-- **sensum-mobile**\
-Mobile app built in [react-native](https://reactnative.dev/) which currently 
-serves as the main UI for the sensum project.
-
-- **sensum-ethereum**\
-Proof of concept and first attempt to decentralize sensum through the use of 
-the blockchain.\
-For more info refer to [this issue](https://github.com/emeks-studio/sensum/issues/32).
-
-- **sensum-backend**\
-_Unavailable for technical reasons._\
-Hosted by a bunch of _granujas_, this flawed backend tries to preserve the 
-frail heart of The Oracle, which painlessly dwells in a place full of 
-randomness and mystery. 
-
-- **[sensum-website](https://gitlab.com/emeks/sensum)**\
+- **[sensum-landing](https://gitlab.com/emeks/sensum)**\
 Considered by many as the entry point to the sensum universe.\
 Plenty of poetry and philosophical views are presented by the developers 
-throughout the project's [logbook](https://emeks.gitlab.io/sensum/lore/).
+throughout the project's [lore](https://emeks.gitlab.io/sensum/lore/).
 
-### Collaborations
+- **sensum-ethereum**\
+Contains Ethereum smart contracts and scripts that allow a decentralized version of `sensum`(`dsensum`).
 
-Some electrons are not only part of the network, but also decide to escape 
+  * Wiki ref: Conjurer and Channel stuff lives here
+
+- **sensum-pwa**\
+The module contains the code for the progressive dapp (PWA + Web3) that allows users to interact with the `d-sensum` network via a UI that can be access in several ways and equipments.
+
+  * Wiki ref: This acts as Sanctuary
+
+- **[dsensum](https://github.com/emeks-studio/dsensum)**\
+For easy access, the deployed dapp it is available as a Github page hosted at https://emeks-studio.github.io/dsensum/.
+
+  * TODO: Link (and create hehe) a documentation where we describe other ways to access the dapp (like IPFS, or as a self hosted web app).
+
+#### Collaborations
+
+Some souls are not only part of the network, but also decide to escape 
 their own orbital to help shape the project as a whole.\
 We thank you from the bottom of our hearts.
 
 - **[sensum-telgram-bot](https://github.com/ariedro/sensumbot)**\
 A bot capable of always fetching the latest sensation available from the 
-sensum network and share it in a telegram chat or group.
+dsensum network and share it in a telegram chat or group.
+
+  * Wiki ref: This is an Herald implementation

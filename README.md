@@ -11,7 +11,7 @@
 
 ## [sensum](https://sensum.emeks.com.ar)
 
-An anonymously way of express your sensations through a decentralized network, power by open source code and blockchain technologies. For more details about the project please visit and read our [wiki page](https://github.com/emeks-studio/sensum/wiki).
+An anonymous way of express your sensations through a decentralized network, powered by open source code and blockchain technologies. For more details about the project please visit and read our [wiki page](https://github.com/emeks-studio/sensum/wiki).
 
 **NOTICE**: Since we recently achieve decentralization, `sensum` can be considered as an historical name. Now we usually refer to the project as `d-sensum` or `dsensum`.
 

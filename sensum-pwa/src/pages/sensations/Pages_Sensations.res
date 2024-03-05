@@ -1,5 +1,3 @@
-%%raw("import './Sensations.css'")
-
 module Sensation = {
   @react.component
   let make = (~index: int, ~sensation: Types.sensation) => {

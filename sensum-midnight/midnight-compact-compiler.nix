@@ -1,0 +1,36 @@
+{
+  stdenv
+, fetchurl
+, autoPatchelfHook
+, unzip
+, glibc
+, gcc-unwrapped
+, util-linux
+, version   
+}:
+
+stdenv.mkDerivation {
+  name = "midnight-compact-compiler";
+  src = fetchurl {
+    url = "https://d3fazakqrumx6p.cloudfront.net/artifacts/compiler/compactc_${version}/compactc-linux.zip";
+    sha256 = "sha256-2jXlmYdrL/nxVl+em7GxOleiPeU+MTq64fu8HWl6xkE="; # replace with the correct hash
+  };
+  # Ref. https://unix.stackexchange.com/questions/522822/different-methods-to-run-a-non-nixos-executable-on-nixos
+  # + some copilot magic!
+  nativeBuildInputs = [ 
+    unzip 
+    autoPatchelfHook 
+  ];
+  buildInputs = [ 
+    glibc
+    gcc-unwrapped
+    util-linux
+  ];
+  unpackPhase = "true";
+  installPhase = ''
+    mkdir -p $out
+    unzip $src -d $out/compactc-linux/
+    chmod +x $out/compactc-linux/compactc $out/compactc-linux/zkir $out/compactc-linux/run-compactc.sh
+  '';
+  autoPatchelf = true;
+}

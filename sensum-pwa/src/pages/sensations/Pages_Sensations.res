@@ -26,7 +26,9 @@ module SensationsBody = {
       ->React.array}
       {loading
         ? <div className="flex mt-4 justify-end items-center">
-            <div className="w-4 h-4 relative block rounded-lg bg-purple-800 animate-bounce " />
+            <div
+              className="w-4 h-4 relative block rounded-lg before:rounded before:absolute before:inset-0 after:rounded-lg after:absolute after:inset-0 after:animate-soar before:shadow-soar after:shadow-soar-after"
+            />
           </div>
         : React.null}
       {!loading && sensations->Belt.Array.length == 0
@@ -47,7 +49,7 @@ module SensationsBody = {
 
 @react.component
 let make = (~config: Types.config) => {
-  <div className="bg-black flex flex-col h-screen overflow-hidden">
+  <div className="bg-custom-gradient flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar />
     <main className="overflow-auto hover:overflow-y-scroll max-w-3xl mx-auto py-16 px-8">
       <SensationsBody config />

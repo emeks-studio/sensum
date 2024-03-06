@@ -1,9 +1,10 @@
-
 module DefaultRightComponent = {
   @react.component
   let make = () => {
     <div className="flex">
-      <Core_Ui_GraveyardButton /><Core_Ui_SanctuaryButton /><Core_Ui_ConfigButton />
+      <Core_Ui_GraveyardButton />
+      <Core_Ui_SanctuaryButton />
+      <Core_Ui_ConfigButton />
     </div>
   }
 }
@@ -14,15 +15,15 @@ let make = (~rightComponent: React.element=<DefaultRightComponent />) => {
     ReactEvent.Mouse.preventDefault(event)
     RescriptReactRouter.replace("/dsensum")
   }
-  
+
   // FIXME: Make it responsive!
-  <header
-    className="border-purple-900 border-b-2 flex justify-between">
-    <button onClick>
-      <h1 className="pl-2 text-xl lg:text-4xl text-purple-50">
-        {"d-sensum"->React.string}
-      </h1>
-    </button>
-    {rightComponent}
+  <header className="flex items-center justify-between">
+    <div className="w-40 h-28 bg-auto flex justify-center items-center bg-sensum-logo bg-center">
+      <div
+        data="δensum"
+        className="text-purple-50 text-base animate-gltch before:content-[attr(data)] before:animate-gltch-before before:absolute before:left-0 after:content-[attr(data)] after:animate-gltch-after after:absolute after:left-0">
+        {"δensum"->React.string}
+      </div>
+    </div>
   </header>
 }

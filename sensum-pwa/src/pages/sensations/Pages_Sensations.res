@@ -49,10 +49,12 @@ module SensationsBody = {
 
 @react.component
 let make = (~config: Types.config) => {
-  <div className="bg-custom-gradient flex flex-col h-screen overflow-hidden">
-    <Core.Ui.Navbar />
-    <main className="overflow-auto hover:overflow-y-scroll max-w-3xl mx-auto py-16 px-8">
-      <SensationsBody config />
-    </main>
+  <div className="bg-custom-gradient flex flex-col h-screen overflow-hidden hover:overflow-y-scroll">
+    <div className="max-w-3xl mx-auto py-16">
+      <Core.Ui.Navbar />
+      <main className="px-8">
+        <SensationsBody config />
+      </main>
+    </div>
   </div>
 }

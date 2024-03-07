@@ -1,4 +1,5 @@
-type pickingAvatar = Picking | Selected((string, string)) | AboutToSelect
+type avatarType = (int, (string, string))
+type pickingAvatar = NoneSelected | Selected(avatarType)
 
 // (!) Do not use these keys in mainnet (!)
 // The Messenger private key
@@ -10,13 +11,15 @@ module MessengerInfo = {
   @react.component
   let make = (~wallet: Types.wallet) => {
     let (balance, setBalance) = React.useState(() => None)
+
     React.useEffect0(() => {
       let p = async () => {
         try {
           let b = await Ethers.getWalletBalance(~wallet)
           setBalance(_ => Some(b))
         } catch {
-        | Js.Exn.Error(e) => switch Js.Exn.message(e) {
+        | Js.Exn.Error(e) =>
+          switch Js.Exn.message(e) {
           | Some(msg) => Js.Console.log2("[error] getWalletBalance", msg)
           | None =>
             Js.Console.log2("[error] getWalletBalance", "Some other exception has been thrown")
@@ -26,17 +29,11 @@ module MessengerInfo = {
       p()->ignore
       None
     })
-    <div className="flex flex-col">
-      <label className="text-md text-purple-50 mx-1"> {"Messenger"->React.string} </label>
-      <div className="flex flex-row flex-wrap mx-1 gap-2">
-        <label className="truncate text-md text-purple-50">
-          {"* Address: "->React.string}
-          {wallet.address->React.string}
-        </label>
-      </div>
-      <div className="flex flex-row flex-wrap mx-1 gap-2">
-        <label className="truncate text-md text-purple-50">
-          {"* Mana: "->React.string}
+
+    <div className="text-[0.7rem] text-[#c1bbbd]">
+      <div className="overflow-hidden whitespace-nowrap overflow-ellipsis text-[#b0e0e6]">
+        {"✦ "->React.string}
+        <span>
           {switch balance {
           | None => "..."->React.string
           | Some(b) =>
@@ -44,9 +41,86 @@ module MessengerInfo = {
                 ? "(Pray for power!)"
                 : ""}`->React.string
           }}
-        </label>
+        </span>
       </div>
+      <div className="overflow-hidden whitespace-nowrap overflow-ellipsis text-[#708090]">
+        {"✎ "->React.string}
+        <span> {wallet.address->React.string} </span>
+      </div>
+      <button
+        className="border-t divide-y cursor-pointer text-[#c1bbbd] bg-transparent outline-0 tracking-[0.5rem] p-2 w-full hover:text-[#dda0dd]">
+        {"TRANSMIT"->React.string}
+      </button>
     </div>
+  }
+}
+
+module Facet = {
+  @react.component
+  let make = (
+    ~avt: avatarType,
+    ~setPickingAvatar: (pickingAvatar => pickingAvatar) => unit,
+    ~isSelected: bool,
+  ) => {
+    let (pos, (avatar, avatarCustomClass)) = avt
+
+    <div
+      className={`inline-block text-center w-13 overflow-hidden text-[0.7rem] text-[#c1bbbd] cursor-pointer ${avatarCustomClass} hover:text-[#dda0dd] ${isSelected
+          ? "border-solid border-[#581185] border rounded"
+          : ""}`}
+      onClick={_ => {
+        switch State.Avatar.optionsMap->Belt.Map.Int.get(pos) {
+        | Some(avatar, avatarCustomClass) =>
+          setPickingAvatar(_ => Selected((pos, (avatar, avatarCustomClass))))
+        | None => Js.Console.log("error avatar not found")
+        }
+      }}>
+      {avatar->React.string}
+    </div>
+  }
+}
+
+module Facets = {
+  @react.component
+  let make = (
+    ~pickingAvatar: pickingAvatar,
+    ~setPickingAvatar: (pickingAvatar => pickingAvatar) => unit,
+  ) => {
+    let isSelected = pos =>
+      switch pickingAvatar {
+      | Selected((selected, _)) => selected == pos
+      | NoneSelected => false
+      }
+
+    <div className="flex flex-row gap-3 justify-around items-center flex-wrap mb-8">
+      {State.Avatar.optionsArray
+      ->Belt.Array.map(avt => {
+        let (pos, _) = avt
+        <Facet key={pos->Belt.Int.toString} avt setPickingAvatar isSelected={isSelected(pos)} />
+      })
+      ->React.array}
+    </div>
+  }
+}
+
+module NewSensationBox = {
+  @react.component
+  let make = (
+    ~config: Types.config,
+    ~pickingAvatar: pickingAvatar,
+    ~setPickingAvatar: (pickingAvatar => pickingAvatar) => unit,
+  ) => {
+    <section className="block py-8 px-0 text-purple-50">
+      <label className="mb-1"> {"Sensation"->React.string} </label>
+      <textarea
+        className="box-border italic bg-transparent outline-0 text-white w-full text-sm border-dotted border border-[#581185] p-2 mb-1 resize-none "
+        rows={3}
+        minLength={1}
+        maxLength={512}
+        placeholder="Express your feelings..."
+      />
+      <Facets pickingAvatar setPickingAvatar />
+    </section>
   }
 }
 
@@ -60,7 +134,7 @@ let make = (~config: Types.config) => {
     Types.avatar: Ethers.toBigInt(0),
     Types.message: "",
   })
-  let (pickingAvatar, setPickingAvatar) = React.useState(() => AboutToSelect)
+  let (pickingAvatar, setPickingAvatar) = React.useState(() => NoneSelected)
 
   let onChangeSensationMessage = event => {
     let message = ReactEvent.Form.target(event)["value"]
@@ -96,86 +170,13 @@ let make = (~config: Types.config) => {
     }
   }
 
-  <div className="bg-black flex flex-col h-screen overflow-hidden">
-    <Core.Ui.Navbar />
-    <main className="overflow-y-scroll">
-      {switch pickingAvatar {
-      | Picking =>
-        <div className={`flex flex-row bg-black flex-wrap mx-5`}>
-          {State.Avatar.optionsArray
-          ->Belt.Array.map(option => {
-            let (pos, (avatar, avatarCustomClass)) = option
-            <button
-              key={pos->Belt.Int.toString}
-              className={`my-5 mx-1 w-28 h-28 bg-black flex items-center justify-center border-2 border-solid border-purple-50 px-1 text-purple-50 hover:bg-purple-900 ${avatarCustomClass}`}
-              onClick={_ => {
-                switch State.Avatar.optionsMap->Belt.Map.Int.get(pos) {
-                | Some(avatar, avatarCustomClass) => {
-                    setSensation(prevSensation => {
-                      ...prevSensation,
-                      Types.avatar: pos->Ethers.toBigInt,
-                    })
-                    setPickingAvatar(_ => Selected((avatar, avatarCustomClass)))
-                  }
-                | None => Js.Console.log("Error: Avatar not found")
-                }
-              }}>
-              {avatar->React.string}
-            </button>
-          })
-          ->React.array}
-        </div>
-      | AboutToSelect =>
-        <div className={`flex flex-col bg-black`}>
-          <div className={`flex flex-row flex-nowrap bg-black`}>
-            <button
-              className="my-3 mx-1 w-28 h-28 bg-black flex items-center justify-center border-2 border-solid border-purple-50 text-md px-5 opacity-50 text-purple-50 hover:bg-purple-900"
-              onClick={_ => setPickingAvatar(_ => Picking)}>
-              {"Pick Avatar"->React.string}
-            </button>
-            <textarea
-              className={`my-3 mx-1 p-2 flex-1 h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2  border-dotted border-purple-50 focus:outline-none focus:border-purple-900`}
-              id="newSensationMessage"
-              placeholder="Write your feelings..."
-              onChange=onChangeSensationMessage
-              minLength=1
-              maxLength=512
-            />
-          </div>
-          <MessengerInfo wallet />
-          <button
-            className="my-1 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 disabled:opacity-50"
-            disabled=true>
-            {"TRANSMIT SENSATION"->React.string}
-          </button>
-        </div>
-      | Selected((avatar, avatarCustomClass)) =>
-        <div className={`flex flex-col bg-black`}>
-          <div className={`flex flex-row flex-nowrap bg-black`}>
-            <button
-              className=`my-3 mx-1 w-32 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50  px-1 text-purple-50 hover:bg-black ${avatarCustomClass}`
-              onClick={_ => setPickingAvatar(_ => Picking)}>
-              {avatar->React.string}
-            </button>
-            <textarea
-              className="my-3 mx-1 p-2 w-full h-28 form-control bg-black resize-none text-lg text-purple-50 font-medium justify-center border-2 border-dotted border-purple-50 focus:outline-none focus:border-purple-900"
-              id="newSensationMessage"
-              placeholder="Write your feelings..."
-              value={sensation.message}
-              onChange=onChangeSensationMessage
-              minLength=1
-              maxLength=512
-            />
-          </div>
-          <MessengerInfo wallet />
-          <button
-            className="my-1 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 hover:bg-purple-900 disabled:opacity-50"
-            onClick={_ => onTransmitSensation()->ignore}
-            disabled={trasmittingSensation || sensation.message == ""}>
-            {(trasmittingSensation ? "TRANSMITTING..." : "TRANSMIT SENSATION")->React.string}
-          </button>
-        </div>
-      }}
+  <div className="bg-custom-gradient h-screen overflow-hidden hover:overflow-y-scroll">
+    <main className="py-16 px-8  mx-auto my-0 max-w-3xl ">
+      <div className="flex flex-col ">
+        <Core.Ui.Navbar />
+        <NewSensationBox config setPickingAvatar pickingAvatar />
+        <MessengerInfo wallet />
+      </div>
     </main>
   </div>
 }

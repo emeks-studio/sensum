@@ -1,62 +1,60 @@
+module Sensation = {
+  @react.component
+  let make = (~index: int, ~sensation: Types.sensation) => {
+    let (avatar, _) = State.Avatar.getAvatarFromIndex(sensation.avatar)
+    let direction = mod(index, 2) == 0 ? "text-left" : "text-right"
+    <article
+      className="sensation text-purple-50 italic text-center border-b border-dashed border-purple-800 py-4">
+      {sensation.message->React.string}
+      <footer key={index->Belt.Int.toString} className={`${direction} non-italic`}>
+        {avatar->React.string}
+      </footer>
+    </article>
+  }
+}
 module SensationsBody = {
   @react.component
-  let make = (
-    ~config: Types.config
-  ) => {    
-    let (sensations, loading, loadMore, lastUnloadedIndex) = State.Sensations.useSensations(~config);
+  let make = (~config: Types.config) => {
+    let (sensations, loading, loadMore, lastUnloadedIndex) = State.Sensations.useSensations(~config)
+    let showLoadMore = loading || Ethers.equalBigInt(lastUnloadedIndex, Ethers.toBigInt(-1))
     // FIXME: Make it responsive!
     <div className="flex flex-col flex-wrap">
-        {sensations->Belt.Array.mapWithIndex((index, sensation) => {
-           let (avatar, avatarCustomClass) = State.Avatar.getAvatarFromIndex(sensation.avatar)
-          let direction = (mod(index,2) == 0) ? "flex-row" : "flex-row-reverse"
-          <div className=`flex ${direction} flex-nowrap bg-black` key={index->Belt.Int.toString}>
-            // FIXME: Apply faces given the avatar id number
-            //<div className="m-5 w-32 h-32 bg-red-100">{sensation.avatar->Types.BigInt.toString->React.string}</div>
-            <div className="my-5 mx-1 w-28 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50">
-              <label className=`pb-1 text-purple-50 ${avatarCustomClass}`>{(avatar)->React.string}</label>
-            </div>
-            <div className="my-5 mx-1 h-28 flex-1 items-center justify-center overflow-auto border-2 border-dotted border-purple-50">
-              <p className="text-lg text-purple-50 font-medium px-2">
-                {sensation.message->React.string}
-              </p>
-            </div>
+      {sensations
+      ->Belt.Array.mapWithIndex((index, sensation) => {
+        <Sensation index sensation key={index->Belt.Int.toString} />
+      })
+      ->React.array}
+      {loading
+        ? <div className="flex mt-4 justify-end items-center">
+            <div
+              className="w-4 h-4 relative block rounded-lg before:rounded before:absolute before:inset-0 after:rounded-lg after:absolute after:inset-0 after:animate-soar before:shadow-soar after:shadow-soar-after"
+            />
           </div>
-        })->React.array}
-        {loading ? 
-          <div className="flex justify-center my-5">
-            <label className="text-md p-2 text-purple-50">
-              {"...LOADING..."->React.string} 
-            </label>
+        : React.null}
+      {!loading && sensations->Belt.Array.length == 0
+        ? <div className="flex justify-center my-5">
+            <label className="text-md p-2 text-purple-50"> {"[NUMB]"->React.string} </label>
           </div>
-        : React.null
-        }
-        {!loading && sensations->Belt.Array.length == 0 ? 
-          <div className="flex justify-center my-5">
-            <label className="text-md p-2 text-purple-50">
-              {"[NUMB]"->React.string} 
-            </label>
-          </div>
-        : React.null
-        }
-        <div className="flex justify-center my-5">
-          <button 
-            className="text-md p-2 text-purple-50 border-2 border-solid border-purple-50  disabled:opacity-50 hover:bg-purple-900" 
-            onClick={_ => loadMore()}
-            disabled={loading || Ethers.equalBigInt(lastUnloadedIndex, Ethers.toBigInt(-1))}
-          >
-            {"READ MORE"->React.string}
-          </button>
+        : React.null}
+      <div className="flex mt-4 justify-end items-center">
+        <div
+          onClick={_ => loadMore()}
+          className={`h-4 text-xl cursor-pointer gray ${showLoadMore ? "hidden" : "block"}`}>
+          {"🙏"->React.string}
         </div>
+      </div>
     </div>
   }
 }
 
 @react.component
 let make = (~config: Types.config) => {
-  <div className="bg-black flex flex-col h-screen overflow-hidden">
-    <Core.Ui.Navbar />
-    <main className="overflow-y-scroll">
-     <SensationsBody config/>
+  <div className="bg-custom-gradient h-screen overflow-hidden hover:overflow-y-scroll">
+    <main className="max-w-3xl mx-auto py-16 px-8 my-0">
+      <div className="flex flex-col ">
+        <Core.Ui.Navbar />
+        <SensationsBody config />
+      </div>
     </main>
   </div>
 }

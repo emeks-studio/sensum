@@ -23,7 +23,11 @@ let useSensations = (~config: Types.config) => {
         Js.Console.log2("useSensations::sensations", sensations)
         setSensations(_ => sensations)
         setLoading(_ => false)
-        setLastUnloadedIndex(_ => Ethers.subBigInt(indexes->Array.get(Array.length(indexes) - 1), Ethers.toBigInt(1)))
+        if (Array.length(indexes) !== 0) {
+          setLastUnloadedIndex(_ =>
+            Ethers.subBigInt(indexes->Array.get(Array.length(indexes) - 1), Ethers.toBigInt(1))
+          )
+        }
       } catch {
       | Js.Exn.Error(e) =>
          switch Js.Exn.message(e) {

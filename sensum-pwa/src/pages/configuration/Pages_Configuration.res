@@ -59,6 +59,9 @@ module NetworkForm = {
         value=sensationsContractAddressInput
         onChange=onChangeSensationsContractAddressInput
       />
+      <label htmlFor="sensationsContractAddress" className="text-xs text-right text-zinc-400">
+        {`ethers v${Ethers.getLibraryVersion()}`->React.string}
+      </label>
       <button
         className="text-md px-2 text-purple-50 border-2 border-solid border-purple-50  disabled:opacity-50 hover:bg-purple-900" 
         disabled={networkUrlInput == "" || sensationsContractAddressInput == ""}

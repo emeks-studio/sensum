@@ -1,5 +1,8 @@
 import { ethers } from 'ethers';
 
+export function getLibraryVersion() {
+  return ethers.version;
+}
 export async function getNetwork(provider) {
   return provider.getNetwork();
 }

@@ -137,3 +137,10 @@ export async function newSensation(contract, sensation, wallet) {
   // Wait till tx is confirmed!
   return tx.wait();
 }
+
+export async function estimateCost(provider, contract, wallet, sensation) {
+  const connectedContract = contract.connect(wallet);
+  const gasPrice = (await provider.getFeeData()).gasPrice;
+  const gas = await connectedContract.newSensation.estimateGas(sensation);
+  return ethers.formatEther(gas * gasPrice);
+}

@@ -16,7 +16,8 @@ module MessengerInfo = {
           let b = await Ethers.getWalletBalance(~wallet)
           setBalance(_ => Some(b))
         } catch {
-        | Js.Exn.Error(e) => switch Js.Exn.message(e) {
+        | Js.Exn.Error(e) =>
+          switch Js.Exn.message(e) {
           | Some(msg) => Js.Console.log2("[error] getWalletBalance", msg)
           | None =>
             Js.Console.log2("[error] getWalletBalance", "Some other exception has been thrown")
@@ -46,6 +47,41 @@ module MessengerInfo = {
           }}
         </label>
       </div>
+    </div>
+  }
+}
+
+module CostInfo = {
+  @react.component
+  let make = (
+    ~provider: Types.provider,
+    ~contract: Types.contract,
+    ~wallet: Types.wallet,
+    ~sensation: Types.sensation,
+  ) => {
+    let (cost, setCost) = React.useState(() => None)
+    React.useEffect1(() => {
+      let getCost = async () => {
+        let newCost = await Sensations.estimateCost(
+          ~provider,
+          ~contract,
+          ~wallet,
+          ~sensation
+        )
+        setCost(_ => Some(newCost))
+      }
+      getCost()->ignore
+      None
+    }, [sensation])
+
+    <div className="flex flex-row flex-wrap mx-1 gap-2">
+      <label className="truncate text-md text-purple-50">
+        {"* Estimated cost: "->React.string}
+        {switch cost {
+        | None => "..."->React.string
+        | Some(c) => c->React.string
+        }}
+      </label>
     </div>
   }
 }
@@ -143,6 +179,7 @@ let make = (~config: Types.config) => {
             />
           </div>
           <MessengerInfo wallet />
+          <CostInfo provider contract wallet sensation />
           <button
             className="my-1 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 disabled:opacity-50"
             disabled=true>
@@ -153,7 +190,7 @@ let make = (~config: Types.config) => {
         <div className={`flex flex-col bg-black`}>
           <div className={`flex flex-row flex-nowrap bg-black`}>
             <button
-              className=`my-3 mx-1 w-32 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50  px-1 text-purple-50 hover:bg-black ${avatarCustomClass}`
+              className={`my-3 mx-1 w-32 h-28 bg-purple-900 flex items-center justify-center border-2 border-solid border-purple-50  px-1 text-purple-50 hover:bg-black ${avatarCustomClass}`}
               onClick={_ => setPickingAvatar(_ => Picking)}>
               {avatar->React.string}
             </button>
@@ -168,6 +205,7 @@ let make = (~config: Types.config) => {
             />
           </div>
           <MessengerInfo wallet />
+          <CostInfo provider contract wallet sensation />
           <button
             className="my-1 mx-1 bg-black items-center justify-center border-2 border-solid border-purple-50 text-md px-5 text-purple-50 hover:bg-purple-900 disabled:opacity-50"
             onClick={_ => onTransmitSensation()->ignore}

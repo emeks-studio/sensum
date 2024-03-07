@@ -16,6 +16,8 @@ external getSensationsLength: (~contract: Types.contract) => promise<Types.BigIn
 @module("./Sensations.js")
 external newSensation: (~contract: Types.contract, ~sensation: Types.sensation, ~wallet: Types.wallet) => promise<Types.confirmedTransaction> = "newSensation"
 
+@module("./Sensations.js")
+external estimateCost: (~provider: Types.provider, ~contract: Types.contract, ~wallet: Types.wallet, ~sensation: Types.sensation) => promise<string> = "estimateCost"
 
 
 

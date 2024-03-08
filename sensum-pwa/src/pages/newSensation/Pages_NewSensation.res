@@ -60,17 +60,13 @@ module CostInfo = {
     ~sensation: Types.sensation,
   ) => {
     let (cost, setCost) = React.useState(() => None)
+    let updateCost = async () => {
+      let newCost = await Sensations.estimateCost(~provider, ~contract, ~wallet, ~sensation)
+      setCost(_ => Some(newCost))
+    }
+
     React.useEffect1(() => {
-      let getCost = async () => {
-        let newCost = await Sensations.estimateCost(
-          ~provider,
-          ~contract,
-          ~wallet,
-          ~sensation
-        )
-        setCost(_ => Some(newCost))
-      }
-      getCost()->ignore
+      updateCost()->ignore
       None
     }, [sensation])
 

@@ -1,5 +1,8 @@
 
 @module("./Ethers.js")
+external getLibraryVersion: () => string = "getLibraryVersion"
+
+@module("./Ethers.js")
 external getNetwork: (~provider: Types.provider) => promise<Types.network> = "getNetwork"
 
 @module("./Ethers.js")

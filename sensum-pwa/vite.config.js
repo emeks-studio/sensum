@@ -18,8 +18,9 @@ export default defineConfig({
       manifest: {
         name: 'd-sensum',
         short_name: 'd-sensum',
-        display_override: ["fullscreen", "minimal-ui"],
-        display: "standalone", // https://developer.mozilla.org/en-US/docs/Web/Manifest/display_override#values
+        // https://developer.mozilla.org/en-US/docs/Web/Manifest/display_override#values
+        display_override: ["minimal-ui", "browser"],
+        display: "minimal-ui",
         start_url: '/dsensum/',
         description: 'mysterious app',
         theme_color: '#4B3968',

@@ -6,6 +6,7 @@ that allow us to protect users identities by using zero-knowledge proofs.
 ## About [Midnight](https://midnight.network/) 
 
 - [high level arch](https://docs.midnight.network/develop/tutorial/high-level-arch)
+- [Midnight APIs](https://docs.midnight.network/develop/reference/midnight-api/)
 
 ### Prerequisites
 
@@ -50,6 +51,9 @@ docker run -p 6300:6300 midnightnetwork/proof-server -- 'midnight-proof-server -
 nix develop
 compactc --version
 ```
+
+- Optional (for VSCODE users): Install compact syntax highlighter extension (from VSIX file) 
+  Ref. https://releases.midnight.network/#/vscode-extension
 
 ## TODOs
 

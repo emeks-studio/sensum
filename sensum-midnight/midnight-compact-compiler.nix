@@ -13,7 +13,8 @@ stdenv.mkDerivation {
   name = "midnight-compact-compiler";
   src = fetchurl {
     url = "https://d3fazakqrumx6p.cloudfront.net/artifacts/compiler/compactc_${version}/compactc-linux.zip";
-    sha256 = "sha256-2jXlmYdrL/nxVl+em7GxOleiPeU+MTq64fu8HWl6xkE="; # replace with the correct hash
+    #ha256 = "sha256-2jXlmYdrL/nxVl+em7GxOleiPeU+MTq64fu8HWl6xkE="; # replace with the correct hash
+    sha256 = "sha256-3cwlSHSGxrJ4K9aKlRr9m/ogmasoEouMV58JN252p2A=";
   };
   # Ref. https://unix.stackexchange.com/questions/522822/different-methods-to-run-a-non-nixos-executable-on-nixos
   # + some copilot magic!

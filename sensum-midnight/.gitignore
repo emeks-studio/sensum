@@ -1,1 +1,4 @@
 result
+.turbo
+examples/bboard/contract/src/managed
+node_modules

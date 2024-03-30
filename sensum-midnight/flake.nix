@@ -11,10 +11,11 @@
       let
         pkgs = import nixpkgs { inherit system; };
         nodejs = pkgs.nodejs-18_x;
+        typescript = pkgs.nodePackages.typescript;
         midnight-compact-compiler = 
           pkgs.callPackage 
             ./midnight-compact-compiler.nix 
-            { version="0.9.2"; 
+            { version="0.10.1"; 
               inherit (pkgs) stdenv fetchurl autoPatchelfHook unzip glibc gcc-unwrapped util-linux; 
             };
       in
@@ -28,6 +29,7 @@
             buildInputs = [
               nodejs
               midnight-compact-compiler
+              typescript
             ];
             shellHook = ''
               export COMPACT_HOME="${midnight-compact-compiler}/compactc-linux"

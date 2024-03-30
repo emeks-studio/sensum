@@ -1,0 +1,35 @@
+services:
+  indexer:
+    image: "midnightnetwork/midnight-pubsub-indexer:latest"
+    ports:
+      - "8088:8088"
+    command: [ "midnight-pubsub-indexer", "-Devents-source.node-http-url=http://node:9944", "-Devents-source.node-ws-url=ws://node:9944" ]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8088/health" ]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      node:
+        condition: service_healthy
+    environment:
+      LEDGER_NETWORK_ID: "DevNet"
+      OTEL_JAVAAGENT_ENABLED: "false"
+  node:
+    image: "midnightnetwork/midnight-node:latest"
+    platform: linux/amd64
+    ports:
+      - "9944:9944"
+    environment:
+      CHAIN_SPEC: "public_devnet"
+      SEED_PHRASE: "//Fake"
+      EXTRA_NODE_ARGS: "--bootnodes /dns/node-01.jade.midnight.network/tcp/30333/p2p/12D3KooWEyoppNCUx8Yx66oV9fJnriXwCcXwDDUA2kj6vnc6iDEp"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9944/health" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    volumes:
+      - ./:/mn-src

@@ -44,6 +44,7 @@ On the other hand, witnesses.ts defines the private state (part of the system th
 ### DApp build:
 
 ```nix develop
+[/bboard/contract]$ yarn build
 [/bboard/bboard-cli]$ yarn build
 [/bboard/bboard-cli]$ yarn standalone
 ```

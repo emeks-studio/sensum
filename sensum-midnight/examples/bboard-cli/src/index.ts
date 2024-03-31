@@ -48,6 +48,10 @@ import { toHex } from './conversion-utils.js';
 import { type DockerComposeEnvironment } from 'testcontainers';
 import * as crypto from 'crypto';
 import { levelPrivateStateProvider } from '@midnight-ntwrk/midnight-js-level-private-state-provider';
+import { Blob } from 'buffer';
+
+// I was getting "Blob is not defined" error
+globalThis.Blob = Blob;
 
 // @ts-expect-error: It's needed to make Scala.js and WASM code able to use cryptography
 globalThis.crypto = webcrypto;

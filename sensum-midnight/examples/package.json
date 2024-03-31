@@ -1,20 +1,11 @@
 {
   "packageManager": "yarn@4.1.0",
   "workspaces": [
-    "bboard/*"
+    "bboard-cli",
+    "bboard-contract"
   ],
-  "scripts": {
-    "compact": "turbo run compact",
-    "build": "turbo run build",
-    "test": "turbo run test",
-    "test-e2e": "turbo run test-e2e",
-    "lint": "turbo run lint",
-    "check": "turbo run check --ignore packages/dao-ui-tests",
-    "dao-dapp": "turbo run start --filter=dao-dapp",
-    "welcome-participant-ui": "turbo run start --filter=welcome-participant-ui",
-    "welcome-organizer-cli": "turbo run start --filter=welcome-organizer-cli",
-    "welcome-organizer-ui": "turbo run start --filter=welcome-organizer-ui"
-  },
+  "private": true,
+  "scripts": {  },
   "dependencies": {
     "@midnight-ntwrk/compact-runtime": "^0.6.13",
     "@midnight-ntwrk/dapp-connector-api": "^1.0.0",

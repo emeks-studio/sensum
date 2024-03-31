@@ -1,6 +1,6 @@
 import { type MidnightProviders } from '@midnight-ntwrk/midnight-js-types';
 import { type DeployedContract, type StateWithZswap } from '@midnight-ntwrk/midnight-js-contracts';
-import type { BBoardPrivateState, Contract, Witnesses } from '@midnight-ntwrk/bboard-contract';
+import type { BBoardPrivateState, Contract, Witnesses } from 'bboard-contract';
 
 export type PrivateStates = {
   bboardPrivateState: BBoardPrivateState;

@@ -25,13 +25,13 @@ following the tutorial.
 
 ### General build:
 ```nix develop
-npx turbo build
+yarn install # only the first time!
 ```
 
 ### Contract build:
 
 ```nix develop
-[/bboard/contract]$ run-compactc.sh src/bboard.compact src/managed/bboard
+[/bboard/contract]$ yarn compact
 
 post: Uses around 2^11 out of 2^20 constraints (rounded up to the nearest power of two).
 take_down: Uses around 2^11 out of 2^20 constraints (rounded up to the nearest power of two).
@@ -44,5 +44,6 @@ On the other hand, witnesses.ts defines the private state (part of the system th
 ### DApp build:
 
 ```nix develop
+[/bboard/bboard-cli]$ yarn build
 [/bboard/bboard-cli]$ yarn standalone
 ```

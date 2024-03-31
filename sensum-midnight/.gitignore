@@ -1,4 +1,7 @@
 result
 .turbo
-examples/bboard/contract/src/managed
+examples/bboard-contract/src/managed
 node_modules
+dist
+yarn-error.log
+logs

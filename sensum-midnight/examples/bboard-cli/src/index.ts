@@ -7,7 +7,7 @@
  */
 // More docs under: https://docs.midnight.network/develop/reference/midnight-api/midnight-js/
 
-import { createInterface, type Interface } from 'node:readline/promises';
+import { createInterface, type Interface } from 'node:readline';
 import { stdin as input, stdout as output } from 'node:process';
 import { WebSocket } from 'ws';
 import { webcrypto } from 'crypto';
@@ -25,7 +25,7 @@ import {
   type Ledger,
   createBBoardPrivateState,
   STATE,
-} from '@midnight-ntwrk/bboard-contract';
+} from 'bboard-contract';
 import {
   type BalancedTransaction,
   createBalancedTx,
@@ -54,6 +54,13 @@ globalThis.crypto = webcrypto;
 
 // @ts-expect-error: It's needed to enable WebSocket usage through apollo
 globalThis.WebSocket = WebSocket;
+
+// Polyfill for node:readline-promises
+const questionAsync = async (rli: Interface, question: string): Promise<string> => {
+  return new Promise((resolve) => {
+    rli.question(question, resolve);
+  });
+}
 
 /* **********************************************************************
  * getBBoardLedgerState: a helper that queries the current state of
@@ -88,7 +95,7 @@ export const createBBoardContract = (coinPublicKey: CoinPublicKey): BBoardContra
  */
 
 const join = async (providers: BBoardProviders, rli: Interface, logger: Logger): Promise<DeployedBBoardContract> => {
-  const contractAddress = await rli.question('What is the contract address (in hex)? ');
+  const contractAddress = await questionAsync(rli,'What is the contract address (in hex)? ');
   const existingPrivateState = await providers.privateStateProvider.get('bboardPrivateState');
   const deployedBBoardContract = await findDeployedContract(
     providers,
@@ -139,7 +146,7 @@ const deployOrJoin = async (
   logger: Logger,
 ): Promise<DeployedBBoardContract | null> => {
   while (true) {
-    const choice = await rli.question(DEPLOY_OR_JOIN_QUESTION);
+    const choice = await questionAsync(rli,DEPLOY_OR_JOIN_QUESTION);
     switch (choice) {
       case '1':
         return await deploy(providers, logger);
@@ -162,7 +169,7 @@ const deployOrJoin = async (
 const POST_QUESTION = `What message do you want to post? `;
 
 const post = async (deployedBBoardContract: DeployedBBoardContract, logger: Logger, rli: Interface): Promise<void> => {
-  const message = await rli.question(POST_QUESTION);
+  const message = await questionAsync(rli,POST_QUESTION);
   logger.info('Posting your message...');
   const { txHash, blockHeight } =
     // EXERCISE 4: CALL THE post CIRCUIT AND SUBMIT THE TRANSACTION TO THE NETWORK
@@ -244,7 +251,7 @@ const mainLoop = async (providers: BBoardProviders, rli: Interface, logger: Logg
     return;
   }
   while (true) {
-    const choice = await rli.question(MAIN_LOOP_QUESTION);
+    const choice = await questionAsync(rli,MAIN_LOOP_QUESTION);
     switch (choice) {
       case '1':
         await post(deployedBBoardContract, logger, rli);
@@ -348,7 +355,9 @@ const buildWalletAndWaitForFunds = async (
 
 const randomBytes = (length: number): Uint8Array => {
   const bytes = new Uint8Array(length);
-  crypto.getRandomValues(bytes);
+  // crypto.getRandomValues(bytes);
+  const randomBytes = crypto.randomBytes(bytes.length);
+  bytes.set(randomBytes);
   return bytes;
 };
 
@@ -358,7 +367,7 @@ const buildFreshWallet = async (config: Config, logger: Logger): Promise<Wallet 
 
 // Prompt for a seed and create the wallet with that.
 const buildWalletFromSeed = async (config: Config, rli: Interface, logger: Logger): Promise<Wallet & Resource> => {
-  const seed = await rli.question('Enter your wallet seed: ');
+  const seed = await questionAsync(rli,'Enter your wallet seed: ');
   return await buildWalletAndWaitForFunds(config, logger, seed);
 };
 
@@ -386,7 +395,7 @@ const buildWallet = async (config: Config, rli: Interface, logger: Logger): Prom
     return await buildWalletAndWaitForFunds(config, logger, GENESIS_MINT_WALLET_SEED);
   }
   while (true) {
-    const choice = await rli.question(WALLET_LOOP_QUESTION);
+    const choice = await questionAsync(rli,WALLET_LOOP_QUESTION);
     switch (choice) {
       case '1':
         return await buildFreshWallet(config, logger);

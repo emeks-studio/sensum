@@ -10,6 +10,7 @@
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        python3 = pkgs.python39;
         nodejs = pkgs.nodejs-18_x;
         typescript = pkgs.nodePackages.typescript;
         midnight-compact-compiler = 
@@ -27,6 +28,7 @@
           };
           devShell = pkgs.mkShell {
             buildInputs = [
+              python3
               nodejs
               midnight-compact-compiler
               typescript

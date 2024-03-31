@@ -57,6 +57,6 @@ compactc --version
 
 ## TODOs
 
-- [ ] Run some examples https://docs.midnight.network/develop/tutorial/building/examples-repo
+- [x] Run some examples https://docs.midnight.network/develop/tutorial/building/examples-repo
 - [ ] Complete project setup (yarn, typescript support, rescript).
 - [ ] See if docker part could be included as part of the shell hook (and/or as part of the Nix "for build" packages).

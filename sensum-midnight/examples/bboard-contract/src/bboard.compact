@@ -1,0 +1,44 @@
+include "std";
+
+export enum STATE { vacant, occupied }
+
+ledger {
+    state: Cell[STATE];
+    message: Cell[Maybe[Opaque["string"]]];
+    instance: Counter;
+    poster: Cell[Bytes[32]];
+    constructor() {
+        ledger.state = STATE.vacant;
+        ledger.message = none[Opaque["string"]]();
+        ledger.instance.increment(1);
+  }
+}
+
+witness local_secret_key(): Bytes[32];
+
+export circuit post(message: Opaque["string"]): Void {
+    assert ledger.state == STATE.vacant
+        "Attempted to post to an occupied board";
+    ledger.poster = public_key(local_secret_key());
+    ledger.message = some[Opaque["string"]](message);
+    ledger.state = STATE.occupied;
+}
+
+export circuit take_down(): Opaque["string"] {
+    assert ledger.state == STATE.occupied
+        "Attempted to take down post from an empty board";
+    assert ledger.poster == public_key(local_secret_key())
+        "Attempted to take down post, but not the current poster";
+    const former_msg = ledger.message.value;
+    ledger.state = STATE.vacant;
+    ledger.instance.increment(1);
+    ledger.message = none[Opaque["string"]]();
+    return former_msg;
+}
+
+export circuit public_key(sk: Bytes[32]): Bytes[32] {
+  return persistent_hash(
+           persistent_hash(pad(32, "bboard:pk:"),
+                           ledger.instance as Field as Bytes[32]),
+           sk);
+}

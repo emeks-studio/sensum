@@ -17,7 +17,7 @@ export default defineConfig({
       filename: 'ServiceWorker.js',
       manifest: {
         name: 'd-sensum',
-        short_name: 'd-sensum',
+        short_name: 'δensum',
         // https://developer.mozilla.org/en-US/docs/Web/Manifest/display_override#values
         display_override: ["minimal-ui", "browser"],
         display: "minimal-ui",

@@ -23,6 +23,7 @@
         lib = pkgs.lib;
         stdenv = pkgs.stdenv;
         nodejs = pkgs.nodejs-18_x;
+        yarn = pkgs.yarn.override { nodejs = nodejs; };
         python3 = pkgs.python39;
         ocaml-ng = pkgs.ocaml-ng;
         rescript = pkgs.callPackage ./rescript.nix { 
@@ -33,6 +34,7 @@
           devShell = pkgs.mkShell {
             buildInputs = [
               nodejs
+              yarn
               rescript
             ];
             shellHook = ''

@@ -19,7 +19,6 @@ ledger {
   authorizedNullifiers: Set[Bytes[32]];
   // TODO: Verify this works, also, is Opaque["string"] just the hash? I'm confused.
   restrictedSensations: List[Opaque["string"]];
-  registeredUsers: Set[Bytes[32]];
 
   constructor() {
     // ledger.organizer.write(organizer_public_key(secret_key()));
@@ -28,33 +27,34 @@ ledger {
 }
 
 // In this model, each user register it self.
-// Then The Oracle can choose as many as she wants. 
+// And automatically becomes a chosen one (if there is space in the merkle tree).
 // Attack: From the outside a person could generate multiple secret keys 
-//         and register multiple times in order to have more chances to be chosen.
-// Defense: You need to pay for pray (pay for better chances)
+//         and register multiple times in order to fullfill the merkle tree,
+//         making the proccess unpleasant.
+// Defense: You need to pay for pray (pay for write)
 export circuit praise_the_sun(): Void {
-  const user = chosen_one_public_key(secret_key());
-  assert ledger.registeredUsers.member(user) "your destiny was already written!";
-  ledger.registeredUsers.insert(user);
+  assert ledger.authorizedCommitments.is_full() "Sorry, you have a cursed destiny!";
+  const chosen_one = chosen_one_public_key(secret_key());
+  ledger.authorizedCommitments.insert(chosen_one);
 }
 
-// Question: Instead of receive one, should we witness one?
-// Note: Organizer desicion should be fair from registeredUsers.
-export circuit cosmic_dance(chosen_one: Bytes[32]): Void {
+// This is the opposite model, here The Oracle instead of choosing, it removes the chosen ones.
+// That way, the user should pray again. 
+// Note: Organizer desicion should be fair.
+export circuit cosmic_dance(token: Bytes[32]): Void {
   // assert ledger.organizer.read() == organizer_public_key(secret_key()) "You have no power here!";
   assert ledger.organizer == organizer_public_key(secret_key()) "You have no power here!";
-  // In case merkle tree is full, we reset it to default. Old tokens expired, users need to register again.
+  assert ledger.authorizedCommitments.member(token) "Unable to refresh: Unused or invalid token!";
+  // In case merkle tree is full, we reset it to default (users need to register again). Old tokens expired!
   if (ledger.authorizedCommitments.is_full())
     ledger.authorizedCommitments.reset_to_default();
     ledger.authorizedNullifiers.reset_to_default();
-    // If we don't clean this, we might need another cleanup mechanism for this set.
-    ledger.registeredUsers.reset_to_default();
   else
-    ledger.authorizedCommitments.insert(chosen_one);
+    ledger.authorizedCommitments.remove(token);
 }
 
 // Attack: I think we should have more than one chosen one per time, if not,
-//           After a new sensation you could link the chosen one public with the new nullifier
+//         After a new sensation you could link the chosen one public with the new nullifier
 export circuit transmit(sensation: Opaque["string"]): Void{
   const sk = secret_key();
   const auth_path = find_auth_path(chosen_one_public_key(sk));
@@ -68,7 +68,6 @@ export circuit transmit(sensation: Opaque["string"]): Void{
 
 // Question: Read only functions are free?
 // The purpose of this function, is to not make the user pay for a invalid transmit.
-// Question: Do we need a im_blessed() function? (to check registeredUsers membership)
 export pure circuit im_a_chosen_one(): Bool {
   const sk = secret_key();
 

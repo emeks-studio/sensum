@@ -24,14 +24,15 @@ following the tutorial.
 ## Development
 
 ### General build:
+
 ```nix develop
-yarn install # only the first time!
+[examples/]yarn install # only the first time!
 ```
 
 ### Contract build:
 
 ```nix develop
-[/bboard/contract]$ yarn compact
+[examples/bboard-contract]$ yarn compact
 
 post: Uses around 2^11 out of 2^20 constraints (rounded up to the nearest power of two).
 take_down: Uses around 2^11 out of 2^20 constraints (rounded up to the nearest power of two).
@@ -44,7 +45,21 @@ On the other hand, witnesses.ts defines the private state (part of the system th
 ### DApp build:
 
 ```nix develop
-[/bboard/contract]$ yarn build
-[/bboard/bboard-cli]$ yarn build
-[/bboard/bboard-cli]$ yarn standalone
+[examples/bboard-contract]$ yarn build
+```
+
+_hotfix:_ Temporal hotfix to have built contract on cli\
+Delete `examples/bboard-cli/node_modules`\
+Run again [General build](#general-build)
+
+```nix develop
+[examples/bboard-cli]$ yarn build
+[examples/bboard-cli]$ yarn docker-pull
+[examples/bboard-cli]$ yarn docker-up
+```
+
+Wait till docker's up and then run
+
+```nix develop
+[examples/bboard-cli]$ yarn standalone
 ```

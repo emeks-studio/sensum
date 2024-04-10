@@ -1,12 +1,12 @@
 module Sensation = {
   @react.component
   let make = (~index: int, ~sensation: Types.sensation) => {
-    let (avatar, _) = State.Avatar.getAvatarFromIndex(sensation.avatar)
+    let (avatar, avatarCustomClass) = State.Avatar.getAvatarFromIndex(sensation.avatar)
     let direction = mod(index, 2) == 0 ? "text-left" : "text-right"
     <article
       className="sensation text-purple-50 italic text-center border-b border-dashed border-purple-800 py-4">
       {sensation.message->React.string}
-      <footer key={index->Belt.Int.toString} className={`${direction} non-italic`}>
+      <footer key={index->Belt.Int.toString} className={`${direction} non-italic ${avatarCustomClass}`}>
         {avatar->React.string}
       </footer>
     </article>

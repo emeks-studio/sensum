@@ -65,7 +65,7 @@ module Facet = {
     let (pos, (avatar, avatarCustomClass)) = avt
 
     <div
-      className={`inline-block text-center w-13 overflow-hidden text-[0.7rem] text-[#c1bbbd] cursor-pointer ${avatarCustomClass} hover:text-[#dda0dd] ${isSelected
+      className={`inline-block p-1 text-center w-13 overflow-hidden text-[0.7rem] text-[#c1bbbd] cursor-pointer ${avatarCustomClass} hover:text-[#dda0dd] ${isSelected
           ? "border-solid border-[#581185] border rounded"
           : ""}`}
       onClick={_ => {
@@ -107,9 +107,25 @@ module NewSensationBox = {
   @react.component
   let make = (
     ~config: Types.config,
-    ~pickingAvatar: pickingAvatar,
-    ~setPickingAvatar: (pickingAvatar => pickingAvatar) => unit,
+    ~onSensationUpdate: (Types.sensation => Types.sensation) => unit,
   ) => {
+    let (pickingAvatar, setPickingAvatar) = React.useState(() => NoneSelected)
+
+    let onChangeSensationMessage = event => {
+      let message = ReactEvent.Form.target(event)["value"]
+      onSensationUpdate(prev => {...prev, Types.message})
+    }
+
+    React.useEffect1(() => {
+      switch pickingAvatar {
+      | Selected((facet, _)) =>
+        onSensationUpdate(prev => {...prev, Types.avatar: facet->Ethers.toBigInt})
+      | NoneSelected => ()
+      }
+
+      None
+    }, [pickingAvatar])
+
     <section className="block py-8 px-0 text-purple-50">
       <label className="mb-1"> {"Sensation"->React.string} </label>
       <textarea
@@ -118,6 +134,7 @@ module NewSensationBox = {
         minLength={1}
         maxLength={512}
         placeholder="Express your feelings..."
+        onChange={onChangeSensationMessage}
       />
       <Facets pickingAvatar setPickingAvatar />
     </section>
@@ -134,12 +151,6 @@ let make = (~config: Types.config) => {
     Types.avatar: Ethers.toBigInt(0),
     Types.message: "",
   })
-  let (pickingAvatar, setPickingAvatar) = React.useState(() => NoneSelected)
-
-  let onChangeSensationMessage = event => {
-    let message = ReactEvent.Form.target(event)["value"]
-    setSensation(prev => {...prev, Types.message})
-  }
 
   // TODO: We could add info about estimated gas cost!
 
@@ -171,10 +182,10 @@ let make = (~config: Types.config) => {
   }
 
   <div className="bg-custom-gradient h-screen overflow-hidden hover:overflow-y-scroll">
-    <main className="py-16 px-8  mx-auto my-0 max-w-3xl ">
+    <main className="py-16 px-8  mx-auto my-0 max-w-3xl">
       <div className="flex flex-col ">
         <Core.Ui.Navbar />
-        <NewSensationBox config setPickingAvatar pickingAvatar />
+        <NewSensationBox config onSensationUpdate={setSensation} />
         <MessengerInfo wallet />
       </div>
     </main>

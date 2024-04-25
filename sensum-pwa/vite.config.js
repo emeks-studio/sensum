@@ -1,5 +1,9 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { readFileSync } from 'fs';
+
+// Read the version from package.json
+const APP_VERSION = JSON.stringify(JSON.parse(readFileSync('./package.json')).version);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -7,6 +11,10 @@ export default defineConfig({
     sourcemap: true,
   },
   base: '/dsensum/',
+  define: {
+    // set it as an environment variable
+    'import.meta.env.APP_VERSION': APP_VERSION,
+  },
   plugins: [
     VitePWA({
       includeAssets: ['/assets/img/favicon.svg', '/assets/img/favicon.ico', '/assets/robots.txt', '/assets/img/apple-touch-icon.png'],  

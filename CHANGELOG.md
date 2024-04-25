@@ -1,5 +1,9 @@
 # sensum
 
+## v1.0.0
+* Display app version
+* Calculate gas cost for a sensation + UI changes
+
 ## v0.0.4
 * Fix routing issues for PWA
 * Fix github actions release

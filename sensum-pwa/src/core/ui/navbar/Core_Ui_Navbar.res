@@ -27,7 +27,7 @@ let make = (~rightComponent: React.element=<DefaultRightComponent />) => {
         </h1>
       </button>
       <a className="pl-2 text-sm lg:text-md text-purple-50" >
-        {`(v-${appVersion})`->React.string}
+        {`(v${appVersion})`->React.string}
       </a>
     </div>
     {rightComponent}

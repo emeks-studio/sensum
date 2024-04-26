@@ -2,9 +2,9 @@ type pickingAvatar = Picking | Selected((string, string)) | AboutToSelect
 
 // (!) Do not use these keys in mainnet (!)
 // The Messenger private key
-// let privateKey = "0x25aa6fec3324277deae6b4c934338fca5ef3940529f24d8cb77c7facebd51096"
+let privateKey = "0x25aa6fec3324277deae6b4c934338fca5ef3940529f24d8cb77c7facebd51096"
 // Hardhat private key
-let privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+// let privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
 
 module MessengerInfo = {
   @react.component

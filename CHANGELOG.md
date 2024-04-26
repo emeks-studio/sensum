@@ -1,5 +1,10 @@
 # sensum
 
+## v1.1.2
+* ServiceWorker written in rescript
+* Refresh cache using the service worker (see if it works)
+* Use Standalone as default mode for PWA
+
 ## v1.0.0
 * Display app version
 * Calculate gas cost for a sensation + UI changes

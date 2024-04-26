@@ -22,13 +22,14 @@ export default defineConfig({
       registerType: 'autoUpdate', // Vs Prompt for new content
       srcDir: 'src',
       base: '/dsensum/',
-      filename: 'ServiceWorker.js',
+      filename: 'ServiceWorker.bs.js',
       manifest: {
+        id: "d-sensum",
         name: 'd-sensum',
         short_name: 'δensum',
         // https://developer.mozilla.org/en-US/docs/Web/Manifest/display_override#values
-        display_override: ["minimal-ui", "browser"],
-        display: "minimal-ui",
+        display_override: ["standalone", "minimal-ui", "browser"],
+        display: "standalone",
         start_url: '/dsensum/',
         description: 'mysterious app',
         theme_color: '#4B3968',

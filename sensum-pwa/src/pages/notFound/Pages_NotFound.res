@@ -2,7 +2,7 @@
 let make = () => {
   let onClick = event => {
     ReactEvent.Mouse.preventDefault(event)
-    RescriptReactRouter.replace("/dsensum")
+    RescriptReactRouter.replace("/dsensum/")
   }
   <div className="bg-black flex flex-col h-screen overflow-hidden">
     <Core.Ui.Navbar />

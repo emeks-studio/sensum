@@ -2,22 +2,22 @@
 // but if in runtime returns something different, there will be still a bug!
 
 @module("./Sensations.js")
-external getContract: (~config: Types.config, ~provider: Types.provider) => Types.contract = "getContract"
+external getContract: (~config: Types.config, ~provider: Types.provider) => Types.Contract.t = "getContract"
 
 @module("./Sensations.js")
-external getSensationByIndex: (~contract: Types.contract, ~index: Types.BigInt.t) => promise<Types.sensation> = "getSensationByIndex"
+external getSensationByIndex: (~contract: Types.Contract.t, ~index: Types.BigInt.t) => promise<Types.sensation> = "getSensationByIndex"
 
 @module("./Sensations.js")
-external getLatestSensation: (~contract: Types.contract) => promise<Types.sensation> = "getLatestSensation"
+external getLatestSensation: (~contract: Types.Contract.t) => promise<Types.sensation> = "getLatestSensation"
 
 @module("./Sensations.js")
-external getSensationsLength: (~contract: Types.contract) => promise<Types.BigInt.t> = "getSensationsLength"
+external getSensationsLength: (~contract: Types.Contract.t) => promise<Types.BigInt.t> = "getSensationsLength"
 
 @module("./Sensations.js")
-external newSensation: (~contract: Types.contract, ~sensation: Types.sensation, ~wallet: Types.wallet) => promise<Types.confirmedTransaction> = "newSensation"
+external newSensation: (~contract: Types.Contract.t, ~sensation: Types.sensation, ~wallet: Types.wallet) => promise<Types.confirmedTransaction> = "newSensation"
 
 @module("./Sensations.js")
-external estimateCost: (~provider: Types.provider, ~contract: Types.contract, ~wallet: Types.wallet, ~sensation: Types.sensation) => promise<string> = "estimateCost"
+external estimateCost: (~provider: Types.provider, ~contract: Types.Contract.t, ~wallet: Types.wallet, ~sensation: Types.sensation) => promise<string> = "estimateCost"
 
 
 

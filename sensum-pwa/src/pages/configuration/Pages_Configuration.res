@@ -1,3 +1,26 @@
+module SubscribeButton = {
+  @react.component
+  let make = () => {
+    let (subscribed, setSubscribed) = React.useState(_ => Types.Notification.permission)
+    let onSubscribe = () =>
+      Types.Notification.requestPermission()
+      ->Promise.then(str => {
+        setSubscribed(_ => str)
+        str->Promise.resolve
+      })
+      ->ignore
+    if subscribed === "granted" {
+      <button type_="button" className={"bg-purple-900"} disabled={true}>
+        {"Notifications Allowed"->React.string}
+      </button>
+    } else {
+      <button type_="button" className={"bg-purple-900"} onClick={_ => onSubscribe()}>
+        {"Allow Notifications"->React.string}
+      </button>
+    }
+  }
+}
+
 module NetworkForm = {
   @react.component
   let make = (
@@ -7,13 +30,12 @@ module NetworkForm = {
       ~sensationsContractAddress: string,
     ) => Belt.Result.t<unit, string>,
   ) => {
-
     let (sensationsContractAddressInput, setSensationsContractAddressInput) = React.useState(_ =>
       config.sensationsContractAddress
     )
 
     let (networkUrlInput, setNetworkInput) = React.useState(_ => config.networkUrl)
-    
+
     let onChangeSensationsContractAddressInput = event => {
       let updatedValue = ReactEvent.Form.target(event)["value"]
       setSensationsContractAddressInput(_ => updatedValue)
@@ -59,14 +81,14 @@ module NetworkForm = {
         value=sensationsContractAddressInput
         onChange=onChangeSensationsContractAddressInput
       />
-      <label htmlFor="sensationsContractAddress" className="text-xs text-right text-zinc-400">
+      <SubscribeButton />
+      <label className="text-xs text-right text-zinc-400">
         {`ethers v${Ethers.getLibraryVersion()}`->React.string}
       </label>
       <button
-        className="text-md px-2 text-purple-50 border-2 border-solid border-purple-50  disabled:opacity-50 hover:bg-purple-900" 
+        className="text-md px-2 text-purple-50 border-2 border-solid border-purple-50  disabled:opacity-50 hover:bg-purple-900"
         disabled={networkUrlInput == "" || sensationsContractAddressInput == ""}
-        onClick=onSave
-      >
+        onClick=onSave>
         {"SAVE"->React.string}
       </button>
     </div>

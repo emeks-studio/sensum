@@ -3,16 +3,16 @@ let make = () => {
   let url = RescriptReactRouter.useUrl()
 
   let isActive = () => {
-    switch url.path {
-    | list{"dsensum"} => true
-    | list{"dsensum", "graveyard"} => true
-    | _ => false
+    switch url.hash {
+    | "config" => false
+    | "sanctuary" => false
+    | _ => true
     }
   }
 
   let onClick = event => {
     ReactEvent.Mouse.preventDefault(event)
-    RescriptReactRouter.replace("/dsensum/graveyard")
+    RescriptReactRouter.push("/dsensum/#graveyard")
   }
 
   <button

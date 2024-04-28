@@ -1,5 +1,9 @@
 # sensum
 
+## v1.1.3
+* Change how router behaves (use push instead of replace)
+* Default config already used
+
 ## v1.1.2
 * ServiceWorker written in rescript
 * Refresh cache using the service worker (see if it works)

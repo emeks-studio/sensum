@@ -110,7 +110,7 @@ let make = (~config: Types.config) => {
         let confirmedTx = await Sensations.newSensation(~contract, ~sensation, ~wallet)
         setTransmittingSensation(_ => false)
         Js.Console.log2("[ok] onTransmitSensation::Sensations.newSensation", confirmedTx)
-        RescriptReactRouter.replace("/dsensum/graveyard")
+        RescriptReactRouter.push("/dsensum/#graveyard")
       } catch {
       | Js.Exn.Error(e) => {
           setTransmittingSensation(_ => false)

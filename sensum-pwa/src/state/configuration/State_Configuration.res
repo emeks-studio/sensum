@@ -25,8 +25,11 @@ external configFromJSON: string => Types.config = "parse"
 let configStorageKey = "config"
 
 let useConfig = () => {
-  let (maybeConfig, setConfig) = React.useState(_ => 
-    storage->Dom.Storage2.getItem(configStorageKey)->Belt.Option.map(configFromJSON)
+  let (config, setConfig) = React.useState(_ => 
+    storage
+      ->Dom.Storage2.getItem(configStorageKey)
+      ->Belt.Option.map(configFromJSON)
+      ->Belt.Option.getWithDefault(defaultConfig)
   )
 
   let saveConfig = (~networkUrl: string, ~sensationsContractAddress: string) => {
@@ -41,7 +44,7 @@ let useConfig = () => {
       switch maybeUpdatedConfigSerialized {
         | Some(updatedConfigSerialized) => {
           storage->Dom.Storage2.setItem(configStorageKey, updatedConfigSerialized)
-          setConfig(_ => Some(updatedConfig))
+          setConfig(_ => updatedConfig)
           Belt.Result.Ok(())
         }
         | None => {
@@ -50,5 +53,5 @@ let useConfig = () => {
       }
     }
   }
-  (maybeConfig, saveConfig, defaultConfig)
+  (config, saveConfig)
 }

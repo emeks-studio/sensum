@@ -2,6 +2,7 @@
 
 ## v1.1.4
 * App color according to manifest
+* re-release this version!
 
 ## v1.1.3
 * Change how router behaves (use push instead of replace)

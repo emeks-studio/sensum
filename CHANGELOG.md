@@ -1,5 +1,8 @@
 # sensum
 
+## v1.1.4
+* App color according to manifest
+
 ## v1.1.3
 * Change how router behaves (use push instead of replace)
 * Default config already used

@@ -5,17 +5,6 @@ let useSensations = (~config: Types.config) => {
   let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
 
   React.useEffect1(() => {
-    Js.Console.log2("useSensations::subscribe", config);
-    let contract = Sensations.getContract(~config, ~provider);
-    let handler = (event) => {
-      let {message} = event->Types.Contract.getSensation
-      Types.Notification.new("New sensation:" ++ message)->ignore
-    }
-    contract->Types.Contract.subscribe("Synapsis", handler);
-    Some(() => contract->Types.Contract.desubscribe("Synapsis", handler))
-  }, [config])
-
-  React.useEffect1(() => {
     Js.Console.log2("useSensations::config", config)
     setLoading(_ => true)
     let p = async () => {

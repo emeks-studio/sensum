@@ -24,13 +24,15 @@ external configFromJSON: string => Types.config = "parse"
 
 let configStorageKey = "config"
 
+let readConfig = () => {
+  storage
+    ->Dom.Storage2.getItem(configStorageKey)
+    ->Belt.Option.map(configFromJSON)
+    ->Belt.Option.getWithDefault(defaultConfig)
+}
+
 let useConfig = () => {
-  let (config, setConfig) = React.useState(_ => 
-    storage
-      ->Dom.Storage2.getItem(configStorageKey)
-      ->Belt.Option.map(configFromJSON)
-      ->Belt.Option.getWithDefault(defaultConfig)
-  )
+  let (config, setConfig) = React.useState(readConfig)
 
   let saveConfig = (~networkUrl: string, ~sensationsContractAddress: string) => {
     if (networkUrl == "" || sensationsContractAddress == "") {

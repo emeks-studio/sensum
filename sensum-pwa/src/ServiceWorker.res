@@ -1,4 +1,4 @@
-// NOTE: To debug this module in the navigator use: yarn build && yarn preview
+// NOTE: To debug this module in the navigator use: yarn preview
 
 type entry = {
     url: string,
@@ -17,3 +17,5 @@ precacheAndRoute(entries)
 
 // clean old assets
 cleanupOutdatedCaches()
+
+ServiceWorker_ContractSubcription.subscribe()

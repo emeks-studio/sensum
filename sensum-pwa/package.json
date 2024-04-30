@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "npm run build && npm run serve",
-    "preview": "vite preview",
+    "start": "vite build && vite serve",
+    "preview": "vite build && vite preview",
     "re:build": "rescript",
     "re:watch": "rescript build -w",
     "serve": "serve dist"

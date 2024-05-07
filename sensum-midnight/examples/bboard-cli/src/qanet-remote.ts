@@ -1,6 +1,6 @@
 import { createLogger } from './logger-utils.js';
 import { run } from './index.js';
-import { QaRemoteConfig } from './config';
+import { QaRemoteConfig } from './config.js';
 
 const config = new QaRemoteConfig();
 config.setNetworkId();

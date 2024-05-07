@@ -17,7 +17,7 @@
     "compact": "run-compactc.sh src/bboard.compact ./src/managed/bboard",
     "test": "jest --passWithNoTests",
     "prepack": "yarn build",
-    "build": "rm -rf dist && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/bboard.compact ./dist",
+    "build": "rm -rf dist && yarn compact && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/bboard.compact ./dist",
     "lint": "eslint src",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }

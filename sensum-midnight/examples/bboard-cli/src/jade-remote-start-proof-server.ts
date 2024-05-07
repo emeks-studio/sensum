@@ -1,6 +1,6 @@
 import { createLogger } from './logger-utils.js';
 import { run } from './index.js';
-import { currentDir, JadeRemoteConfig } from './config';
+import { currentDir, JadeRemoteConfig } from './config.js';
 import { DockerComposeEnvironment, Wait } from 'testcontainers';
 import path from 'node:path';
 

@@ -1,6 +1,6 @@
 import { createLogger } from './logger-utils.js';
 import { run } from './index.js';
-import { StandaloneConfig } from './config';
+import { StandaloneConfig } from './config.js';
 
 const config = new StandaloneConfig();
 config.setNetworkId();

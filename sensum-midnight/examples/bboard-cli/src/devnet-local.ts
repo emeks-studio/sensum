@@ -1,6 +1,6 @@
 import { createLogger } from './logger-utils.js';
 import { run } from './index.js';
-import { DevnetLocalConfig } from './config';
+import { DevnetLocalConfig } from './config.js';
 
 const config = new DevnetLocalConfig();
 config.setNetworkId();

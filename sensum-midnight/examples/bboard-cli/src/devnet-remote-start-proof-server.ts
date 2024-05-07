@@ -2,7 +2,7 @@ import { DockerComposeEnvironment, Wait } from 'testcontainers';
 import { createLogger } from './logger-utils.js';
 import { run } from './index.js';
 import path from 'node:path';
-import { currentDir, DevnetRemoteConfig } from './config';
+import { currentDir, DevnetRemoteConfig } from './config.js';
 
 const config = new DevnetRemoteConfig();
 config.setNetworkId();

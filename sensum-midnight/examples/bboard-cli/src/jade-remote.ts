@@ -1,6 +1,6 @@
 import { createLogger } from './logger-utils.js';
 import { run } from './index.js';
-import { JadeRemoteConfig } from './config';
+import { JadeRemoteConfig } from './config.js';
 
 const config = new JadeRemoteConfig();
 config.setNetworkId();

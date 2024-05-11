@@ -1,0 +1,35 @@
+{
+  "name": "sensum-cli",
+  "version": "0.1.0",
+  "author": "emeks",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "jade-remote": "node --experimental-specifier-resolution=node dist/jade-remote.js",
+    "jade-remote-ps": "node --experimental-specifier-resolution=node dist/jade-remote-start-proof-server.js",
+    "qanet-remote": "node --experimental-specifier-resolution=node dist/qanet-remote.js",
+    "devnet-remote": "node --experimental-specifier-resolution=node dist/devnet-remote.js",
+    "devnet-remote-ps": "node --experimental-specifier-resolution=node dist/devnet-remote-start-proof-server.js",
+    "devnet-local": "node --experimental-specifier-resolution=node dist/devnet-local.js",
+    "docker-pull": "docker compose -f standalone.yml pull",
+    "docker-up": "docker compose -f standalone.yml up",
+    "docker-down": "docker compose -f standalone.yml down",
+    "standalone": "node --experimental-specifier-resolution=node dist/standalone.js",
+    "prepack": "yarn build",
+    "test": "jest --passWithNoTests",
+    "build": "rm -rf dist && cd ../sensum-contract/ && yarn build && cd ../sensum-cli/ && tsc --project tsconfig.build.json",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "pino": "^8.16.1",
+    "sensum-contract": "0.1.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.9",
+    "eslint": "^8.52.0",
+    "jest": "^29.7.0",
+    "typescript": "^5.2.2"
+  }
+}

@@ -2,6 +2,7 @@
   "workspaces": [
     "bboard-cli",
     "bboard-contract",
+    "sensum-cli",
     "sensum-contract"
   ],
   "private": true,

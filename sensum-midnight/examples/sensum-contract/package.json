@@ -1,0 +1,24 @@
+{
+  "name": "sensum-contract",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "compact": "run-compactc.sh src/sensum.compact ./src/managed/sensum",
+    "test": "jest --passWithNoTests",
+    "prepack": "yarn build",
+    "build": "rm -rf dist && yarn compact && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/sensum.compact ./dist",
+    "lint": "eslint src",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  }
+}

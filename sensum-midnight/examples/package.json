@@ -1,7 +1,8 @@
 {
   "workspaces": [
     "bboard-cli",
-    "bboard-contract"
+    "bboard-contract",
+    "sensum-contract"
   ],
   "private": true,
   "scripts": {  },

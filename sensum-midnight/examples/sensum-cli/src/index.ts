@@ -71,12 +71,12 @@ export const getSensumLedgerState = (
     .then((contractState) => (contractState != null ? ledger(contractState.data) : null));
 
 /* **********************************************************************
- * createBBoardContract: create an undeployed contract object,
+ * createSensumContract: create an undeployed contract object,
  * associated with the given wallet key and the witness
  * implementations defined over in the contract sub-project.
  */
 
-export const createBBoardContract = (coinPublicKey: CoinPublicKey): SensumContract =>
+export const createSensumContract = (coinPublicKey: CoinPublicKey): SensumContract =>
   new Contract(withZswapWitnesses(witnesses)(encodeCoinPublicKey(coinPublicKey)));
 
 /* **********************************************************************
@@ -92,7 +92,7 @@ const join = async (providers: SensumProviders, rli: Interface, logger: Logger):
   const deployedContract = await findDeployedContract(
     providers,
     contractAddress,
-    createSensumPrivateState(providers.walletProvider.coinPublicKey),
+    createSensumContract(providers.walletProvider.coinPublicKey),
     {
       privateStateKey: 'sensumPrivateState',
       initialPrivateState: existingPrivateState ?? createSensumPrivateState(randomBytes(32)),
@@ -108,14 +108,14 @@ const join = async (providers: SensumProviders, rli: Interface, logger: Logger):
 
 const deploy = async (providers: SensumProviders, logger: Logger): Promise<DeployedSensumContract> => {
   logger.info(`Deploying a new sensum contract...`);
-  const deployedBBoardContract = await deployContract(
+  const deployedContract = await deployContract(
     providers,
     'sensumPrivateState',
     createSensumPrivateState(randomBytes(32)),
-    createBBoardContract(providers.walletProvider.coinPublicKey),
+    createSensumContract(providers.walletProvider.coinPublicKey),
   );
-  logger.info(`Deployed contract at address: ${deployedBBoardContract.finalizedDeployTxData.contractAddress}`);
-  return deployedBBoardContract;
+  logger.info(`Deployed contract at address: ${deployedContract.finalizedDeployTxData.contractAddress}`);
+  return deployedContract;
 };
 
 /* **********************************************************************
@@ -191,9 +191,10 @@ const displayLedgerState = async (
     // authorizedNullifiers: Set[Bytes[32]];
     logger.info(`Current organizer is: '${toHex(ledgerState.organizer)}'`);
     logger.info(`sensations so far: `);
-    ledger.arguments.restrictedSensations.forEach((sensation: string) => {
+    // FIXME: Rename to `sensations`.
+    for (let sensation of ledgerState.restrictedSensations) {
       logger.info(`${sensation}`);
-    });
+    };
   }
 };
 
@@ -225,21 +226,21 @@ You can do one of the following:
 Which would you like to do? `;
 
 const mainLoop = async (providers: SensumProviders, rli: Interface, logger: Logger): Promise<void> => {
-  const deployedBBoardContract = await deployOrJoin(providers, rli, logger);
-  if (deployedBBoardContract === null) {
+  const deployedContract = await deployOrJoin(providers, rli, logger);
+  if (deployedContract === null) {
     return;
   }
   while (true) {
     const choice = await rli.question(MAIN_LOOP_QUESTION);
     switch (choice) {
       // case '1':
-      //   await post(deployedBBoardContract, logger, rli);
+      //   await post(deployedContract, logger, rli);
       //   break;
       // case '2':
-      //   await takeDown(deployedBBoardContract, logger);
+      //   await takeDown(deployedContract, logger);
       //   break;
       case '3':
-        await displayLedgerState(providers, deployedBBoardContract, logger);
+        await displayLedgerState(providers, deployedContract, logger);
         break;
       case '4':
         await displayPrivateState(providers, logger);

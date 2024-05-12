@@ -42,7 +42,7 @@ import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-p
 import { httpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
 import { type Logger } from 'pino';
 import { type Config, StandaloneConfig } from './config.js';
-import { toHex } from './conversion-utils.js';
+import { toHex, fromHex } from './conversion-utils.js';
 import { type DockerComposeEnvironment } from 'testcontainers';
 import * as crypto from 'crypto';
 import { levelPrivateStateProvider } from '@midnight-ntwrk/midnight-js-level-private-state-provider';
@@ -152,24 +152,34 @@ const deployOrJoin = async (
   }
 };
 
-/* **********************************************************************
- * post: prompt for a message to post and then call the post circuit
- * on the given contract.
- */
+const praiseTheSun = async (deployedContract: DeployedSensumContract, logger: Logger): Promise<void> => {
+  logger.info('Praising the sun...');
+  const { txHash, blockHeight } =
+    await deployedContract.contractCircuitsInterface
+          .praise_the_sun()
+          .then((u) => u.submit());
+  logger.info(`Transaction ${txHash} added in block ${blockHeight}`);
+}
 
-const POST_QUESTION = `What message do you want to post? `;
+const transmit = async (deployedContract: DeployedSensumContract, logger: Logger, rli: Interface): Promise<void> => {
+  const message = await rli.question("What sensation do you want to transmit?");
+  logger.info('Flowing through the circuits...');
+  const { txHash, blockHeight } =
+  await deployedContract.contractCircuitsInterface
+       .transmit(message)
+       .then((u) => u.submit());
+  logger.info(`Transaction ${txHash} added in block ${blockHeight}`);
+};
 
-// FIXME: Implement transmit and the other ones!
-// const post = async (deployedContract: DeployedSensumContract, logger: Logger, rli: Interface): Promise<void> => {
-//   const message = await rli.question(POST_QUESTION);
-//   logger.info('Posting your message...');
-//   const { txHash, blockHeight } =
-//     // EXERCISE 4: CALL THE post CIRCUIT AND SUBMIT THE TRANSACTION TO THE NETWORK
-//     await deployedContract.contractCircuitsInterface // EXERCISE ANSWER
-//       .post(message) // EXERCISE ANSWER
-//       .then((u) => u.submit()); // EXERCISE ANSWER
-//   logger.info(`Transaction ${txHash} added in block ${blockHeight}`);
-// };
+const cosmicBallet = async (deployedContract: DeployedSensumContract, logger: Logger, rli: Interface): Promise<void> => {
+  const chosenOneNullifier = await rli.question("Dear Oracle, which chosen one nullifier do you want to refresh?");
+  logger.info('The cosmic ballet has begun...');
+  const { txHash, blockHeight } =
+    await deployedContract.contractCircuitsInterface
+          .cosmic_ballet(fromHex(chosenOneNullifier))
+          .then((u) => u.submit());
+  logger.info(`Transaction ${txHash} added in block ${blockHeight}`);
+}
 
 /* **********************************************************************
  * displayLedgerState: shows the values of each of the fields declared
@@ -190,10 +200,14 @@ const displayLedgerState = async (
     // authorizedCommitments: HistoricMerkleTree[10, Bytes[32]];
     // authorizedNullifiers: Set[Bytes[32]];
     logger.info(`Current organizer is: '${toHex(ledgerState.organizer)}'`);
+    logger.info(`Commitments Tree is full? ${ledgerState.authorizedCommitments.isFull()}`);
     logger.info(`sensations so far: `);
-    // FIXME: Rename to `sensations`.
-    for (let sensation of ledgerState.restrictedSensations) {
+    for (let sensation of ledgerState.sensations) {
       logger.info(`${sensation}`);
+    };
+    logger.info(`Nullifiers so far: `);
+    for (let nullifier of ledgerState.authorizedNullifiers) {
+      logger.info(`${toHex(nullifier)}`);
     };
   }
 };
@@ -220,9 +234,12 @@ const displayPrivateState = async (providers: SensumProviders, logger: Logger): 
 
 const MAIN_LOOP_QUESTION = `
 You can do one of the following:
-  3. Display the current ledger state (known by everyone)
-  4. Display the current private state (known only to this DApp instance)
-  5. Exit
+  1. Praise the Sun
+  2. Transmit a sensation
+  3. Cosmic Ballet (Only for the Oracle)
+  4. Display the current ledger state (known by everyone)
+  5. Display the current private state (known only to this DApp instance)
+  6. Exit
 Which would you like to do? `;
 
 const mainLoop = async (providers: SensumProviders, rli: Interface, logger: Logger): Promise<void> => {
@@ -233,19 +250,22 @@ const mainLoop = async (providers: SensumProviders, rli: Interface, logger: Logg
   while (true) {
     const choice = await rli.question(MAIN_LOOP_QUESTION);
     switch (choice) {
-      // case '1':
-      //   await post(deployedContract, logger, rli);
-      //   break;
-      // case '2':
-      //   await takeDown(deployedContract, logger);
-      //   break;
+      case '1':
+        await praiseTheSun(deployedContract, logger);
+        break;
+      case '2':
+        await transmit(deployedContract, logger, rli);
+        break;
       case '3':
-        await displayLedgerState(providers, deployedContract, logger);
+        await cosmicBallet(deployedContract, logger, rli);
         break;
       case '4':
-        await displayPrivateState(providers, logger);
+        await displayLedgerState(providers, deployedContract, logger);
         break;
       case '5':
+        await displayPrivateState(providers, logger);
+        break;
+      case '6':
         logger.info('Exiting...');
         return;
       default:

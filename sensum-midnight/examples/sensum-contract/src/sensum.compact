@@ -17,8 +17,7 @@ ledger {
   // TODO: review n meaning!
   authorizedCommitments: HistoricMerkleTree[10, Bytes[32]];
   authorizedNullifiers: Set[Bytes[32]];
-  // TODO: Verify this works, also, is Opaque["string"] just the hash? I'm confused.
-  restrictedSensations: List[Opaque["string"]];
+  sensations: List[Opaque["string"]];
 
   constructor() {
     // ledger.organizer.write(organizer_public_key(secret_key()));
@@ -33,14 +32,14 @@ ledger {
 //         making the proccess unpleasant.
 // Defense: You need to pay for pray (pay for write)
 export circuit praise_the_sun(): Void {
-  assert ledger.authorizedCommitments.is_full() "Sorry, you have a cursed destiny!";
+  assert !ledger.authorizedCommitments.is_full() "Sorry, you have a cursed destiny!";
   const chosen_one = chosen_one_public_key(secret_key());
   ledger.authorizedCommitments.insert(chosen_one);
 }
 
 // This is the opposite model, here The Oracle instead of choosing, it removes the chosen ones.
-// That way, the user should pray again. 
-// Note: Organizer desicion should be fair.
+// Note: In case of reaching full tree for authorizedCommitments, users should pray again. 
+// Note: Organizer decision should be fair.
 export circuit cosmic_ballet(token: Bytes[32]): Void {
   // Note: Seems like both sytaxes are valid
   // assert ledger.organizer.read() == organizer_public_key(secret_key()) "You have no power here!";
@@ -58,13 +57,16 @@ export circuit cosmic_ballet(token: Bytes[32]): Void {
 //         After a new sensation you could link the chosen one public with the new nullifier
 export circuit transmit(sensation: Opaque["string"]): Void {
   const sk = secret_key();
+  // FIXME: According to our current witness implementation, if the user is not already there,
+  // it will return undefined, making the tx fail before reach the contract assertion.
+  // ^ This also affects the im_blessed function.
   const auth_path = find_auth_path(chosen_one_public_key(sk));
   assert ledger.authorizedCommitments.check_root(merkle_tree_path_root[10, Bytes[32]](auth_path))
     "You are not a chosen one!";
   const nul = nullifier(sk);
   assert !ledger.authorizedNullifiers.member(nul) "token already used!";
   ledger.authorizedNullifiers.insert(nul);
-  ledger.restrictedSensations.push_front(sensation);
+  ledger.sensations.push_front(sensation);
 }
 
 // Question: Read only functions are free?

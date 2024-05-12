@@ -19,6 +19,7 @@
     "prepack": "yarn build",
     "test": "jest --passWithNoTests",
     "build": "rm -rf dist && cd ../sensum-contract/ && yarn build && cd ../sensum-cli/ && tsc --project tsconfig.build.json",
+    "soft-build": "tsc --project tsconfig.build.json",
     "lint": "eslint src"
   },
   "dependencies": {

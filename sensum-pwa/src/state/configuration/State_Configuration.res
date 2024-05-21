@@ -42,6 +42,14 @@ let useConfig = () => {
         networkUrl: networkUrl,
         sensationsContractAddress: sensationsContractAddress
       }
+
+      // TODO: Replace me with proper code 
+      %raw(`
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.active.postMessage(updatedConfig)
+        })
+      `)->ignore
+
       let maybeUpdatedConfigSerialized = Js.Json.stringifyAny(updatedConfig)
       switch maybeUpdatedConfigSerialized {
         | Some(updatedConfigSerialized) => {

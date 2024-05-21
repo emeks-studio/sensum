@@ -76,6 +76,5 @@ let getAvatarFromIndex: Types.BigInt.t => (string, string) = avatarPos => {
   let index = avatarPos->Types.BigInt.toString->Belt.Int.fromString->Belt.Option.getWithDefault(0)
   let indexMod = mod(index, Belt.Map.Int.size(optionsMap))
   let (avatar, avatarCustomClass) = Belt.Map.Int.getExn(optionsMap, indexMod)
-  Js.Console.log4(avatarPos, index, indexMod, avatar)
   (avatar, avatarCustomClass)
 }

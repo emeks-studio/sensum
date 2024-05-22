@@ -60,3 +60,15 @@ module Notification = {
   @scope("Notification") @val
   external requestPermission: unit => Promise.t<string> = "requestPermission"
 }
+
+module ServiceWorker = {
+  type t
+  type registration = {
+    active: option<t>
+  }
+
+  @scope(("navigator", "serviceWorker")) @val
+  external ready: promise<registration> = "ready"
+
+  @send external postMessage: (t, 'message) => unit = "postMessage"
+}

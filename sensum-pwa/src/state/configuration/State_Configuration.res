@@ -24,6 +24,14 @@ external configFromJSON: string => Types.config = "parse"
 
 let configStorageKey = "config"
 
+let sendMessageToServiceWorker = async (message) => {
+  let registration = await Types.ServiceWorker.ready
+  switch registration.active {
+    | None => ()
+    | Some(sw) => sw->Types.ServiceWorker.postMessage(message)
+  }
+}
+
 let readConfig = () => {
   storage
     ->Dom.Storage2.getItem(configStorageKey)
@@ -43,12 +51,8 @@ let useConfig = () => {
         sensationsContractAddress: sensationsContractAddress
       }
 
-      // TODO: Replace me with proper code 
-      %raw(`
-        navigator.serviceWorker.ready.then((registration) => {
-          registration.active.postMessage(updatedConfig)
-        })
-      `)->ignore
+      // TODO: Wait? Handle Exception?
+      sendMessageToServiceWorker(updatedConfig)->ignore
 
       let maybeUpdatedConfigSerialized = Js.Json.stringifyAny(updatedConfig)
       switch maybeUpdatedConfigSerialized {

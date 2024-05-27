@@ -10,16 +10,12 @@ type params = {
 
 @send external showNotification: register => string => params => unit = "showNotification"
 
-type configEvent = {data: Types.configUpdateRequest}
+type configEvent = {data: Types.config}
 @val external addEventListener: (string, configEvent => unit) => unit = "addEventListener"
 
-let getContract = config => {
-  let actualConfig = switch config {
-  | None => State.Configuration.defaultConfig
-  | Some(x) => x
-  }
-  let provider = Ethers.getProvider(~networkUrl=actualConfig.networkUrl)
-  Sensations.getContract(~config=actualConfig, ~provider)
+let getContract = (config: Types.config) => {
+  let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
+  Sensations.getContract(~config, ~provider)
 }
 let showSensationNotification = event => {
   let {message} = event->Types.Contract.getSensation
@@ -34,10 +30,12 @@ let contractSub = contract => {
   contract->Types.Contract.subscribe("Synapsis", showSensationNotification)
 }
 
-let subscribe = () => {
-  contractSub(getContract(None))
-  addEventListener("message", event => {
-    contractDesub(getContract(Some(event.data.oldConfig)))
-    contractSub(getContract(Some(event.data.updatedConfig)))
+let initNotifications = () => {
+  let contract: ref<Types.Contract.t> = ref(getContract(State_Configuration.defaultConfig))
+  contractSub(contract.contents)
+  addEventListener("message", configEvent => {
+    contractDesub(contract.contents)
+    contract.contents = getContract(configEvent.data)
+    contractSub(contract.contents)
   })
 }

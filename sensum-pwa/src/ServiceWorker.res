@@ -18,4 +18,4 @@ precacheAndRoute(entries)
 // clean old assets
 cleanupOutdatedCaches()
 
-ServiceWorker_ContractSubcription.subscribe()
+ServiceWorker_ContractSubcription.initNotifications()

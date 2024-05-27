@@ -1,5 +1,8 @@
 # sensum
 
+## v1.2.0
+* Add notification support
+
 ## v1.1.4
 * App color according to manifest
 * re-release this version!

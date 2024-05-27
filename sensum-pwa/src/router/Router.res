@@ -5,6 +5,10 @@ let make = () => {
 
   React.useEffect1(_ => {
 
+    // Try to refresh notification subscriptions, in case of error for now we silently fail
+    // TODO: We could handle exception and notify the user about it.
+    State.Configuration.syncNotificationConfig(config)->ignore
+
     let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
     Ethers.getNetwork(~provider)
     ->Promise.then(status => {

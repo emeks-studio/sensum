@@ -24,7 +24,7 @@ external configFromJSON: string => Types.config = "parse"
 
 let configStorageKey = "config"
 
-let sendMessageToServiceWorker = async (message) => {
+let syncNotificationConfig = async (message) => {
   let registration = await Types.ServiceWorker.ready
   switch registration.active {
     | None => ()
@@ -50,14 +50,6 @@ let useConfig = () => {
         networkUrl: networkUrl,
         sensationsContractAddress: sensationsContractAddress
       }
-      let message: Types.configUpdateRequest = {
-        oldConfig: config,
-        updatedConfig
-      }
-      
-      // Try to refresh notification subscriptions, in case of error for now we silently fail
-      // TODO: We could handle exception and notify the user about it.
-      sendMessageToServiceWorker(message)->ignore
 
       let maybeUpdatedConfigSerialized = Js.Json.stringifyAny(updatedConfig)
       switch maybeUpdatedConfigSerialized {

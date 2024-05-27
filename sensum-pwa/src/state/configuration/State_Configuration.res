@@ -50,9 +50,14 @@ let useConfig = () => {
         networkUrl: networkUrl,
         sensationsContractAddress: sensationsContractAddress
       }
-
-      // TODO: Wait? Handle Exception?
-      sendMessageToServiceWorker(updatedConfig)->ignore
+      let message: Types.configUpdateRequest = {
+        oldConfig: config,
+        updatedConfig
+      }
+      
+      // Try to refresh notification subscriptions, in case of error for now we silently fail
+      // TODO: We could handle exception and notify the user about it.
+      sendMessageToServiceWorker(message)->ignore
 
       let maybeUpdatedConfigSerialized = Js.Json.stringifyAny(updatedConfig)
       switch maybeUpdatedConfigSerialized {

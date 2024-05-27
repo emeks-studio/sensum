@@ -10,7 +10,7 @@ type params = {
 
 @send external showNotification: register => string => params => unit = "showNotification"
 
-type configEvent = {data: Types.config}
+type configEvent = {data: Types.configUpdateRequest}
 @val external addEventListener: (string, configEvent => unit) => unit = "addEventListener"
 
 let getContract = config => {
@@ -23,9 +23,9 @@ let getContract = config => {
 }
 let showSensationNotification = event => {
   let {message} = event->Types.Contract.getSensation
-  // TODO: For correctness, check if user has granted the notifications permissions
-  //       Otherwise you will get an error
-  registration->showNotification("New sensation:", {body: message})->ignore
+  if Types.Notification.granted {
+    registration->showNotification("New sensation:", {body: message})->ignore
+  }
 }
 let contractDesub = contract => {
   contract->Types.Contract.desubscribe("Synapsis", showSensationNotification)
@@ -33,14 +33,11 @@ let contractDesub = contract => {
 let contractSub = contract => {
   contract->Types.Contract.subscribe("Synapsis", showSensationNotification)
 }
-// TODO: Avoid using a mutable ref type?
-let currentContract: ref<Types.Contract.t> = ref(getContract(None))
+
 let subscribe = () => {
-  contractSub(currentContract.contents)
-  addEventListener("message", newConfig => {
-    contractDesub(currentContract.contents)
-    let newContract = getContract(Some(newConfig.data))
-    contractSub(newContract)
-    currentContract.contents = newContract
+  contractSub(getContract(None))
+  addEventListener("message", event => {
+    contractDesub(getContract(Some(event.data.oldConfig)))
+    contractSub(getContract(Some(event.data.updatedConfig)))
   })
 }

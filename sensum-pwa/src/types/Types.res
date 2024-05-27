@@ -33,6 +33,11 @@ type config = {
   networkUrl: string,
 }
 
+type configUpdateRequest = {
+  oldConfig: config,
+  updatedConfig: config
+}
+
 module Contract = {
   type t
   type event
@@ -56,6 +61,8 @@ module Notification = {
 
   @scope("Notification") @val
   external permission: string = "permission"
+
+  let granted: bool = permission == "granted"
 
   @scope("Notification") @val
   external requestPermission: unit => Promise.t<string> = "requestPermission"

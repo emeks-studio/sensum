@@ -60,6 +60,22 @@ export circuit transmit(sensation: Opaque["string"]): Void {
   // FIXME: According to our current witness implementation, if the user is not already there,
   // it will return undefined, making the tx fail before reach the contract assertion.
   // ^ This also affects the im_blessed function.
+
+
+  // At https://docs.midnight.network/develop/how-midnight-works/keeping-data-private#the-commitmentnullifier-pattern
+  // ```
+  // const auth_path = find_auth_path(public_key(sk));
+  // assert ledger.authorizedCommitments.check_root(merkle_tree_path_root[10, Bytes[32]](auth_path))
+  //   "not authorized";
+  // ```
+
+  // findPathForLeaf(leaf: value_type): MerkleTreePath<value_type> | undefined
+  // > Finds the path for a given leaf in a Merkle tree. Be warned that this is O(n) and should be avoided for large trees. Returns undefined if no such leaf exists. MerkleTreePath is defined in compact-runtime runtime.ts.
+  // > callable only from Typescript
+
+  // [22:41:56.457] ERROR (728349): Found error 'type error: find_auth_path return value at src/sensum.compact line 7, char 1; expected value of type struct MerkleTreePath[leaf: Bytes[32], path: Vector[10, struct MerkleTreePathEntry[sibling: struct MerkleTreeDigest[field: Field], goes_left: Boolean]]] but received undefined'
+
+
   const auth_path = find_auth_path(chosen_one_public_key(sk));
   assert ledger.authorizedCommitments.check_root(merkle_tree_path_root[10, Bytes[32]](auth_path))
     "You are not a chosen one!";

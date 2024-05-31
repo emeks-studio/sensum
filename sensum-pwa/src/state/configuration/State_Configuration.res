@@ -24,11 +24,18 @@ external configFromJSON: string => Types.config = "parse"
 
 let configStorageKey = "config"
 
-let syncNotificationConfig = async (message) => {
-  let registration = await Types.ServiceWorker.ready
-  switch registration.active {
+let registerPeriodicNotification = async () => {
+  let swRegistration = await Types.ServiceWorker.ready
+  swRegistration.periodicSync->Types.ServiceWorker.register("senum-heartbeat", {
+    minInterval: 5 * 60 * 1000
+  })
+}
+
+let syncNotificationConfig = async (newConfig) => {
+  let swRegistration = await Types.ServiceWorker.ready
+  switch swRegistration.active {
     | None => ()
-    | Some(sw) => sw->Types.ServiceWorker.postMessage(message)
+    | Some(sw) => sw->Types.ServiceWorker.postMessage(newConfig)
   }
 }
 

@@ -11,7 +11,7 @@ type params = {
 @send external showNotification: register => string => params => unit = "showNotification"
 
 type configEvent = {data: Types.config}
-@val external addEventListener: (string, configEvent => unit) => unit = "addEventListener"
+@val external addConfigEventListener: (string, configEvent => unit) => unit = "addEventListener"
 
 let getContract = (config: Types.config) => {
   let provider = Ethers.getProvider(~networkUrl=config.networkUrl)
@@ -31,11 +31,12 @@ let contractSub = contract => {
 }
 
 let initNotifications = () => {
+  // FIXME: Check how to sync without events
   let contract: ref<Types.Contract.t> = ref(getContract(State_Configuration.defaultConfig))
   contractSub(contract.contents)
-  addEventListener("message", configEvent => {
-    contractDesub(contract.contents)
-    contract.contents = getContract(configEvent.data)
-    contractSub(contract.contents)
-  })
+  // addConfigEventListener("message", configEvent => {
+  //   contractDesub(contract.contents)
+  //   contract.contents = getContract(configEvent.data)
+  //   contractSub(contract.contents)
+  // })
 }

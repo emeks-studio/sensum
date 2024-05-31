@@ -70,12 +70,18 @@ module Notification = {
 
 module ServiceWorker = {
   type t
+  type sync
   type registration = {
-    active: option<t>
+    active: option<t>,
+    periodicSync: sync
+  }
+  type periodicParams = {
+    minInterval: int
   }
 
   @scope(("navigator", "serviceWorker")) @val
   external ready: promise<registration> = "ready"
 
   @send external postMessage: (t, 'message) => unit = "postMessage"
+  @send external register: (sync, 'tag, periodicParams) => unit = "register"
 }

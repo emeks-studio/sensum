@@ -1,5 +1,12 @@
 # sensum
 
+## v1.2.1
+* Keep sw alive periodically
+* Kill the messenger if the messenger won't deliver the sensation
+* Kill the middlemen if the middlemen won't deliver the sensation
+* Kill the internet if the internet won't deliver the sensation
+* Don't kill the sw because it's the one willing to deliver the sensation
+
 ## v1.2.0
 * Add notification support
 

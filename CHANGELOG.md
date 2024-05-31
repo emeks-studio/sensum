@@ -1,5 +1,8 @@
 # sensum
 
+## v1.2.3
+* More periodic keep alive
+
 ## v1.2.2
 * Typo almost breack our souls :finger_crossed:
 

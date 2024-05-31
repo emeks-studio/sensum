@@ -1,5 +1,8 @@
 # sensum
 
+## v1.2.2
+* Typo almost breack our souls :finger_crossed:
+
 ## v1.2.1
 * Keep sw alive periodically
 * Kill the messenger if the messenger won't deliver the sensation

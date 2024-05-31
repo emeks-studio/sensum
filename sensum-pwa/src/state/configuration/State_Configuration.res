@@ -26,7 +26,7 @@ let configStorageKey = "config"
 
 let registerPeriodicNotification = async () => {
   let swRegistration = await Types.ServiceWorker.ready
-  swRegistration.periodicSync->Types.ServiceWorker.register("senum-heartbeat", {
+  swRegistration.periodicSync->Types.ServiceWorker.register("sensum-heartbeat", {
     minInterval: 5 * 60 * 1000
   })
 }

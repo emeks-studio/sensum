@@ -28,6 +28,8 @@ following the tutorial.
 ```nix develop
 [examples/]yarn install # only the first time!
 ```
+^ If you have any node_modules folder please remove it before running the above command.
+
 
 ### Contract build:
 
@@ -44,13 +46,6 @@ On the other hand, witnesses.ts defines the private state (part of the system th
 
 ### DApp build:
 
-```nix develop
-[examples/bboard-contract]$ yarn build
-```
-
-_hotfix:_ Temporal hotfix to have built contract on cli\
-Delete `examples/bboard-cli/node_modules`\
-Run again [General build](#general-build)
 
 ```nix develop
 [examples/bboard-cli]$ yarn build
@@ -62,4 +57,42 @@ Wait till docker's up and then run
 
 ```nix develop
 [examples/bboard-cli]$ yarn standalone
+```
+
+#### Troubleshooting
+
+I removed the sub dependency and instead run this:
+```
+$ yarn workspace bboard-cli add bboard-contract@0.1.0
+```
+
+After that, I think it properly worked:
+```
+$ yarn workspaces info
+
+> yarn workspaces v1.22.19
+{
+  "bboard-cli": {
+    "location": "bboard-cli",
+    "workspaceDependencies": [
+      "bboard-contract"
+    ],
+    "mismatchedWorkspaceDependencies": []
+  },
+  "bboard-contract": {
+    "location": "bboard-contract",
+    "workspaceDependencies": [],
+    "mismatchedWorkspaceDependencies": []
+  }
+}
+Done in 0.03s.
+```
+
+Also notice there is only one node_modules folder in the root of the project. And:
+```
+[/sensum/sensum-midnight/examples/node_modules]$ ls -ld bboard-cli
+> bboard-cli -> ../bboard-cli
+
+[sensum/sensum-midnight/examples/node_modules]$ ls -ld bboard-contract
+> bboard-contract -> ../bboard-contract
 ```

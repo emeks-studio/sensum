@@ -1,7 +1,7 @@
 {
-  "name": "bboard-cli",
+  "name": "sensum-cli",
   "version": "0.1.0",
-  "author": "IOG",
+  "author": "emeks",
   "license": "MIT",
   "private": true,
   "type": "module",
@@ -18,12 +18,13 @@
     "standalone": "node --experimental-specifier-resolution=node dist/standalone.js",
     "prepack": "yarn build",
     "test": "jest --passWithNoTests",
-    "build": "rm -rf dist && cd ../bboard-contract/ && yarn build && cd ../bboard-cli/ && tsc --project tsconfig.build.json",
+    "build": "rm -rf dist && cd ../sensum-contract/ && yarn build && cd ../sensum-cli/ && tsc --project tsconfig.build.json",
+    "soft-build": "tsc --project tsconfig.build.json",
     "lint": "eslint src"
   },
   "dependencies": {
-    "bboard-contract": "0.1.0",
     "pino": "^8.16.1",
+    "sensum-contract": "0.1.0",
     "ws": "^8.14.2"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 {
-  "name": "bboard-contract",
+  "name": "sensum-contract",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -14,10 +14,10 @@
     }
   },
   "scripts": {
-    "compact": "run-compactc.sh src/bboard.compact ./src/managed/bboard",
+    "compact": "run-compactc.sh src/sensum.compact ./src/managed/sensum",
     "test": "jest --passWithNoTests",
     "prepack": "yarn build",
-    "build": "rm -rf dist && yarn compact && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/bboard.compact ./dist",
+    "build": "rm -rf dist && yarn compact && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/sensum.compact ./dist",
     "lint": "eslint src",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }

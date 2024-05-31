@@ -1,8 +1,9 @@
 {
-  "packageManager": "yarn@4.1.0",
   "workspaces": [
     "bboard-cli",
-    "bboard-contract"
+    "bboard-contract",
+    "sensum-cli",
+    "sensum-contract"
   ],
   "private": true,
   "scripts": {  },

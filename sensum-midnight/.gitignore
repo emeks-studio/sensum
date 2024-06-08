@@ -1,7 +1,7 @@
 result
 .turbo
-examples/bboard-contract/src/managed
-examples/sensum-contract/src/managed
+bboard-contract/src/managed
+sensum-contract/src/managed
 node_modules
 dist
 yarn-error.log

@@ -34,10 +34,28 @@
         "type": "github"
       }
     },
+    "rescript-compiler": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1678118060,
+        "narHash": "sha256-uDA5yZ4RrFSY315PPg0kJJFh4PJp4kncFP61o8bLBRk=",
+        "owner": "rescript-lang",
+        "repo": "rescript-compiler",
+        "rev": "8dc36f3b24b902dd9dfa4e0f189365e6a56f5a15",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rescript-lang",
+        "ref": "10.1.3",
+        "repo": "rescript-compiler",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "rescript-compiler": "rescript-compiler"
       }
     },
     "systems": {

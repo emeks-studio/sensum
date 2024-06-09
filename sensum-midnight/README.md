@@ -159,8 +159,8 @@ Also notice there is only one node_modules folder in the root of the project. An
 - [x] Complete project setup (yarn, typescript support, rescript).
 - [ ] (opt) See if docker part could be included as part of the shell hook (and/or as part of the Nix "for build" packages).
 * [x] Flatten folder structure (remove examples/ folder)
-* 1. Start a DApp UI project in an extra folder: `sensum-app`
-* 2. Start a soft migration (by copy-paste) from sensum-pwa to sensum-app
+* [x] ~~Start a DApp UI project in an extra folder: `sensum-app`~~
+* [x] Start a ~~soft migration~~ copy-paste from sensum-pwa to sensum-app
 * 3. Start by displaying config setups?
 * 4. Display content (previously written via sensum-cli)
 * 5. Provide a way of writing content (via sensum-app)

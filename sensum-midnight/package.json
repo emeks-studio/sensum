@@ -3,7 +3,8 @@
     "bboard-cli",
     "bboard-contract",
     "sensum-cli",
-    "sensum-contract"
+    "sensum-contract",
+    "sensum-app"
   ],
   "private": true,
   "scripts": {  },
